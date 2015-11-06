@@ -1,3 +1,10 @@
+
+----
+### This library is still under construction. Please contact me if you want to use it.
+
+
+---
+
 # Mollie API
 
 ## License
