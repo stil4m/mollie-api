@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.stil4m.mollie.domain.ApiKeyCheck;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.CreatedPayment;
+import nl.stil4m.mollie.domain.ErrorData;
+import nl.stil4m.mollie.domain.PaymentStatus;
 
-import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -15,9 +17,11 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 
 import java.io.IOException;
-import java.util.Map;
 
-public class DynamicClient extends BaseClient {
+import static nl.stil4m.mollie.ResponseOrError.withData;
+import static nl.stil4m.mollie.ResponseOrError.withError;
+
+public class DynamicClient {
 
     private final String endpoint;
     private final HttpClient httpClient;
@@ -29,45 +33,38 @@ public class DynamicClient extends BaseClient {
         this.objectMapper = objectMapper;
     }
 
-    public CreatedPayment createPayment(String apiKey, CreatePayment createPayment) throws IOException {
+    public ResponseOrError<CreatedPayment> createPayment(String apiKey, CreatePayment createPayment) throws IOException {
         HttpPost httpPost = new HttpPost(endpoint + "/payments");
         httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(createPayment), ContentType.APPLICATION_JSON));
+        return executeRequest(apiKey, httpPost, CreatedPayment.class);
+    }
 
-        Response<Map> mapResponse = executeRequest(apiKey, httpPost, Map.class);
-        System.out.println(mapResponse.payload);
-        System.out.println(mapResponse.status);
-        return null;
+    public ResponseOrError<PaymentStatus> getPaymentStatus(String apiKey, String id) throws IOException {
+        HttpGet httpGet = new HttpGet(endpoint + "/payments/" + id);
+        return executeRequest(apiKey, httpGet, PaymentStatus.class);
     }
 
     public ApiKeyCheck checkApiKey(String apiKey) throws IOException {
-        HttpGet httpGet = new HttpGet(endpoint + "/payments/unknown");
-
-        Response<Map> map = executeRequest(apiKey, httpGet, Map.class);
-        return new ApiKeyCheck(map.status == 404);
+        int status = getPaymentStatus(apiKey, "unknown").getStatus();
+        return new ApiKeyCheck(status == 404);
     }
 
-    private <T,V> ResponseOrError<T,V> executeRequest(String apiKey, HttpUriRequest httpRequest, Class<T> type, Class<T> errorType) throws IOException {
+    private <T> ResponseOrError<T> executeRequest(String apiKey, HttpUriRequest httpRequest, Class<T> type) throws IOException {
         httpRequest.addHeader("Content-Type", "application/json");
         httpRequest.addHeader("Authorization", String.format("Bearer %s", apiKey));
         return httpClient.execute(httpRequest, response -> {
+            int status = response.getStatusLine().getStatusCode();
 
-            return new Response<>(
-                    response.getStatusLine().getStatusCode(),
-                    objectMapper.readValue(response.getEntity().getContent(), type)
-            );
+            if (status >= 200 && status <= 300) {
+                return withData(status, DynamicClient.this.deserialize(response, type));
+            } else {
+                return withError(status, DynamicClient.this.deserialize(response, ErrorData.class));
+            }
         });
     }
 
-    private <T> Response<T> executeRequest(String apiKey, HttpUriRequest httpRequest, Class<T> type) throws IOException {
-        httpRequest.addHeader("Content-Type", "application/json");
-        httpRequest.addHeader("Authorization", String.format("Bearer %s", apiKey));
-        return httpClient.execute(httpRequest, response -> {
-
-            return new Response<>(
-                    response.getStatusLine().getStatusCode(),
-                    objectMapper.readValue(response.getEntity().getContent(), type)
-            );
-        });
+    private <S> S deserialize(HttpResponse response, Class<S> clazz) throws IOException {
+        return objectMapper.readValue(response.getEntity().getContent(), clazz);
     }
 
 }

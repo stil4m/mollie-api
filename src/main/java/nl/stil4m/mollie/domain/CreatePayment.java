@@ -4,53 +4,37 @@ import java.util.Map;
 
 public class CreatePayment {
 
-    private Double amount;
+    private final Double amount;
+    private final String description;
+    private final String redirectUrl;
+    private final String method;
+    private final Map<String, Object> metadata;
 
-    private String description;
-
-    private String redirectUrl;
-
-    private String method;
-
-    private Map<String, Object> metadata;
+    public CreatePayment(String method, Double amount, String description, String redirectUrl, Map<String, Object> metadata) {
+        this.method = method;
+        this.amount = amount;
+        this.description = description;
+        this.redirectUrl = redirectUrl;
+        this.metadata = metadata;
+    }
 
     public Double getAmount() {
         return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getRedirectUrl() {
         return redirectUrl;
-    }
-
-    public void setRedirectUrl(String redirectUrl) {
-        this.redirectUrl = redirectUrl;
     }
 
     public String getMethod() {
         return method;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
     public Map<String, Object> getMetadata() {
         return metadata;
-    }
-
-    public void setMetadata(Map<String, Object> metadata) {
-        this.metadata = metadata;
     }
 }

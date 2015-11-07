@@ -1,36 +1,48 @@
 package nl.stil4m.mollie;
 
-import java.util.Optional;
+import nl.stil4m.mollie.domain.ErrorData;
+
 import java.util.function.Consumer;
 
-public class ResponseOrError<V,T> {
+public class ResponseOrError<V> {
 
-    public final Optional<V> data;
-    public final Optional<T> error;
-    private Boolean success;
+    private final int status;
+    private final V data;
+    private final ErrorData error;
+    private final Boolean success;
 
-    public ResponseOrError(V data) {
-        this.data = Optional.of(data);
-        this.error = Optional.empty();
-        success = true;
+    public static <V, T> ResponseOrError withError(int status, ErrorData error) {
+        return new ResponseOrError<>(status, null, error, false);
     }
-    public ResponseOrError(T error, Boolean success) {
+
+    public static <V, T> ResponseOrError withData(int status, V data) {
+        return new ResponseOrError<>(status, data, null, true);
+    }
+
+    private ResponseOrError(int status, V data, ErrorData error, Boolean success) {
+        this.status = status;
         this.data = data;
         this.error = error;
         this.success = success;
     }
 
-    public void get(Consumer<T> onSuccess, Consumer<T> onError) {
-        if (data != null) {
-
+    public void get(Consumer<V> onSuccess, Consumer<ErrorData> onError) {
+        if (success) {
+            onSuccess.accept(data);
+        } else {
+            onError.accept(error);
         }
+    }
+
+    public int getStatus() {
+        return status;
     }
 
     public V getData() {
         return data;
     }
 
-    public T getError() {
+    public ErrorData getError() {
         return error;
     }
 
