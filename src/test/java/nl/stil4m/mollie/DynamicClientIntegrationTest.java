@@ -44,10 +44,15 @@ public class DynamicClientIntegrationTest {
         Date beforeTest = new Date();
         ResponseOrError<CreatedPayment> payment = client.createPayment(VALID_API_KEY, new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
 
-        assertThat(payment.getData().getCreatedDatetime().after(beforeTest), is(true));
-        assertThat(payment.getData().getCreatedDatetime().before(new Date()), is(true));
+        assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date());
     }
 
+    public static void assertWithin(Date before, Date target, Date after) {
+        long beforeTime = before.getTime() - (before.getTime() % 1000) - 1000; //Subtract another 1000 just to be safe
+        long afterTime = after.getTime() - (after.getTime() % 1000) + 1000;
+        assertThat(beforeTime <= target.getTime(), is(true));
+        assertThat(target.getTime() <= afterTime, is(true));
+    }
     @Test
     public void testGetPayment() throws IOException {
         ResponseOrError<CreatedPayment> payment = client.createPayment(VALID_API_KEY, new CreatePayment(null, 1.00, "Some description", "http://example.com", null));

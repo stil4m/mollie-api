@@ -29,8 +29,7 @@ public class ClientIntegrationTest {
         Date beforeTest = new Date();
         ResponseOrError<CreatedPayment> payment = client.createPayment(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
 
-        assertThat(payment.getData().getCreatedDatetime().after(beforeTest), is(true));
-        assertThat(payment.getData().getCreatedDatetime().before(new Date()), is(true));
+        DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date());
     }
 
     @Test
