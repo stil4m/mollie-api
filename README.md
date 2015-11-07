@@ -1,19 +1,20 @@
-
-----
-### This library is still under construction. Please contact me if you want to use it.
-
-
----
-
-# Mollie API
+# Mollie API Java
 
 ## License
 
 The source code is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
+## Java
+
+This library requires Java 8.
+
 ## Dependencies
 
-//TODO
+```
+org.apache.httpcomponents:httpclient:4.3.X
+com.fasterxml.jackson.core:jackson-annotations:2.6.X
+com.fasterxml.jackson.core:jackson-databind:2.6.X
+```
 
 ## Maven
 
