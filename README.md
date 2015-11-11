@@ -1,3 +1,5 @@
+Travis says: <img src="https://api.travis-ci.org/stil4m/mollie-api.png" />
+
 # Mollie API Java
 
 ## License
