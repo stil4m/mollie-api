@@ -15,11 +15,14 @@ public class PaymentStatus {
     private String cancelledDatetime;
     private String expiredDatetime;
     private Double amount;
+    private Double amountRefunded;
+    private Double amountRemaining;
     private String description;
     private String method;
     private Map<String, Object> details;
     private Links links;
     private Map<String, Object> metadata;
+    private String locale;
     private String expiryPeriod;
 
     public PaymentStatus(@JsonProperty("id") String id,
@@ -31,11 +34,14 @@ public class PaymentStatus {
                          @JsonProperty("cancelledDatetime") String cancelledDatetime,
                          @JsonProperty("expiredDatetime") String expiredDatetime,
                          @JsonProperty("amount") Double amount,
+                         @JsonProperty("amountRefunded")Double amountRefunded,
+                         @JsonProperty("amountRemaining")Double amountRemaining,
                          @JsonProperty("description") String description,
                          @JsonProperty("method") String method,
                          @JsonProperty("details") Map<String, Object> details,
                          @JsonProperty("links") Links links,
                          @JsonProperty("metadata") Map<String, Object> metadata,
+                         @JsonProperty("locale") String locale,
                          @JsonProperty("expiryPeriod") String expiryPeriod) {
         this.id = id;
         this.profileId = profileId;
@@ -46,11 +52,14 @@ public class PaymentStatus {
         this.cancelledDatetime = cancelledDatetime;
         this.expiredDatetime = expiredDatetime;
         this.amount = amount;
+        this.amountRefunded = amountRefunded;
+        this.amountRemaining = amountRemaining;
         this.description = description;
         this.method = method;
         this.details = details;
         this.links = links;
         this.metadata = metadata;
+        this.locale = locale;
         this.expiryPeriod = expiryPeriod;
     }
 
@@ -90,6 +99,14 @@ public class PaymentStatus {
         return amount;
     }
 
+    public Double getAmountRefunded() {
+        return amountRefunded;
+    }
+
+    public Double getAmountRemaining() {
+        return amountRemaining;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -108,6 +125,10 @@ public class PaymentStatus {
 
     public Map<String, Object> getMetadata() {
         return metadata;
+    }
+
+    public String getLocale() {
+        return locale;
     }
 
     public String getExpiryPeriod() {
