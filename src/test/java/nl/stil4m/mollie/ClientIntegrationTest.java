@@ -12,6 +12,7 @@ import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.fail;
 
 public class ClientIntegrationTest {
 
@@ -39,5 +40,26 @@ public class ClientIntegrationTest {
 
         ResponseOrError<PaymentStatus> paymentStatus = client.getPaymentStatus(VALID_API_KEY, id);
         assertThat(paymentStatus.getData().getStatus(), is("open"));
+    }
+
+
+    @Test
+    public void testGetPaymentWithEmptyId() throws IOException {
+        try {
+            client.getPaymentStatus(VALID_API_KEY, "");
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is("Payment id may not be an empty string"));
+        }
+    }
+
+    @Test
+    public void testGetPaymentWithNullId() throws IOException {
+        try {
+            client.getPaymentStatus(VALID_API_KEY, null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is("Payment id may not be null"));
+        }
     }
 }

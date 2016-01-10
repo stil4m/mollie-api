@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import static nl.stil4m.mollie.ResponseOrError.withData;
 import static nl.stil4m.mollie.ResponseOrError.withError;
+import static nl.stil4m.mollie.Util.validatePaymentId;
 
 public class DynamicClient {
 
@@ -40,6 +41,7 @@ public class DynamicClient {
     }
 
     public ResponseOrError<PaymentStatus> getPaymentStatus(String apiKey, String id) throws IOException {
+        validatePaymentId(id);
         HttpGet httpGet = new HttpGet(endpoint + "/payments/" + id);
         return executeRequest(apiKey, httpGet, PaymentStatus.class);
     }
