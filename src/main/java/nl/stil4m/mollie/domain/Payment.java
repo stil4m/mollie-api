@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
 
-public class PaymentStatus {
+public class Payment {
 
     private String id;
     private String profileId;
@@ -25,24 +25,24 @@ public class PaymentStatus {
     private String locale;
     private String expiryPeriod;
 
-    public PaymentStatus(@JsonProperty("id") String id,
-                         @JsonProperty("profileId") String profileId,
-                         @JsonProperty("mode") String mode,
-                         @JsonProperty("createdDatetime") String createdDatetime,
-                         @JsonProperty("status") String status,
-                         @JsonProperty("paidDatetime") String paidDatetime,
-                         @JsonProperty("cancelledDatetime") String cancelledDatetime,
-                         @JsonProperty("expiredDatetime") String expiredDatetime,
-                         @JsonProperty("amount") Double amount,
-                         @JsonProperty("amountRefunded") Double amountRefunded,
-                         @JsonProperty("amountRemaining") Double amountRemaining,
-                         @JsonProperty("description") String description,
-                         @JsonProperty("method") String method,
-                         @JsonProperty("details") Map<String, Object> details,
-                         @JsonProperty("links") Links links,
-                         @JsonProperty("metadata") Map<String, Object> metadata,
-                         @JsonProperty("locale") String locale,
-                         @JsonProperty("expiryPeriod") String expiryPeriod) {
+    public Payment(@JsonProperty("id") String id,
+                   @JsonProperty("profileId") String profileId,
+                   @JsonProperty("mode") String mode,
+                   @JsonProperty("createdDatetime") String createdDatetime,
+                   @JsonProperty("status") String status,
+                   @JsonProperty("paidDatetime") String paidDatetime,
+                   @JsonProperty("cancelledDatetime") String cancelledDatetime,
+                   @JsonProperty("expiredDatetime") String expiredDatetime,
+                   @JsonProperty("amount") Double amount,
+                   @JsonProperty("amountRefunded") Double amountRefunded,
+                   @JsonProperty("amountRemaining") Double amountRemaining,
+                   @JsonProperty("description") String description,
+                   @JsonProperty("method") String method,
+                   @JsonProperty("details") Map<String, Object> details,
+                   @JsonProperty("links") Links links,
+                   @JsonProperty("metadata") Map<String, Object> metadata,
+                   @JsonProperty("locale") String locale,
+                   @JsonProperty("expiryPeriod") String expiryPeriod) {
         this.id = id;
         this.profileId = profileId;
         this.mode = mode;
@@ -134,5 +134,4 @@ public class PaymentStatus {
     public String getExpiryPeriod() {
         return expiryPeriod;
     }
-
 }

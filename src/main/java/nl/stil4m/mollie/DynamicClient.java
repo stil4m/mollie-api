@@ -1,72 +1,44 @@
 package nl.stil4m.mollie;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import nl.stil4m.mollie.concepts.Payments;
+import nl.stil4m.mollie.concepts.Status;
 import nl.stil4m.mollie.domain.ApiKeyCheck;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.CreatedPayment;
-import nl.stil4m.mollie.domain.ErrorData;
-import nl.stil4m.mollie.domain.PaymentStatus;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
+import nl.stil4m.mollie.domain.Payment;
 
 import java.io.IOException;
-
-import static nl.stil4m.mollie.ResponseOrError.withData;
-import static nl.stil4m.mollie.ResponseOrError.withError;
-import static nl.stil4m.mollie.Util.validatePaymentId;
 
 public class DynamicClient {
 
     private final String endpoint;
-    private final HttpClient httpClient;
-    private final ObjectMapper objectMapper;
+    private final RequestExecutor requestExecutor;
 
-    public DynamicClient(String endpoint, HttpClient httpClient, ObjectMapper objectMapper) {
+    public DynamicClient(String endpoint, RequestExecutor requestExecutor) {
         this.endpoint = endpoint;
-        this.httpClient = httpClient;
-        this.objectMapper = objectMapper;
+        this.requestExecutor = requestExecutor;
     }
 
+    public Payments payments(String apiKey) {
+        return new Payments(apiKey, endpoint, requestExecutor);
+    }
+
+    public Status status(String apiKey) {
+        return new Status(payments(apiKey));
+    }
+
+    @Deprecated
     public ResponseOrError<CreatedPayment> createPayment(String apiKey, CreatePayment createPayment) throws IOException {
-        HttpPost httpPost = new HttpPost(endpoint + "/payments");
-        httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(createPayment), ContentType.APPLICATION_JSON));
-        return executeRequest(apiKey, httpPost, CreatedPayment.class);
+        return payments(apiKey).create(createPayment);
     }
 
-    public ResponseOrError<PaymentStatus> getPaymentStatus(String apiKey, String id) throws IOException {
-        validatePaymentId(id);
-        HttpGet httpGet = new HttpGet(endpoint + "/payments/" + id);
-        return executeRequest(apiKey, httpGet, PaymentStatus.class);
-    }
-
+    @Deprecated
     public ApiKeyCheck checkApiKey(String apiKey) throws IOException {
-        int status = getPaymentStatus(apiKey, "unknown").getStatus();
-        return new ApiKeyCheck(status == 404);
+        return status(apiKey).checkApiKey();
     }
 
-    private <T> ResponseOrError<T> executeRequest(String apiKey, HttpUriRequest httpRequest, Class<T> type) throws IOException {
-        httpRequest.addHeader("Content-Type", "application/json");
-        httpRequest.addHeader("Authorization", String.format("Bearer %s", apiKey));
-        return httpClient.execute(httpRequest, response -> {
-            int status = response.getStatusLine().getStatusCode();
-
-            if (status >= 200 && status <= 300) {
-                return withData(status, DynamicClient.this.deserialize(response, type));
-            } else {
-                return withError(status, DynamicClient.this.deserialize(response, ErrorData.class));
-            }
-        });
+    @Deprecated
+    public ResponseOrError<Payment> getPaymentStatus(String apiKey, String id) throws IOException {
+        return payments(apiKey).get(id);
     }
-
-    private <S> S deserialize(HttpResponse response, Class<S> clazz) throws IOException {
-        return objectMapper.readValue(response.getEntity().getContent(), clazz);
-    }
-
 }

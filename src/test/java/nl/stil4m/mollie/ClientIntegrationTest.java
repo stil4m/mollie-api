@@ -2,7 +2,7 @@ package nl.stil4m.mollie;
 
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.CreatedPayment;
-import nl.stil4m.mollie.domain.PaymentStatus;
+import nl.stil4m.mollie.domain.Payment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,10 +35,10 @@ public class ClientIntegrationTest {
 
     @Test
     public void testGetPayment() throws IOException {
-        ResponseOrError<CreatedPayment> payment = client.createPayment(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
         String id = payment.getData().getId();
 
-        ResponseOrError<PaymentStatus> paymentStatus = client.getPaymentStatus(VALID_API_KEY, id);
+        ResponseOrError<Payment> paymentStatus = client.payments().get(id);
         assertThat(paymentStatus.getData().getStatus(), is("open"));
     }
 
@@ -46,7 +46,7 @@ public class ClientIntegrationTest {
     @Test
     public void testGetPaymentWithEmptyId() throws IOException {
         try {
-            client.getPaymentStatus(VALID_API_KEY, "");
+            client.payments().get("");
             fail();
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage(), is("Payment id may not be an empty string"));
@@ -56,7 +56,7 @@ public class ClientIntegrationTest {
     @Test
     public void testGetPaymentWithNullId() throws IOException {
         try {
-            client.getPaymentStatus(VALID_API_KEY, null);
+            client.payments().get(null);
             fail();
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage(), is("Payment id may not be null"));

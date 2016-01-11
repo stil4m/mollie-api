@@ -32,6 +32,6 @@ public class DynamicClientBuilder {
         final HttpClient client = this.client.orElseGet(() -> HttpClientBuilder.create().build());
         final String endpoint = this.endpoint.orElseGet(() -> "https://api.mollie.com/v1");
         final ObjectMapper objectMapper = this.objectMapper.orElseGet(ObjectMapper::new);
-        return new DynamicClient(endpoint, client, objectMapper);
+        return new DynamicClient(endpoint, new RequestExecutor(client, objectMapper));
     }
 }
