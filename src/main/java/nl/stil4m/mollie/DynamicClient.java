@@ -1,5 +1,6 @@
 package nl.stil4m.mollie;
 
+import nl.stil4m.mollie.concepts.Methods;
 import nl.stil4m.mollie.concepts.Payments;
 import nl.stil4m.mollie.concepts.Status;
 import nl.stil4m.mollie.domain.ApiKeyCheck;
@@ -25,6 +26,10 @@ public class DynamicClient {
 
     public Status status(String apiKey) {
         return new Status(payments(apiKey));
+    }
+
+    public Methods methods(String apiKey) {
+        return new Methods(apiKey, endpoint, requestExecutor);
     }
 
     @Deprecated

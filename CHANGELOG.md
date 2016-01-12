@@ -1,5 +1,8 @@
 #Changelog
 
+# 1.3.0 - 2015-XX-XX
+
+* Add methods api (#5)
 
 # 1.2.0 - 2015-01-11
 

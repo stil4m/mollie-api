@@ -1,5 +1,6 @@
 package nl.stil4m.mollie;
 
+import nl.stil4m.mollie.concepts.Methods;
 import nl.stil4m.mollie.concepts.Payments;
 import nl.stil4m.mollie.concepts.Status;
 import nl.stil4m.mollie.domain.CreatePayment;
@@ -25,6 +26,10 @@ public class Client {
 
     public Status status() {
         return dynamicClient.status(apiKey);
+    }
+
+    public Methods methods() {
+        return dynamicClient.methods(apiKey);
     }
 
     @Deprecated
