@@ -23,7 +23,13 @@ public class Page<T> {
         this.offset = offset;
         this.count = count;
         this.data = data;
-        this.links = links;
+
+        //Due to bug in the molie api that when there is a single page, the links object will be null
+        if (links == null) {
+            this.links = new PageLinks(null, null, null, null);
+        } else {
+            this.links = links;
+        }
     }
 
     public Integer getTotalCount() {

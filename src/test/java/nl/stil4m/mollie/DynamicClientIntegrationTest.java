@@ -13,11 +13,14 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 
 public class DynamicClientIntegrationTest {
 
@@ -45,9 +48,50 @@ public class DynamicClientIntegrationTest {
     @Test
     public void testCreatePayment() throws IOException {
         Date beforeTest = new Date();
-        ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        Map<String, Object> meta = new HashMap<>();
+        meta.put("foo", "bar");
 
-        assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date());
+        ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment(null, 1.00, "Some description", "http://example.com", meta));
+
+        CreatedPayment createdPayment = payment.getData();
+        assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date());
+
+        assertThat(createdPayment.getMethod(), is(nullValue()));
+        assertThat(createdPayment.getAmount(), is(1.00));
+        assertThat(createdPayment.getDescription(), is("Some description"));
+        assertThat(createdPayment.getId(), is(notNullValue()));
+        assertThat(createdPayment.getDetails(), is(nullValue()));
+        assertThat(createdPayment.getLinks(), is(notNullValue()));
+        assertThat(createdPayment.getLinks().getPaymentUrl().matches("https://www.mollie.com/payscreen/pay/[A-Za-z0-9]+"), is(true));
+        assertThat(createdPayment.getLinks().getRedirectUrl(), is("http://example.com"));
+        assertThat(createdPayment.getLinks().getWebhookUrl(), is(nullValue()));
+        assertThat(createdPayment.getMode(), is("test"));
+        assertThat(createdPayment.getStatus(), is("open"));
+        assertThat(createdPayment.getMetadata(), is(meta));
+    }
+
+    @Test
+    public void testCreateAndGetPayment() throws IOException {
+        Map<String, Object> meta = new HashMap<>();
+        meta.put("foo", "bar");
+
+        ResponseOrError<CreatedPayment> createResponse = client.payments(VALID_API_KEY).create(new CreatePayment(null, 1.00, "Some description", "http://example.com", meta));
+        ResponseOrError<Payment> paymentResponse = client.payments(VALID_API_KEY).get(createResponse.getData().getId());
+        Payment payment = paymentResponse.getData();
+
+        assertThat(payment.getMethod(), is(nullValue()));
+        assertThat(payment.getAmount(), is(1.00));
+        assertThat(payment.getDescription(), is("Some description"));
+        assertThat(payment.getId(), is(notNullValue()));
+        assertThat(payment.getDetails(), is(nullValue()));
+        assertThat(payment.getLinks(), is(notNullValue()));
+        assertThat(payment.getLinks().getPaymentUrl().matches("https://www.mollie.com/payscreen/pay/[A-Za-z0-9]+"), is(true));
+        assertThat(payment.getLinks().getRedirectUrl(), is("http://example.com"));
+        assertThat(payment.getLinks().getWebhookUrl(), is(nullValue()));
+        assertThat(payment.getMode(), is("test"));
+        assertThat(payment.getStatus(), is("open"));
+        assertThat(payment.getMetadata(), is(meta));
+
     }
 
     public static void assertWithin(Date before, Date target, Date after) {

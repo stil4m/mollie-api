@@ -103,4 +103,33 @@ public class ClientIntegrationTest {
         assertThat(methodResponse.getStatus(), is(404));
         assertThat(methodResponse.getError().keySet(), is(Sets.newHashSet("error")));
     }
+
+    @Test
+    public void testGetIssuers() throws IOException, URISyntaxException {
+        ResponseOrError<Page<Issuer>> allResponse = client.issuers().all(Optional.empty(), Optional.empty());
+        assertThat(allResponse.getSuccess(), is(true));
+
+        Page<Issuer> all = allResponse.getData();
+        assertThat(all.getCount(), is(1));
+        assertThat(all.getTotalCount(), is(1));
+        assertThat(all.getOffset(), is(0));
+        assertThat(all.getLinks(), is(notNullValue()));
+        assertThat(all.getLinks().getPrevious().isPresent(), is(false));
+        assertThat(all.getLinks().getNext().isPresent(), is(false));
+
+        Set<String> identifiers = all.getData().stream().map(Issuer::getId).collect(Collectors.toSet());
+        assertThat(identifiers.containsAll(Sets.newHashSet("ideal_TESTNL99")), is(true));
+    }
+
+    @Test
+    public void testGetIssuer() throws IOException, URISyntaxException {
+        ResponseOrError<Issuer> allResponse = client.issuers().get("ideal_TESTNL99");
+        assertThat(allResponse.getSuccess(), is(true));
+
+        Issuer issuer = allResponse.getData();
+        assertThat(issuer.getResource(), is("issuer"));
+        assertThat(issuer.getId(), is("ideal_TESTNL99"));
+        assertThat(issuer.getName(), is("TBM Bank"));
+        assertThat(issuer.getMethod(), is("ideal"));
+    }
 }

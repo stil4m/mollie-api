@@ -1,5 +1,6 @@
 package nl.stil4m.mollie;
 
+import nl.stil4m.mollie.concepts.Issuers;
 import nl.stil4m.mollie.concepts.Methods;
 import nl.stil4m.mollie.concepts.Payments;
 import nl.stil4m.mollie.concepts.Status;
@@ -30,6 +31,10 @@ public class DynamicClient {
 
     public Methods methods(String apiKey) {
         return new Methods(apiKey, endpoint, requestExecutor);
+    }
+
+    public Issuers issuers(String apiKey) {
+        return new Issuers(apiKey, endpoint, requestExecutor);
     }
 
     @Deprecated
