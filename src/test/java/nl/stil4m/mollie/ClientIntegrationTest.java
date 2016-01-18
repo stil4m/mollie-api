@@ -8,10 +8,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,6 +43,16 @@ public class ClientIntegrationTest {
 
         ResponseOrError<Payment> paymentStatus = client.payments().get(id);
         assertThat(paymentStatus.getData().getStatus(), is("open"));
+    }
+
+    @Test
+    public void testGetPaymentWithRefunds() throws IOException {
+        ResponseOrError<Payment> getResponse = client.payments().get("tr_3AdTKpQGii");
+
+        getResponse.get(payment -> {
+            assertThat(payment.getLinks().getRefunds().isPresent(), is(true));
+        }, errorData -> fail());
+
     }
 
 
@@ -131,5 +139,77 @@ public class ClientIntegrationTest {
         assertThat(issuer.getId(), is("ideal_TESTNL99"));
         assertThat(issuer.getName(), is("TBM Bank"));
         assertThat(issuer.getMethod(), is("ideal"));
+    }
+
+    @Test
+    public void testGetRefunds() throws IOException, URISyntaxException {
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        String id = payment.getData().getId();
+
+        ResponseOrError<Page<Refund>> all = client.refunds().all(id, Optional.empty(), Optional.empty());
+        assertThat(all.getSuccess(), is(true));
+        Page<Refund> refundPage = all.getData();
+        assertThat(refundPage.getCount(), is(0));
+        assertThat(refundPage.getData(), is(notNullValue()));
+        assertThat(refundPage.getLinks(), is(notNullValue()));
+    }
+
+    @Test
+    public void testListRefundsForExistingPayment() throws IOException, URISyntaxException {
+        ResponseOrError<Page<Refund>> all = client.refunds().all("tr_3AdTKpQGii", Optional.empty(), Optional.empty());
+
+        assertThat(all.getSuccess(), is(true));
+
+        Page<Refund> data = all.getData();
+        assertThat(data.getData().size(), is(1));
+
+        Refund refund = data.getData().get(0);
+        assertThat(refund.getId(), is("re_4h4WjFzwMC"));
+        assertThat(refund.getStatus(), is("refunded"));
+        assertThat(refund.getPayment(), is(notNullValue()));
+        assertThat(refund.getAmount(), is(1.00));
+        assertThat(refund.getLinks(), is(notNullValue()));
+        assertThat(refund.getRefundedDatetime().getTime(), is(1453115379000L));
+    }
+
+
+    @Test
+    public void testCancelNonExistingRefund() throws IOException {
+        Map<String, String> errorData = new HashMap<>();
+        errorData.put("type", "request");
+        errorData.put("message", "The refund id is invalid");
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        String id = payment.getData().getId();
+
+        ResponseOrError<Void> cancel = client.refunds().cancel(id, "foo_bar");
+        assertThat(cancel.getSuccess(), is(false));
+        assertThat(cancel.getError().get("error"), is(errorData));
+    }
+
+    @Test
+    public void testGetNonExistingRefund() throws IOException {
+        Map<String, String> errorData = new HashMap<>();
+        errorData.put("type", "request");
+        errorData.put("message", "The refund id is invalid");
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        String id = payment.getData().getId();
+
+        ResponseOrError<Refund> get = client.refunds().get(id, "foo_bar");
+        assertThat(get.getSuccess(), is(false));
+        assertThat(get.getError().get("error"), is(errorData));
+    }
+
+    @Test
+    public void testCreateRefund() throws IOException, URISyntaxException {
+        Map<String, String> errorData = new HashMap<>();
+        errorData.put("type", "request");
+        errorData.put("message", "The payment is already refunded or has not been paid for yet");
+
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        String id = payment.getData().getId();
+
+        ResponseOrError<Refund> create = client.refunds().create(id, Optional.of(1.00));
+        assertThat(create.getSuccess(), is(false));
+        assertThat(create.getError().get("error"), is(errorData));
     }
 }

@@ -2,6 +2,7 @@
 
 # 1.3.0 - 2015-XX-XX
 
+* Add refunds api (#7)
 * Add issuers api (#6)
 * Add methods api (#5)
 

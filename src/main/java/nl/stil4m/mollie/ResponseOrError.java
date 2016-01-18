@@ -1,17 +1,16 @@
 package nl.stil4m.mollie;
 
-import nl.stil4m.mollie.domain.ErrorData;
-
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class ResponseOrError<V> {
 
     private final int status;
     private final V data;
-    private final ErrorData error;
+    private final Map error;
     private final Boolean success;
 
-    public static <V, T> ResponseOrError withError(int status, ErrorData error) {
+    public static <V, T> ResponseOrError withError(int status, Map error) {
         return new ResponseOrError<>(status, null, error, false);
     }
 
@@ -19,14 +18,14 @@ public class ResponseOrError<V> {
         return new ResponseOrError<>(status, data, null, true);
     }
 
-    private ResponseOrError(int status, V data, ErrorData error, Boolean success) {
+    private ResponseOrError(int status, V data, Map error, Boolean success) {
         this.status = status;
         this.data = data;
         this.error = error;
         this.success = success;
     }
 
-    public void get(Consumer<V> onSuccess, Consumer<ErrorData> onError) {
+    public void get(Consumer<V> onSuccess, Consumer<Map> onError) {
         if (success) {
             onSuccess.accept(data);
         } else {
@@ -42,7 +41,7 @@ public class ResponseOrError<V> {
         return data;
     }
 
-    public ErrorData getError() {
+    public Map getError() {
         return error;
     }
 

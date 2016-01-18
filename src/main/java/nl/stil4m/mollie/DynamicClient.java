@@ -1,9 +1,6 @@
 package nl.stil4m.mollie;
 
-import nl.stil4m.mollie.concepts.Issuers;
-import nl.stil4m.mollie.concepts.Methods;
-import nl.stil4m.mollie.concepts.Payments;
-import nl.stil4m.mollie.concepts.Status;
+import nl.stil4m.mollie.concepts.*;
 import nl.stil4m.mollie.domain.ApiKeyCheck;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.CreatedPayment;
@@ -35,6 +32,10 @@ public class DynamicClient {
 
     public Issuers issuers(String apiKey) {
         return new Issuers(apiKey, endpoint, requestExecutor);
+    }
+
+    public Refunds refunds(String apiKey) {
+        return new Refunds(apiKey, endpoint, requestExecutor);
     }
 
     @Deprecated

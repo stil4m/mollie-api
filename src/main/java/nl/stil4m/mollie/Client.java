@@ -1,9 +1,6 @@
 package nl.stil4m.mollie;
 
-import nl.stil4m.mollie.concepts.Issuers;
-import nl.stil4m.mollie.concepts.Methods;
-import nl.stil4m.mollie.concepts.Payments;
-import nl.stil4m.mollie.concepts.Status;
+import nl.stil4m.mollie.concepts.*;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.CreatedPayment;
 import nl.stil4m.mollie.domain.Payment;
@@ -36,6 +33,8 @@ public class Client {
     public Issuers issuers() {
         return dynamicClient.issuers(apiKey);
     }
+
+    public Refunds refunds() { return dynamicClient.refunds(apiKey); }
 
     @Deprecated
     public ResponseOrError<CreatedPayment> createPayment(CreatePayment createPayment) throws IOException {
