@@ -45,5 +45,5 @@ To use this with library with Maven, add the following snippets to your `pom.xml
 
 ## Build the JAR
 
-To build a the `JAR` you can run `mvn install`.
+To build the `JAR` you can run `mvn install`.
 
