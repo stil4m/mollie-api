@@ -1,6 +1,6 @@
 #Changelog
 
-# 1.3.0 - 2015-XX-XX
+# 1.3.0 - 2015-01-18
 
 * Add refunds api (#7)
 * Add issuers api (#6)
