@@ -47,3 +47,54 @@ To use this with library with Maven, add the following snippets to your `pom.xml
 
 To build the `JAR` you can run `mvn install`.
 
+
+## Usage
+
+### Setup 
+
+You can use the API with a static defined Mollie API key `Client` or a dynamic key `DynamicClient`.
+
+#### Static
+
+```
+Client client = new ClientBuilder()
+					.withApiKey(""XXX")
+					.build();
+```
+
+#### Dynamic
+
+```
+DynamicClient client = new DynamicClientBuilder()
+							.build();
+```
+
+#### Configuration
+
+Both clients make use of the Jackson `ObjectMapper` and the Apache HTTP `HttpClient`. These can be respectivly configured using `withMapper` and `withClient`.
+
+### API Calls
+
+The API is seperated into different concepts:
+
+* Methods: Used to read the available payment methods.
+* Issuers: Used to read the available issuers per payment method.
+* Payments: Used to create read and delete payments
+* Refunds: Used to create read and delete refunds on payments
+* Status: Used to verify the validity of the used API key
+ 
+All concepts can be retrieved from the client using the following format `client.<concept>()`.
+
+For example you can create a payment as follows:
+
+```
+Client client = new ClientBuilder()
+					.withApiKey(""XXX")
+					.build();
+					
+client.payments().create(new CreatePayment(...));
+```
+
+## Bugs
+
+When you find bugs, please report them in the issue tracker. I pursuit to fix them within a few days. If you like provide a pull request with the supporting unit tests.
