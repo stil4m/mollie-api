@@ -3,6 +3,7 @@
 # 1.4.0 - 2015-XX-XX
 
 * Add documentation
+* Remove deprecated code from version 1.2.0
 
 # 1.3.0 - 2015-01-18
 

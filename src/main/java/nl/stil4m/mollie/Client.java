@@ -36,14 +36,4 @@ public class Client {
 
     public Refunds refunds() { return dynamicClient.refunds(apiKey); }
 
-    @Deprecated
-    public ResponseOrError<CreatedPayment> createPayment(CreatePayment createPayment) throws IOException {
-        return dynamicClient.payments(apiKey).create(createPayment);
-    }
-
-    @Deprecated
-    public ResponseOrError<Payment> getPaymentStatus(String apiKey, String id) throws IOException {
-        return dynamicClient.payments(apiKey).get(id);
-    }
-
 }

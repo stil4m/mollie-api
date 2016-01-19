@@ -2,14 +2,12 @@ package nl.stil4m.mollie;
 
 import com.google.common.collect.Sets;
 import nl.stil4m.mollie.domain.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,7 +29,7 @@ public class ClientIntegrationTest {
     @Test
     public void testCreatePayment() throws IOException {
         Date beforeTest = new Date();
-        ResponseOrError<CreatedPayment> payment = client.createPayment(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
 
         DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date());
     }

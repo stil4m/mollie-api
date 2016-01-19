@@ -38,18 +38,4 @@ public class DynamicClient {
         return new Refunds(apiKey, endpoint, requestExecutor);
     }
 
-    @Deprecated
-    public ResponseOrError<CreatedPayment> createPayment(String apiKey, CreatePayment createPayment) throws IOException {
-        return payments(apiKey).create(createPayment);
-    }
-
-    @Deprecated
-    public ApiKeyCheck checkApiKey(String apiKey) throws IOException {
-        return status(apiKey).checkApiKey();
-    }
-
-    @Deprecated
-    public ResponseOrError<Payment> getPaymentStatus(String apiKey, String id) throws IOException {
-        return payments(apiKey).get(id);
-    }
 }
