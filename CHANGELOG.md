@@ -1,8 +1,8 @@
 #Changelog
 
-# 1.4.0 - 2015-XX-XX
+# 1.4.0 - 2015-01-25
 
-* Add documentation
+* Add documentation (#8)
 * Remove deprecated code from version 1.2.0
 
 # 1.3.0 - 2015-01-18
