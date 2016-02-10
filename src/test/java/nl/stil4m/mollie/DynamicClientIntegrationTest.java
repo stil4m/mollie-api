@@ -62,13 +62,39 @@ public class DynamicClientIntegrationTest {
         assertThat(createdPayment.getId(), is(notNullValue()));
         assertThat(createdPayment.getDetails(), is(nullValue()));
         assertThat(createdPayment.getLinks(), is(notNullValue()));
-        assertThat(createdPayment.getLinks().getPaymentUrl().matches("https://www.mollie.com/payscreen/pay/[A-Za-z0-9]+"), is(true));
+        assertThat(createdPayment.getLinks().getPaymentUrl().matches("https://www.mollie.com/payscreen/selectMethod/[A-Za-z0-9]+"), is(true));
         assertThat(createdPayment.getLinks().getRedirectUrl(), is("http://example.com"));
         assertThat(createdPayment.getLinks().getWebhookUrl(), is(nullValue()));
         assertThat(createdPayment.getMode(), is("test"));
         assertThat(createdPayment.getStatus(), is("open"));
         assertThat(createdPayment.getMetadata(), is(meta));
     }
+
+    @Test
+    public void testCreatePaymentWithMethod() throws IOException {
+        Date beforeTest = new Date();
+        Map<String, Object> meta = new HashMap<>();
+        meta.put("foo", "bar");
+
+        ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment("ideal", 1.00, "Some description", "http://example.com", meta));
+
+        CreatedPayment createdPayment = payment.getData();
+        assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date());
+
+        assertThat(createdPayment.getMethod(), is("ideal"));
+        assertThat(createdPayment.getAmount(), is(1.00));
+        assertThat(createdPayment.getDescription(), is("Some description"));
+        assertThat(createdPayment.getId(), is(notNullValue()));
+        assertThat(createdPayment.getDetails(), is(nullValue()));
+        assertThat(createdPayment.getLinks(), is(notNullValue()));
+        assertThat(createdPayment.getLinks().getPaymentUrl().matches("https://www.mollie.com/paymentscreen/ideal/selectIssuer/[A-Za-z0-9]+"), is(true));
+        assertThat(createdPayment.getLinks().getRedirectUrl(), is("http://example.com"));
+        assertThat(createdPayment.getLinks().getWebhookUrl(), is(nullValue()));
+        assertThat(createdPayment.getMode(), is("test"));
+        assertThat(createdPayment.getStatus(), is("open"));
+        assertThat(createdPayment.getMetadata(), is(meta));
+    }
+
 
     @Test
     public void testCreateAndGetPayment() throws IOException {
@@ -85,7 +111,7 @@ public class DynamicClientIntegrationTest {
         assertThat(payment.getId(), is(notNullValue()));
         assertThat(payment.getDetails(), is(nullValue()));
         assertThat(payment.getLinks(), is(notNullValue()));
-        assertThat(payment.getLinks().getPaymentUrl().matches("https://www.mollie.com/payscreen/pay/[A-Za-z0-9]+"), is(true));
+        assertThat(payment.getLinks().getPaymentUrl().matches("https://www.mollie.com/payscreen/selectMethod/[A-Za-z0-9]+"), is(true));
         assertThat(payment.getLinks().getRedirectUrl(), is("http://example.com"));
         assertThat(payment.getLinks().getWebhookUrl(), is(nullValue()));
         assertThat(payment.getMode(), is("test"));
