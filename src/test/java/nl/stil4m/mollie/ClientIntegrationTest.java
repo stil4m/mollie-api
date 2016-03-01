@@ -98,7 +98,7 @@ public class ClientIntegrationTest {
         Method method = methodResponse.getData();
         assertThat(method.getId(), is("ideal"));
         assertThat(method.getDescription(), is("iDEAL"));
-        assertThat(method.getAmount().getMinimum(), is(0.55));
+        assertThat(method.getAmount().getMinimum(), is(0.36));
         assertThat(method.getAmount().getMaximum(), is(50000.0));
         assertThat(method.getImage().getNormal(), is("https://www.mollie.com/images/payscreen/methods/ideal.png"));
         assertThat(method.getImage().getBigger(), is("https://www.mollie.com/images/payscreen/methods/ideal@2x.png"));
