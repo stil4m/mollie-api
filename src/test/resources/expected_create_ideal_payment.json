@@ -1,0 +1,10 @@
+{
+  "amount": 1.0,
+  "description": "Description",
+  "redirectUrl": "redirectUrl",
+  "method": "ideal",
+  "metadata": {
+    "mySpecialKey": "value"
+  },
+  "issuer": "MyIssuer"
+}

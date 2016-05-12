@@ -2,6 +2,8 @@ package nl.stil4m.mollie;
 
 import com.google.common.collect.Sets;
 import nl.stil4m.mollie.domain.*;
+import nl.stil4m.mollie.domain.subpayments.ideal.CreateIdealPayment;
+import nl.stil4m.mollie.domain.subpayments.ideal.IdealPaymentOptions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,6 +33,19 @@ public class ClientIntegrationTest {
         Date beforeTest = new Date();
         ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
 
+        DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date());
+    }
+
+    @Test
+    public void testCreateIdealPayment() throws IOException, URISyntaxException {
+        Date beforeTest = new Date();
+        ResponseOrError<Page<Issuer>> all = client.issuers().all(Optional.empty(), Optional.empty());
+        assertThat(all.getSuccess(), is(true));
+        Issuer issuer = all.getData().getData().get(0);
+
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreateIdealPayment(1.00, "Some description", "http://example.com", null, new IdealPaymentOptions(issuer.getId())));
+
+        assertThat(payment.getSuccess(), is(true));
         DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date());
     }
 
