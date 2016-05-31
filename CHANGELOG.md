@@ -1,5 +1,11 @@
 #Changelog
 
+# 2.0.0 - 2016-05-31
+
+* Change created payment detail to map (#9)
+
+Thanks to @jvanoosterom for his contribution
+
 # 1.5.0 - 2016-05-12
 
 * Add concrete payment types (#9)
