@@ -2,7 +2,7 @@
 
 # 2.0.0 - 2016-05-31
 
-* Change created payment detail to map (#9)
+* Change created payment detail to map (#10)
 
 Thanks to @jvanoosterom for his contribution
 
