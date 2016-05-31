@@ -119,6 +119,31 @@ public class DynamicClientIntegrationTest {
         assertThat(payment.getMetadata(), is(meta));
 
     }
+    
+    @Test
+    public void testCreateAndGetCreditCardPayment() throws IOException {
+        Map<String, Object> meta = new HashMap<>();
+        meta.put("foo", "bar");
+
+        ResponseOrError<CreatedPayment> createResponse = client.payments(VALID_API_KEY).create(new CreatePayment("creditcard", 2.00, "Some credit card description", "http://example.com", meta));
+        ResponseOrError<Payment> paymentResponse = client.payments(VALID_API_KEY).get(createResponse.getData().getId());
+        Payment payment = paymentResponse.getData();
+
+        assertThat(payment.getMethod(), is("creditcard"));
+        assertThat(payment.getAmount(), is(2.00));
+        assertThat(payment.getDescription(), is("Some credit card description"));
+        assertThat(payment.getId(), is(notNullValue()));
+        assertThat(payment.getDetails(), is(notNullValue())); // feeRegion=other
+        assertThat(payment.getLinks(), is(notNullValue()));
+        assertThat(payment.getLinks().getPaymentUrl().matches("https://www.mollie.com/paymentscreen/creditcard/testmode/[A-Za-z0-9]+"), is(true));
+        assertThat(payment.getLinks().getRedirectUrl(), is("http://example.com"));
+        assertThat(payment.getLinks().getWebhookUrl(), is(nullValue()));
+        assertThat(payment.getMode(), is("test"));
+        assertThat(payment.getStatus(), is("open"));
+        assertThat(payment.getMetadata(), is(meta));
+
+    }
+
 
     public static void assertWithin(Date before, Date target, Date after) {
         long beforeTime = before.getTime() - (before.getTime() % 1000) - 1000; //Subtract another 1000 just to be safe

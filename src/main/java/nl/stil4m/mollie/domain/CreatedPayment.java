@@ -2,7 +2,6 @@ package nl.stil4m.mollie.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ public class CreatedPayment {
     private final String description;
     private final String method;
     private final Map<String, Object> metadata;
-    private final String details;
+    private final Map<String, Object> details;
     private final String profileId;
     private final Links links;
 
@@ -31,7 +30,7 @@ public class CreatedPayment {
                          @JsonProperty("description") String description,
                          @JsonProperty("method") String method,
                          @JsonProperty("metadata") Map<String,Object> metadata,
-                         @JsonProperty("details") String details,
+                         @JsonProperty("details") Map<String, Object> details,
                          @JsonProperty("profileId") String profileId,
                          @JsonProperty("links") Links links) {
         this.id = id;
@@ -84,7 +83,7 @@ public class CreatedPayment {
         return metadata;
     }
 
-    public String getDetails() {
+    public Map<String, Object> getDetails() {
         return details;
     }
 

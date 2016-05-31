@@ -1,0 +1,10 @@
+{
+  "amount": 1.0,
+  "description": "Description",
+  "redirectUrl": "redirectUrl",
+  "method": "creditcard",
+  "metadata": {
+    "mySpecialKey": "value"
+  }
+ 
+}
