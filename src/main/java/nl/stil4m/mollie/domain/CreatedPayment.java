@@ -2,6 +2,7 @@ package nl.stil4m.mollie.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -22,17 +23,17 @@ public class CreatedPayment {
 
     @JsonCreator
     public CreatedPayment(@JsonProperty("id") String id,
-                         @JsonProperty("mode") String mode,
-                         @JsonProperty("createdDatetime") Date createdDatetime,
-                         @JsonProperty("status") String status,
-                         @JsonProperty("expiryPeriod") String expiryPeriod,
-                         @JsonProperty("amount") Double amount,
-                         @JsonProperty("description") String description,
-                         @JsonProperty("method") String method,
-                         @JsonProperty("metadata") Map<String,Object> metadata,
-                         @JsonProperty("details") Map<String, Object> details,
-                         @JsonProperty("profileId") String profileId,
-                         @JsonProperty("links") Links links) {
+                          @JsonProperty("mode") String mode,
+                          @JsonProperty("createdDatetime") Date createdDatetime,
+                          @JsonProperty("status") String status,
+                          @JsonProperty("expiryPeriod") String expiryPeriod,
+                          @JsonProperty("amount") Double amount,
+                          @JsonProperty("description") String description,
+                          @JsonProperty("method") String method,
+                          @JsonProperty("metadata") Map<String, Object> metadata,
+                          @JsonProperty("details") Map<String, Object> details,
+                          @JsonProperty("profileId") String profileId,
+                          @JsonProperty("links") Links links) {
         this.id = id;
         this.mode = mode;
         this.createdDatetime = createdDatetime;

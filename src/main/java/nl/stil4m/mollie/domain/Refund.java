@@ -18,6 +18,7 @@ public class Refund {
     private final Date refundedDatetime;
 
     private final RefundLinks links;
+
     @JsonCreator
     public Refund(@JsonProperty("id") String id,
                   @JsonProperty("payment") Payment payment,
