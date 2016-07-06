@@ -2,9 +2,7 @@ package nl.stil4m.mollie.domain;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CreatePayment {
 
@@ -21,7 +19,9 @@ public class CreatePayment {
     public CreatePayment(String method, Double amount, String description, String redirectUrl, Map<String, Object> metadata) {
         this(method, amount, description, redirectUrl, null, metadata);
     }
-    public CreatePayment(String method, Double amount, String description, String redirectUrl, String webhookUrl, Map<String, Object> metadata) {
+
+    public CreatePayment(String method, Double amount, String description, String redirectUrl, String webhookUrl,
+            Map<String, Object> metadata) {
         this.method = method;
         this.amount = amount;
         this.description = description;
