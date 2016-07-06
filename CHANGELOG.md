@@ -1,5 +1,10 @@
 #Changelog
 
+# 2.1.0 - 2016-07-06
+
+* Add sources to maven repository (#14).
+* Add `webhookUrl` to create payment (#15).
+
 # 2.0.0 - 2016-05-31
 
 * Change created payment detail to map (#10)
