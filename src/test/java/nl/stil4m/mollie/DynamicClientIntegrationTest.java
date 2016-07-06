@@ -1,12 +1,10 @@
 package nl.stil4m.mollie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.CreatedPayment;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Payment;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -25,8 +24,6 @@ import static org.hamcrest.Matchers.nullValue;
 public class DynamicClientIntegrationTest {
 
     private DynamicClient client;
-
-    private String VALID_API_KEY = "test_nVK7W2WFmZXUNWcntBtCwvgCAgZ3c5";
 
     @Before
     public void before() {
@@ -51,7 +48,7 @@ public class DynamicClientIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment(null, 1.00, "Some description", "http://example.com", meta));
+        ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), meta));
 
         CreatedPayment createdPayment = payment.getData();
         assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date());
@@ -76,7 +73,7 @@ public class DynamicClientIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment("ideal", 1.00, "Some description", "http://example.com", meta));
+        ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment(Optional.of("ideal"), 1.00, "Some description", "http://example.com", Optional.empty(), meta));
 
         CreatedPayment createdPayment = payment.getData();
         assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date());
@@ -101,7 +98,7 @@ public class DynamicClientIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> createResponse = client.payments(VALID_API_KEY).create(new CreatePayment(null, 1.00, "Some description", "http://example.com", meta));
+        ResponseOrError<CreatedPayment> createResponse = client.payments(VALID_API_KEY).create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), meta));
         ResponseOrError<Payment> paymentResponse = client.payments(VALID_API_KEY).get(createResponse.getData().getId());
         Payment payment = paymentResponse.getData();
 
@@ -119,13 +116,13 @@ public class DynamicClientIntegrationTest {
         assertThat(payment.getMetadata(), is(meta));
 
     }
-    
+
     @Test
     public void testCreateAndGetCreditCardPayment() throws IOException {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> createResponse = client.payments(VALID_API_KEY).create(new CreatePayment("creditcard", 2.00, "Some credit card description", "http://example.com", meta));
+        ResponseOrError<CreatedPayment> createResponse = client.payments(VALID_API_KEY).create(new CreatePayment(Optional.of("creditcard"), 2.00, "Some credit card description", "http://example.com", Optional.empty(), meta));
         ResponseOrError<Payment> paymentResponse = client.payments(VALID_API_KEY).get(createResponse.getData().getId());
         Payment payment = paymentResponse.getData();
 
@@ -154,7 +151,7 @@ public class DynamicClientIntegrationTest {
 
     @Test
     public void testGetPayment() throws IOException {
-        ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
         ResponseOrError<Payment> paymentStatus = client.payments(VALID_API_KEY).get(id);

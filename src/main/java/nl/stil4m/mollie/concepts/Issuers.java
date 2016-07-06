@@ -17,6 +17,11 @@ import static nl.stil4m.mollie.Util.validatePaymentId;
 public class Issuers {
 
 
+    private static final TypeReference<Page<Issuer>> PAGE_ISSUER_TYPE = new TypeReference<Page<Issuer>>() {
+    };
+    private static final TypeReference<Issuer> ISSUER_TYPE = new TypeReference<Issuer>() {
+    };
+    
     private final String apiKey;
     private final String endpoint;
     private final RequestExecutor requestExecutor;
@@ -33,14 +38,12 @@ public class Issuers {
                 .setParameter("offset", String.valueOf(offset.orElse(0)));
 
         HttpGet httpGet = new HttpGet(builder.build());
-        return requestExecutor.execute(apiKey, httpGet, new TypeReference<Page<Issuer>>() {
-        });
+        return requestExecutor.execute(apiKey, httpGet, PAGE_ISSUER_TYPE);
     }
 
     public ResponseOrError<Issuer> get(String id) throws IOException {
         validatePaymentId(id);
         HttpGet httpGet = new HttpGet(endpoint + "/issuers/" + id);
-        return requestExecutor.execute(apiKey, httpGet, new TypeReference<Issuer>() {
-        });
+        return requestExecutor.execute(apiKey, httpGet, ISSUER_TYPE);
     }
 }

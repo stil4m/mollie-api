@@ -1,7 +1,13 @@
 package nl.stil4m.mollie;
 
 import com.google.common.collect.Sets;
-import nl.stil4m.mollie.domain.*;
+import nl.stil4m.mollie.domain.CreatePayment;
+import nl.stil4m.mollie.domain.CreatedPayment;
+import nl.stil4m.mollie.domain.Issuer;
+import nl.stil4m.mollie.domain.Method;
+import nl.stil4m.mollie.domain.Page;
+import nl.stil4m.mollie.domain.Payment;
+import nl.stil4m.mollie.domain.Refund;
 import nl.stil4m.mollie.domain.subpayments.ideal.CreateIdealPayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.IdealPaymentOptions;
 import org.junit.Before;
@@ -9,9 +15,14 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -21,8 +32,6 @@ public class ClientIntegrationTest {
 
     private Client client;
 
-    private String VALID_API_KEY = "test_nVK7W2WFmZXUNWcntBtCwvgCAgZ3c5";
-
     @Before
     public void before() {
         client = new ClientBuilder().withApiKey(VALID_API_KEY).build();
@@ -31,7 +40,7 @@ public class ClientIntegrationTest {
     @Test
     public void testCreatePayment() throws IOException {
         Date beforeTest = new Date();
-        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
 
         DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date());
     }
@@ -43,7 +52,7 @@ public class ClientIntegrationTest {
         assertThat(all.getSuccess(), is(true));
         Issuer issuer = all.getData().getData().get(0);
 
-        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreateIdealPayment(1.00, "Some description", "http://example.com", null, new IdealPaymentOptions(issuer.getId())));
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreateIdealPayment(1.00, "Some description", "http://example.com", Optional.empty(), null, new IdealPaymentOptions(issuer.getId())));
 
         assertThat(payment.getSuccess(), is(true));
         DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date());
@@ -51,7 +60,7 @@ public class ClientIntegrationTest {
 
     @Test
     public void testGetPayment() throws IOException {
-        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
         ResponseOrError<Payment> paymentStatus = client.payments().get(id);
@@ -62,11 +71,7 @@ public class ClientIntegrationTest {
     public void testGetPaymentWithRefunds() throws IOException {
         ResponseOrError<Payment> getResponse = client.payments().get("tr_3AdTKpQGii");
 
-        getResponse.get(payment -> {
-            assertThat(payment.getLinks().getRefunds().isPresent(), is(true));
-        }, errorData -> {
-            System.out.println();
-        });
+        getResponse.get(payment -> assertThat(payment.getLinks().getRefunds().isPresent(), is(true)), errorData -> System.out.println());
 
     }
 
@@ -158,7 +163,7 @@ public class ClientIntegrationTest {
 
     @Test
     public void testGetRefunds() throws IOException, URISyntaxException {
-        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
         ResponseOrError<Page<Refund>> all = client.refunds().all(id, Optional.empty(), Optional.empty());
@@ -171,7 +176,7 @@ public class ClientIntegrationTest {
 
     @Test
     public void testListRefundsForExistingPayment() throws IOException, URISyntaxException {
-        CreatedPayment createdPayment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null)).getData();
+        CreatedPayment createdPayment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null)).getData();
         ResponseOrError<Page<Refund>> all = client.refunds().all(createdPayment.getId(), Optional.empty(), Optional.empty());
 
         assertThat(all.getSuccess(), is(true));
@@ -186,7 +191,7 @@ public class ClientIntegrationTest {
         Map<String, String> errorData = new HashMap<>();
         errorData.put("type", "request");
         errorData.put("message", "The refund id is invalid");
-        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
         ResponseOrError<Void> cancel = client.refunds().cancel(id, "foo_bar");
@@ -199,7 +204,7 @@ public class ClientIntegrationTest {
         Map<String, String> errorData = new HashMap<>();
         errorData.put("type", "request");
         errorData.put("message", "The refund id is invalid");
-        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
         ResponseOrError<Refund> get = client.refunds().get(id, "foo_bar");
@@ -213,7 +218,7 @@ public class ClientIntegrationTest {
         errorData.put("type", "request");
         errorData.put("message", "The payment is already refunded or has not been paid for yet");
 
-        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(null, 1.00, "Some description", "http://example.com", null));
+        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
         ResponseOrError<Refund> create = client.refunds().create(id, Optional.of(1.00));

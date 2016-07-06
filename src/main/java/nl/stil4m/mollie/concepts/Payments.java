@@ -58,12 +58,18 @@ public class Payments {
     }
 
     public ResponseOrError<Page<Payment>> next(Page<Payment> page) throws IOException {
+        if (!page.getLinks().getNext().isPresent()) {
+            throw new IllegalArgumentException("Page does not have next");
+        }
         HttpGet httpGet = new HttpGet(page.getLinks().getNext().get());
         return requestExecutor.execute(apiKey, httpGet, new TypeReference<Page<Payment>>() {
         });
     }
 
     public ResponseOrError<Page<Payment>> previous(Page<Payment> page) throws IOException {
+        if (!page.getLinks().getPrevious().isPresent()) {
+            throw new IllegalArgumentException("Page does not have next");
+        }
         HttpGet httpGet = new HttpGet(page.getLinks().getPrevious().get());
         return requestExecutor.execute(apiKey, httpGet, new TypeReference<Page<Payment>>() {
         });

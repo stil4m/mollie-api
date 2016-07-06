@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -20,8 +21,7 @@ public class CreateIdealPaymentTest {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> metaData = new HashMap<>();
         metaData.put("mySpecialKey", "value");
-        String serialized = objectMapper.writeValueAsString(new CreateIdealPayment(1.0, "Description", "redirectUrl",
-                metaData, new IdealPaymentOptions("MyIssuer")));
+        String serialized = objectMapper.writeValueAsString(new CreateIdealPayment(1.0, "Description", "redirectUrl", Optional.empty(), metaData, new IdealPaymentOptions("MyIssuer")));
 
         Map mapRepresentation = objectMapper.readValue(serialized, Map.class);
         InputStream resourceAsStream = this.getClass().getResourceAsStream("/expected_create_ideal_payment.json");
@@ -34,8 +34,7 @@ public class CreateIdealPaymentTest {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> metaData = new HashMap<>();
         metaData.put("mySpecialKey", "value");
-        String serialized = objectMapper.writeValueAsString(new CreateIdealPayment(1.0, "Description", "redirectUrl",
-                "webhookUrl", metaData, new IdealPaymentOptions("MyIssuer")));
+        String serialized = objectMapper.writeValueAsString(new CreateIdealPayment(1.0, "Description", "redirectUrl", Optional.of("webhookUrl"), metaData, new IdealPaymentOptions("MyIssuer")));
 
         Map mapRepresentation = objectMapper.readValue(serialized, Map.class);
         InputStream resourceAsStream =

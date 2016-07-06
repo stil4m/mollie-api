@@ -2,6 +2,7 @@ package nl.stil4m.mollie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
@@ -32,6 +33,7 @@ public class DynamicClientBuilder {
         final HttpClient client = this.client.orElseGet(() -> HttpClientBuilder.create().build());
         final String endpoint = this.endpoint.orElseGet(() -> "https://api.mollie.com/v1");
         final ObjectMapper objectMapper = this.objectMapper.orElseGet(ObjectMapper::new);
+        objectMapper.registerModule(new Jdk8Module());
         return new DynamicClient(endpoint, new RequestExecutor(client, objectMapper));
     }
 }

@@ -7,4 +7,8 @@ public class PaySafeCardOptions {
     public PaySafeCardOptions(String customerReference) {
         this.customerReference = customerReference;
     }
+
+    public String getCustomerReference() {
+        return customerReference;
+    }
 }

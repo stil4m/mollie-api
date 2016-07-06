@@ -2,15 +2,14 @@ package nl.stil4m.mollie.domain.subpayments.paypal;
 
 import nl.stil4m.mollie.domain.subpayments.base.OptionedCreatePayment;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.Optional;
 
 public class CreatePayPalPayment extends OptionedCreatePayment<PayPalOptions> {
 
-    public CreatePayPalPayment(Double amount, String description, String redirectUrl, Map<String, Object> metadata, PayPalOptions options) {
-        super("paypal", amount, description, redirectUrl, metadata, options);
-    }
-
-    public CreatePayPalPayment(Double amount, String description, String redirectUrl, String webhookUrl, Map<String, Object> metadata, PayPalOptions options) {
+    public CreatePayPalPayment(@Nonnull Double amount, @Nonnull String description, @Nonnull String redirectUrl, @Nonnull Optional<String> webhookUrl, @Nullable Map<String, Object> metadata, @Nonnull PayPalOptions options) {
         super("paypal", amount, description, redirectUrl, webhookUrl, metadata, options);
     }
 }
