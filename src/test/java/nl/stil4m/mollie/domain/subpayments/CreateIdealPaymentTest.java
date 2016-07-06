@@ -21,10 +21,25 @@ public class CreateIdealPaymentTest {
         Map<String, Object> metaData = new HashMap<>();
         metaData.put("mySpecialKey", "value");
         String serialized = objectMapper.writeValueAsString(new CreateIdealPayment(1.0, "Description", "redirectUrl",
-                "webhookUrl", metaData, new IdealPaymentOptions("MyIssuer")));
+                metaData, new IdealPaymentOptions("MyIssuer")));
 
         Map mapRepresentation = objectMapper.readValue(serialized, Map.class);
         InputStream resourceAsStream = this.getClass().getResourceAsStream("/expected_create_ideal_payment.json");
+        Map expected = objectMapper.readValue(resourceAsStream, Map.class);
+        assertThat(mapRepresentation, is(expected));
+    }
+
+    @Test
+    public void testSerializeWithWebhookUrl() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> metaData = new HashMap<>();
+        metaData.put("mySpecialKey", "value");
+        String serialized = objectMapper.writeValueAsString(new CreateIdealPayment(1.0, "Description", "redirectUrl",
+                "webhookUrl", metaData, new IdealPaymentOptions("MyIssuer")));
+
+        Map mapRepresentation = objectMapper.readValue(serialized, Map.class);
+        InputStream resourceAsStream =
+                this.getClass().getResourceAsStream("/expected_create_ideal_payment_with_webhookurl.json");
         Map expected = objectMapper.readValue(resourceAsStream, Map.class);
         assertThat(mapRepresentation, is(expected));
     }

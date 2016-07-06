@@ -2,12 +2,19 @@ package nl.stil4m.mollie.domain;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CreatePayment {
 
     private final Double amount;
     private final String description;
     private final String redirectUrl;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private final String webhookUrl;
+
     private final String method;
     private final Map<String, Object> metadata;
 
