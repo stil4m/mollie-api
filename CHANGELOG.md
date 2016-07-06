@@ -5,6 +5,8 @@
 * Add sources to maven repository (#14).
 * Add `webhookUrl` to create payment (#15).
 
+Thanks to @jcassee for his contributions to this library.
+
 # 2.0.0 - 2016-05-31
 
 * Change created payment detail to map (#10)
