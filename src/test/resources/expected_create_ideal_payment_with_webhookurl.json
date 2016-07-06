@@ -1,0 +1,11 @@
+{
+  "amount": 1.0,
+  "description": "Description",
+  "redirectUrl": "redirectUrl",
+  "webhookUrl": "webhookUrl",
+  "method": "ideal",
+  "metadata": {
+    "mySpecialKey": "value"
+  },
+  "issuer": "MyIssuer"
+}

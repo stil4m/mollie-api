@@ -9,4 +9,8 @@ public class CreateCreditCardPayment extends OptionedCreatePayment<CreditCardOpt
     public CreateCreditCardPayment(Double amount, String description, String redirectUrl, Map<String, Object> metadata, CreditCardOptions options) {
         super("creditcard", amount, description, redirectUrl, metadata, options);
     }
+
+    public CreateCreditCardPayment(Double amount, String description, String redirectUrl, String webhookUrl, Map<String, Object> metadata, CreditCardOptions options) {
+        super("creditcard", amount, description, redirectUrl, webhookUrl, metadata, options);
+    }
 }
