@@ -13,9 +13,9 @@ This library requires Java 8.
 ## Dependencies
 
 ```
-org.apache.httpcomponents:httpclient:4.3.X
-com.fasterxml.jackson.core:jackson-annotations:2.6.X
-com.fasterxml.jackson.core:jackson-databind:2.6.X
+org.apache.httpcomponents:httpclient:4.5.X
+com.fasterxml.jackson.core:jackson-annotations:2.8.X
+com.fasterxml.jackson.core:jackson-databind:2.8.X
 ```
 
 ## Maven
@@ -72,6 +72,8 @@ DynamicClient client = new DynamicClientBuilder()
 #### Configuration
 
 Both clients make use of the Jackson `ObjectMapper` and the Apache HTTP `HttpClient`. These can be respectivly configured using `withMapper` and `withClient`.
+
+> Note that the library uses `jackson-datatype-jdk8`. To make sure that the `ObjectMapper` can serialize `java.util.Optional` the library registers the module in the `ObjectMapper`.
 
 ### API Calls
 
