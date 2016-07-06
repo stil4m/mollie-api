@@ -20,7 +20,8 @@ public class CreateIdealPaymentTest {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> metaData = new HashMap<>();
         metaData.put("mySpecialKey", "value");
-        String serialized = objectMapper.writeValueAsString(new CreateIdealPayment(1.0, "Description", "redirectUrl", metaData, new IdealPaymentOptions("MyIssuer")));
+        String serialized = objectMapper.writeValueAsString(new CreateIdealPayment(1.0, "Description", "redirectUrl",
+                "webhookUrl", metaData, new IdealPaymentOptions("MyIssuer")));
 
         Map mapRepresentation = objectMapper.readValue(serialized, Map.class);
         InputStream resourceAsStream = this.getClass().getResourceAsStream("/expected_create_ideal_payment.json");

@@ -15,6 +15,11 @@ public abstract class OptionedCreatePayment<T> extends CreatePayment {
         this.options = options;
     }
 
+    public OptionedCreatePayment(String method, Double amount, String description, String redirectUrl, String webhookUrl, Map<String, Object> metadata, T options) {
+        super(method, amount, description, redirectUrl, webhookUrl, metadata);
+        this.options = options;
+    }
+
     public T getOptions() {
         return options;
     }

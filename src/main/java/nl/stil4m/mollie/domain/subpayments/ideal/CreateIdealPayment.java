@@ -10,4 +10,8 @@ public class CreateIdealPayment extends OptionedCreatePayment<IdealPaymentOption
         super("ideal", amount, description, redirectUrl, metadata, options);
     }
 
+    public CreateIdealPayment(Double amount, String description, String redirectUrl, String webhookUrl, Map<String, Object> metadata, IdealPaymentOptions options) {
+        super("ideal", amount, description, redirectUrl, webhookUrl, metadata, options);
+    }
+
 }

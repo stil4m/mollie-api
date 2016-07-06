@@ -2,6 +2,7 @@
   "amount": 1.0,
   "description": "Description",
   "redirectUrl": "redirectUrl",
+  "webhookUrl": "webhookUrl",
   "method": "creditcard",
   "metadata": {
     "mySpecialKey": "value"

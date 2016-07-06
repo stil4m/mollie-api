@@ -10,4 +10,8 @@ public class CreateBankTransferPayment extends OptionedCreatePayment<BankTransfe
         super("banktransfer", amount, description, redirectUrl, metadata, options);
     }
 
+    public CreateBankTransferPayment(Double amount, String description, String redirectUrl, String webhookUrl, Map<String, Object> metadata, BankTransferOptions options) {
+        super("banktransfer", amount, description, redirectUrl, webhookUrl, metadata, options);
+    }
+
 }
