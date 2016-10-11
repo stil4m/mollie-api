@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -26,7 +27,8 @@ public class DynamicClientIntegrationTest {
     private DynamicClient client;
 
     @Before
-    public void before() {
+    public void before() throws InterruptedException {
+        Thread.sleep(TEST_TIMEOUT);
         ObjectMapper mapper = new ObjectMapper();
         client = new DynamicClientBuilder()
                 .withMapper(mapper).build();
@@ -61,7 +63,7 @@ public class DynamicClientIntegrationTest {
         assertThat(createdPayment.getLinks(), is(notNullValue()));
         assertThat(createdPayment.getLinks().getPaymentUrl().matches("https://www.mollie.com/payscreen/select-method/[A-Za-z0-9]+"), is(true));
         assertThat(createdPayment.getLinks().getRedirectUrl(), is("http://example.com"));
-        assertThat(createdPayment.getLinks().getWebhookUrl(), is(nullValue()));
+        assertThat(createdPayment.getLinks().getWebhookUrl(), is("https://stil4m.github.io"));
         assertThat(createdPayment.getMode(), is("test"));
         assertThat(createdPayment.getStatus(), is("open"));
         assertThat(createdPayment.getMetadata(), is(meta));
@@ -86,7 +88,7 @@ public class DynamicClientIntegrationTest {
         assertThat(createdPayment.getLinks(), is(notNullValue()));
         assertThat(createdPayment.getLinks().getPaymentUrl().matches("https://www.mollie.com/paymentscreen/ideal/select-issuer/[A-Za-z0-9]+"), is(true));
         assertThat(createdPayment.getLinks().getRedirectUrl(), is("http://example.com"));
-        assertThat(createdPayment.getLinks().getWebhookUrl(), is(nullValue()));
+        assertThat(createdPayment.getLinks().getWebhookUrl(), is(is("https://stil4m.github.io")));
         assertThat(createdPayment.getMode(), is("test"));
         assertThat(createdPayment.getStatus(), is("open"));
         assertThat(createdPayment.getMetadata(), is(meta));
@@ -110,7 +112,7 @@ public class DynamicClientIntegrationTest {
         assertThat(payment.getLinks(), is(notNullValue()));
         assertThat(payment.getLinks().getPaymentUrl().matches("https://www.mollie.com/payscreen/select-method/[A-Za-z0-9]+"), is(true));
         assertThat(payment.getLinks().getRedirectUrl(), is("http://example.com"));
-        assertThat(payment.getLinks().getWebhookUrl(), is(nullValue()));
+        assertThat(payment.getLinks().getWebhookUrl(), is(is("https://stil4m.github.io")));
         assertThat(payment.getMode(), is("test"));
         assertThat(payment.getStatus(), is("open"));
         assertThat(payment.getMetadata(), is(meta));
@@ -134,7 +136,7 @@ public class DynamicClientIntegrationTest {
         assertThat(payment.getLinks(), is(notNullValue()));
         assertThat(payment.getLinks().getPaymentUrl().matches("https://www.mollie.com/paymentscreen/creditcard/testmode/[A-Za-z0-9]+"), is(true));
         assertThat(payment.getLinks().getRedirectUrl(), is("http://example.com"));
-        assertThat(payment.getLinks().getWebhookUrl(), is(nullValue()));
+        assertThat(payment.getLinks().getWebhookUrl(), is(is("https://stil4m.github.io")));
         assertThat(payment.getMode(), is("test"));
         assertThat(payment.getStatus(), is("open"));
         assertThat(payment.getMetadata(), is(meta));

@@ -1,5 +1,6 @@
 package nl.stil4m.mollie;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.CreatedPayment;
@@ -22,6 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -33,12 +35,13 @@ public class ClientIntegrationTest {
     private Client client;
 
     @Before
-    public void before() {
+    public void before() throws InterruptedException {
+        Thread.sleep(TEST_TIMEOUT);
         client = new ClientBuilder().withApiKey(VALID_API_KEY).build();
     }
 
     @Test
-    public void testCreatePayment() throws IOException {
+    public void testCreatePayment() throws IOException, InterruptedException {
         Date beforeTest = new Date();
         ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
 
@@ -46,7 +49,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testCreateIdealPayment() throws IOException, URISyntaxException {
+    public void testCreateIdealPayment() throws IOException, URISyntaxException, InterruptedException {
         Date beforeTest = new Date();
         ResponseOrError<Page<Issuer>> all = client.issuers().all(Optional.empty(), Optional.empty());
         assertThat(all.getSuccess(), is(true));
@@ -59,7 +62,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testGetPayment() throws IOException {
+    public void testGetPayment() throws IOException, InterruptedException {
         ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
@@ -68,7 +71,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testGetPaymentWithRefunds() throws IOException {
+    public void testGetPaymentWithRefunds() throws IOException, InterruptedException {
         ResponseOrError<Payment> getResponse = client.payments().get("tr_3AdTKpQGii");
 
         getResponse.get(payment -> assertThat(payment.getLinks().getRefunds().isPresent(), is(true)), errorData -> System.out.println());
@@ -77,7 +80,7 @@ public class ClientIntegrationTest {
 
 
     @Test
-    public void testGetPaymentWithEmptyId() throws IOException {
+    public void testGetPaymentWithEmptyId() throws IOException, InterruptedException {
         try {
             client.payments().get("");
             fail();
@@ -87,7 +90,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testGetPaymentWithNullId() throws IOException {
+    public void testGetPaymentWithNullId() throws IOException, InterruptedException {
         try {
             client.payments().get(null);
             fail();
@@ -97,7 +100,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testGetMethods() throws IOException, URISyntaxException {
+    public void testGetMethods() throws IOException, URISyntaxException, InterruptedException {
         ResponseOrError<Page<Method>> allResponse = client.methods().all(Optional.empty(), Optional.empty());
         assertThat(allResponse.getSuccess(), is(true));
 
@@ -111,7 +114,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testGetMethod() throws IOException, URISyntaxException {
+    public void testGetMethod() throws IOException, URISyntaxException, InterruptedException {
         ResponseOrError<Method> methodResponse = client.methods().get("ideal");
         assertThat(methodResponse.getSuccess(), is(true));
 
@@ -125,7 +128,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testGetInvalidMethod() throws IOException {
+    public void testGetInvalidMethod() throws IOException, InterruptedException {
         ResponseOrError<Method> methodResponse = client.methods().get("no-such-method");
         assertThat(methodResponse.getSuccess(), is(false));
         assertThat(methodResponse.getStatus(), is(404));
@@ -133,7 +136,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testGetIssuers() throws IOException, URISyntaxException {
+    public void testGetIssuers() throws IOException, URISyntaxException, InterruptedException {
         ResponseOrError<Page<Issuer>> allResponse = client.issuers().all(Optional.empty(), Optional.empty());
         assertThat(allResponse.getSuccess(), is(true));
 
@@ -150,7 +153,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testGetIssuer() throws IOException, URISyntaxException {
+    public void testGetIssuer() throws IOException, URISyntaxException, InterruptedException {
         ResponseOrError<Issuer> allResponse = client.issuers().get("ideal_TESTNL99");
         assertThat(allResponse.getSuccess(), is(true));
 
@@ -162,7 +165,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testGetRefunds() throws IOException, URISyntaxException {
+    public void testGetRefunds() throws IOException, URISyntaxException, InterruptedException {
         ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
@@ -175,7 +178,7 @@ public class ClientIntegrationTest {
     }
 
     @Test
-    public void testListRefundsForExistingPayment() throws IOException, URISyntaxException {
+    public void testListRefundsForExistingPayment() throws IOException, URISyntaxException, InterruptedException {
         CreatedPayment createdPayment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null)).getData();
         ResponseOrError<Page<Refund>> all = client.refunds().all(createdPayment.getId(), Optional.empty(), Optional.empty());
 
@@ -192,6 +195,8 @@ public class ClientIntegrationTest {
         errorData.put("type", "request");
         errorData.put("message", "The refund id is invalid");
         ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
+
+        assertThat(payment.getSuccess(), is(true));
         String id = payment.getData().getId();
 
         ResponseOrError<Void> cancel = client.refunds().cancel(id, "foo_bar");
