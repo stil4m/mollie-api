@@ -23,6 +23,7 @@ public class CreateIdealPaymentTest {
     public void before() throws InterruptedException {
         Thread.sleep(TEST_TIMEOUT);
     }
+
     @Test
     public void testSerialize() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
