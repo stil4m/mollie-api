@@ -45,7 +45,7 @@ public class ClientIntegrationTest {
         Date beforeTest = new Date();
         ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
 
-        DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date());
+        DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date(), 5000L);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class ClientIntegrationTest {
         ResponseOrError<CreatedPayment> payment = client.payments().create(new CreateIdealPayment(1.00, "Some description", "http://example.com", Optional.empty(), null, new IdealPaymentOptions(issuer.getId())));
 
         assertThat(payment.getSuccess(), is(true));
-        DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date());
+        DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date(), 5000L);
     }
 
     @Test

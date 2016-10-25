@@ -53,7 +53,7 @@ public class DynamicClientIntegrationTest {
         ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), meta));
 
         CreatedPayment createdPayment = payment.getData();
-        assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date());
+        assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date(), 5000L);
 
         assertThat(createdPayment.getMethod(), is(nullValue()));
         assertThat(createdPayment.getAmount(), is(1.00));
@@ -78,7 +78,7 @@ public class DynamicClientIntegrationTest {
         ResponseOrError<CreatedPayment> payment = client.payments(VALID_API_KEY).create(new CreatePayment(Optional.of("ideal"), 1.00, "Some description", "http://example.com", Optional.empty(), meta));
 
         CreatedPayment createdPayment = payment.getData();
-        assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date());
+        assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date(), 5000L);
 
         assertThat(createdPayment.getMethod(), is("ideal"));
         assertThat(createdPayment.getAmount(), is(1.00));
@@ -144,9 +144,9 @@ public class DynamicClientIntegrationTest {
     }
 
 
-    public static void assertWithin(Date before, Date target, Date after) {
-        long beforeTime = before.getTime() - (before.getTime() % 1000) - 1000; //Subtract another 1000 just to be safe
-        long afterTime = after.getTime() - (after.getTime() % 1000) + 1000;
+    public static void assertWithin(Date before, Date target, Date after, Long additionalSpan) {
+        long beforeTime = before.getTime() - (before.getTime() % 1000) - additionalSpan;
+        long afterTime = after.getTime() - (after.getTime() % 1000) + additionalSpan;
         assertThat(beforeTime <= target.getTime(), is(true));
         assertThat(target.getTime() <= afterTime, is(true));
     }
