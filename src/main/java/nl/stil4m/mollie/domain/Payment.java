@@ -6,28 +6,34 @@ import java.util.Map;
 
 public class Payment {
 
-    private String id;
-    private String profileId;
-    private String mode;
-    private String createdDatetime;
-    private String status;
-    private String paidDatetime;
-    private String cancelledDatetime;
-    private String expiredDatetime;
-    private Double amount;
-    private Double amountRefunded;
-    private Double amountRemaining;
-    private String description;
-    private String method;
-    private Map<String, Object> details;
-    private Links links;
-    private Map<String, Object> metadata;
-    private String locale;
-    private String expiryPeriod;
+    private final String resource;
+    private final String id;
+    private final String profileId;
+    private final String mode;
+    private final String customerId;
+    private final String recurringType;
+    private final String createdDatetime;
+    private final String status;
+    private final String paidDatetime;
+    private final String cancelledDatetime;
+    private final String expiredDatetime;
+    private final Double amount;
+    private final Double amountRefunded;
+    private final Double amountRemaining;
+    private final String description;
+    private final String method;
+    private final Map<String, Object> details;
+    private final Links links;
+    private final Map<String, Object> metadata;
+    private final String locale;
+    private final String expiryPeriod;
 
-    public Payment(@JsonProperty("id") String id,
+    public Payment(@JsonProperty("resource") String resource,
+                   @JsonProperty("id") String id,
                    @JsonProperty("profileId") String profileId,
                    @JsonProperty("mode") String mode,
+                   @JsonProperty("customerId") String customerId,
+                   @JsonProperty("recurringType") String recurringType,
                    @JsonProperty("createdDatetime") String createdDatetime,
                    @JsonProperty("status") String status,
                    @JsonProperty("paidDatetime") String paidDatetime,
@@ -43,9 +49,12 @@ public class Payment {
                    @JsonProperty("metadata") Map<String, Object> metadata,
                    @JsonProperty("locale") String locale,
                    @JsonProperty("expiryPeriod") String expiryPeriod) {
+        this.resource = resource;
         this.id = id;
         this.profileId = profileId;
         this.mode = mode;
+        this.customerId = customerId;
+        this.recurringType = recurringType;
         this.createdDatetime = createdDatetime;
         this.status = status;
         this.paidDatetime = paidDatetime;
@@ -63,6 +72,10 @@ public class Payment {
         this.expiryPeriod = expiryPeriod;
     }
 
+    public String getResource() {
+        return resource;
+    }
+
     public String getId() {
         return id;
     }
@@ -73,6 +86,14 @@ public class Payment {
 
     public String getMode() {
         return mode;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public String getRecurringType() {
+        return recurringType;
     }
 
     public String getCreatedDatetime() {

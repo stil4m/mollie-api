@@ -1,0 +1,10 @@
+{
+  "recurringType" : "first",
+  "amount": 1.0,
+  "description": "Description",
+  "redirectUrl": "redirectUrl",
+  "webhookUrl": null,
+  "method": "ideal",
+  "metadata": {},
+  "issuer": "MyIssuer"
+}
