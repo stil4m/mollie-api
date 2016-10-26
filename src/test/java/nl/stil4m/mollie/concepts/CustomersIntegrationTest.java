@@ -71,7 +71,25 @@ public class CustomersIntegrationTest {
     }
 
     @Test
-    public void testUpdateCustomer() throws IOException, URISyntaxException {
+    public void testUpdateCustomerEmail() throws IOException, URISyntaxException {
+        String uuid = UUID.randomUUID().toString();
+        String originalName = "Test Customer " + uuid;
+        ResponseOrError<Customer> createdCustomer = client.customers().create(new CreateCustomer(originalName, "test@foobar.nl", Optional.empty(), null));
+
+        ResponseOrError<Customer> update = client.customers().update(createdCustomer.getData().getId(), new UpdateCustomer(
+                Optional.empty(),
+                Optional.of("test+2@foobar.nl"),
+                Optional.empty(),
+                defaultMetadata
+        ));
+
+        assertThat(update.getSuccess(), is(true));
+        assertThat(update.getData().getName(), is(originalName));
+        assertThat(update.getData().getEmail(), is("test+2@foobar.nl"));
+    }
+
+    @Test
+    public void testUpdateCustomerName() throws IOException, URISyntaxException {
         String uuid = UUID.randomUUID().toString();
         String uuid2 = UUID.randomUUID().toString();
         String originalName = "Test Customer " + uuid;
@@ -80,13 +98,15 @@ public class CustomersIntegrationTest {
 
         ResponseOrError<Customer> update = client.customers().update(createdCustomer.getData().getId(), new UpdateCustomer(
                 Optional.of(newName),
-                Optional.of("test+2@foobar.nl"),
+                Optional.empty(),
                 Optional.empty(),
                 defaultMetadata
         ));
 
         assertThat(update.getSuccess(), is(true));
         assertThat(update.getData().getName(), is(newName));
-        assertThat(update.getData().getEmail(), is("test+2@foobar.nl"));
+        assertThat(update.getData().getEmail(), is("test@foobar.nl"));
     }
+
+
 }
