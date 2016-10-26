@@ -46,10 +46,9 @@ public class Customers {
     }
 
     public ResponseOrError<Customer> update(String customerId, UpdateCustomer updateCustomer) throws IOException {
-        HttpPut httpPut = new HttpPut(endpoint + "/customers/" + customerId);
-        System.out.println(requestExecutor.serialize(updateCustomer));
-        httpPut.setEntity(new StringEntity(requestExecutor.serialize(updateCustomer), ContentType.APPLICATION_JSON));
-        return requestExecutor.execute(apiKey, httpPut, new TypeReference<Customer>() {
+        HttpPost httpPost = new HttpPost(endpoint + "/customers/" + customerId);
+        httpPost.setEntity(new StringEntity(requestExecutor.serialize(updateCustomer), ContentType.APPLICATION_JSON));
+        return requestExecutor.execute(apiKey, httpPost, new TypeReference<Customer>() {
         });
     }
 

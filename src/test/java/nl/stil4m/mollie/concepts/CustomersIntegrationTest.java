@@ -1,5 +1,8 @@
-package nl.stil4m.mollie;
+package nl.stil4m.mollie.concepts;
 
+import nl.stil4m.mollie.Client;
+import nl.stil4m.mollie.ClientBuilder;
+import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreateCustomer;
 import nl.stil4m.mollie.domain.Customer;
 import nl.stil4m.mollie.domain.Page;
@@ -19,10 +22,10 @@ import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class CustomersIntegerationTest {
+public class CustomersIntegrationTest {
 
     private Client client;
-    private Map<String,Object> defaultMetadata;
+    private Map<String, Object> defaultMetadata;
 
     @Before
     public void before() throws InterruptedException {
@@ -57,22 +60,23 @@ public class CustomersIntegerationTest {
     }
 
     @Test
-    public void testGetCustomer()  throws IOException, URISyntaxException {
+    public void testGetCustomer() throws IOException, URISyntaxException {
         String uuid = UUID.randomUUID().toString();
-        String originalName= "Test Customer " + uuid;
+        String originalName = "Test Customer " + uuid;
         ResponseOrError<Customer> createdCustomer = client.customers().create(new CreateCustomer(originalName, "test@foobar.nl", Optional.empty(), defaultMetadata));
 
         ResponseOrError<Customer> fetchedCustomer = client.customers().get(createdCustomer.getData().getId());
-        assertThat(fetchedCustomer.getData().getName(),is(originalName));
+        assertThat(fetchedCustomer.getData().getName(), is(originalName));
         //TODO Expand
     }
+
     @Test
     public void testUpdateCustomer() throws IOException, URISyntaxException {
         String uuid = UUID.randomUUID().toString();
         String uuid2 = UUID.randomUUID().toString();
         String originalName = "Test Customer " + uuid;
         String newName = "Test Customer " + uuid2;
-        ResponseOrError<Customer> createdCustomer = client.customers().create(new CreateCustomer(originalName, "test@foobar.nl",  Optional.empty(), null));
+        ResponseOrError<Customer> createdCustomer = client.customers().create(new CreateCustomer(originalName, "test@foobar.nl", Optional.empty(), null));
 
         ResponseOrError<Customer> update = client.customers().update(createdCustomer.getData().getId(), new UpdateCustomer(
                 Optional.of(newName),

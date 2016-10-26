@@ -1,5 +1,8 @@
-package nl.stil4m.mollie;
+package nl.stil4m.mollie.concepts;
 
+import nl.stil4m.mollie.Client;
+import nl.stil4m.mollie.ClientBuilder;
+import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreateCustomer;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.Customer;
@@ -25,7 +28,6 @@ import static org.hamcrest.Matchers.is;
 public class CustomerPaymentsIntegrationTest {
 
     private Client client;
-    private Map<String,Object> defaultMetadata;
     private Customer customer;
 
     @Before
@@ -33,12 +35,12 @@ public class CustomerPaymentsIntegrationTest {
         Thread.sleep(TEST_TIMEOUT);
         client = new ClientBuilder().withApiKey(VALID_API_KEY).build();
 
-        defaultMetadata = new HashMap<>();
+        Map<String, Object> defaultMetadata = new HashMap<>();
         defaultMetadata.put("foo", "bar");
 
         String uuid = UUID.randomUUID().toString();
         String name = "Test Customer " + uuid;
-        customer = client.customers().create(new CreateCustomer(name, "test@foobar.com", Optional.empty(), null)).getData();
+        customer = client.customers().create(new CreateCustomer(name, "test@foobar.com", Optional.empty(), defaultMetadata)).getData();
     }
 
     @Test
