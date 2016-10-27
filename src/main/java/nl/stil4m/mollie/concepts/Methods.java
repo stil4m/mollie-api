@@ -10,7 +10,6 @@ import org.apache.http.client.utils.URIBuilder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 
 import static nl.stil4m.mollie.Util.validatePaymentId;

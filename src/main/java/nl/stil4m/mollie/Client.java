@@ -1,11 +1,6 @@
 package nl.stil4m.mollie;
 
 import nl.stil4m.mollie.concepts.*;
-import nl.stil4m.mollie.domain.CreatePayment;
-import nl.stil4m.mollie.domain.CreatedPayment;
-import nl.stil4m.mollie.domain.Payment;
-
-import java.io.IOException;
 
 public class Client {
 
