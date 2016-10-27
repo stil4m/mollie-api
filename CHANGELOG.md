@@ -1,5 +1,12 @@
 #Changelog
 
+# 2.2.0 - 2016-10-27
+
+* Add concept of customer and customer payments to support recurring payments (#19)
+* Cleanup and test improvements
+
+Thanks to @jcassee and @tubbynl for their contributions!
+
 # 2.1.0 - 2016-07-06
 
 * Add sources to maven repository (#14).
