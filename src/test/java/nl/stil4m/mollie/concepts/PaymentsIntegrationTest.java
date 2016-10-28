@@ -28,18 +28,22 @@ import nl.stil4m.mollie.domain.subpayments.ideal.IdealPaymentOptions;
 
 public class PaymentsIntegrationTest {
     
-    private Client client;
+    private Payments payments;
+    private Issuers issuers;
 
     @Before
     public void before() throws InterruptedException {
         Thread.sleep(TEST_TIMEOUT);
-        client = new ClientBuilder().withApiKey(VALID_API_KEY).build();
+        Client client = new ClientBuilder().withApiKey(VALID_API_KEY).build();
+        payments = client.payments();
+        issuers = client.issuers();
     }
     
     @Test
     public void testCreatePayment() throws IOException, InterruptedException {
         Date beforeTest = new Date();
-        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
+        
+        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
 
         assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date(), 5000L);
     }
@@ -47,11 +51,11 @@ public class PaymentsIntegrationTest {
     @Test
     public void testCreateIdealPayment() throws IOException, URISyntaxException, InterruptedException {
         Date beforeTest = new Date();
-        ResponseOrError<Page<Issuer>> all = client.issuers().all(Optional.empty(), Optional.empty());
+        ResponseOrError<Page<Issuer>> all = issuers.all(Optional.empty(), Optional.empty());
         assertThat(all.getSuccess(), is(true));
         Issuer issuer = all.getData().getData().get(0);
 
-        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreateIdealPayment(1.00, "Some description", "http://example.com", Optional.empty(), null, new IdealPaymentOptions(issuer.getId())));
+        ResponseOrError<CreatedPayment> payment = payments.create(new CreateIdealPayment(1.00, "Some description", "http://example.com", Optional.empty(), null, new IdealPaymentOptions(issuer.getId())));
 
         assertThat(payment.getSuccess(), is(true));
         assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date(), 5000L);
@@ -59,16 +63,17 @@ public class PaymentsIntegrationTest {
 
     @Test
     public void testGetPayment() throws IOException, InterruptedException {
-        ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
+        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
-        ResponseOrError<Payment> paymentStatus = client.payments().get(id);
+        ResponseOrError<Payment> paymentStatus = payments.get(id);
+        
         assertThat(paymentStatus.getData().getStatus(), is("open"));
     }
 
     @Test
     public void testGetPaymentWithRefunds() throws IOException, InterruptedException {
-        ResponseOrError<Payment> getResponse = client.payments().get("tr_3AdTKpQGii");
+        ResponseOrError<Payment> getResponse = payments.get("tr_3AdTKpQGii");
 
         getResponse.get(payment -> assertThat(payment.getLinks().getRefunds().isPresent(), is(true)), errorData -> System.out.println());
 
@@ -77,7 +82,7 @@ public class PaymentsIntegrationTest {
     @Test
     public void testGetPaymentWithEmptyId() throws IOException, InterruptedException {
         try {
-            client.payments().get("");
+            payments.get("");
             fail();
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage(), is("Payment id may not be an empty string"));
@@ -87,7 +92,7 @@ public class PaymentsIntegrationTest {
     @Test
     public void testGetPaymentWithNullId() throws IOException, InterruptedException {
         try {
-            client.payments().get(null);
+            payments.get(null);
             fail();
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage(), is("Payment id may not be null"));

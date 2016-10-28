@@ -2,6 +2,9 @@ package nl.stil4m.mollie.concepts;
 
 import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -9,16 +12,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
 
-import nl.stil4m.mollie.Client;
 import nl.stil4m.mollie.ClientBuilder;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Method;
@@ -26,17 +24,18 @@ import nl.stil4m.mollie.domain.Page;
 
 public class MethodsIntegrationTest {
     
-    private Client client;
+    private Methods methods;
 
     @Before
     public void before() throws InterruptedException {
         Thread.sleep(TEST_TIMEOUT);
-        client = new ClientBuilder().withApiKey(VALID_API_KEY).build();
+        methods = new ClientBuilder().withApiKey(VALID_API_KEY).build().methods();
     }
     
     @Test
     public void testGetMethods() throws IOException, URISyntaxException, InterruptedException {
-        ResponseOrError<Page<Method>> allResponse = client.methods().all(Optional.empty(), Optional.empty());
+        ResponseOrError<Page<Method>> allResponse = methods.all(Optional.empty(), Optional.empty());
+        
         assertThat(allResponse.getSuccess(), is(true));
 
         Page<Method> all = allResponse.getData();
@@ -50,7 +49,8 @@ public class MethodsIntegrationTest {
 
     @Test
     public void testGetMethod() throws IOException, URISyntaxException, InterruptedException {
-        ResponseOrError<Method> methodResponse = client.methods().get("ideal");
+        ResponseOrError<Method> methodResponse = methods.get("ideal");
+        
         assertThat(methodResponse.getSuccess(), is(true));
 
         Method method = methodResponse.getData();
@@ -64,7 +64,8 @@ public class MethodsIntegrationTest {
 
     @Test
     public void testGetInvalidMethod() throws IOException, InterruptedException {
-        ResponseOrError<Method> methodResponse = client.methods().get("no-such-method");
+        ResponseOrError<Method> methodResponse = methods.get("no-such-method");
+        
         assertThat(methodResponse.getSuccess(), is(false));
         assertThat(methodResponse.getStatus(), is(404));
         assertThat(methodResponse.getError().keySet(), is(Sets.newHashSet("error")));

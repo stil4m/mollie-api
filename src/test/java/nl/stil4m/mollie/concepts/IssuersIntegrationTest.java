@@ -17,7 +17,6 @@ import org.junit.Test;
 
 import com.google.common.collect.Sets;
 
-import nl.stil4m.mollie.Client;
 import nl.stil4m.mollie.ClientBuilder;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Issuer;
@@ -25,17 +24,18 @@ import nl.stil4m.mollie.domain.Page;
 
 public class IssuersIntegrationTest {
 
-    private Client client;
+    private Issuers issuers;
 
     @Before
     public void before() throws InterruptedException {
         Thread.sleep(TEST_TIMEOUT);
-        client = new ClientBuilder().withApiKey(VALID_API_KEY).build();
+        issuers = new ClientBuilder().withApiKey(VALID_API_KEY).build().issuers();
     }
 
     @Test
     public void testGetIssuers() throws IOException, URISyntaxException, InterruptedException {
-        ResponseOrError<Page<Issuer>> allResponse = client.issuers().all(Optional.empty(), Optional.empty());
+        ResponseOrError<Page<Issuer>> allResponse = issuers.all(Optional.empty(), Optional.empty());
+        
         assertThat(allResponse.getSuccess(), is(true));
 
         Page<Issuer> all = allResponse.getData();
@@ -52,7 +52,8 @@ public class IssuersIntegrationTest {
 
     @Test
     public void testGetIssuer() throws IOException, URISyntaxException, InterruptedException {
-        ResponseOrError<Issuer> allResponse = client.issuers().get("ideal_TESTNL99");
+        ResponseOrError<Issuer> allResponse = issuers.get("ideal_TESTNL99");
+        
         assertThat(allResponse.getSuccess(), is(true));
 
         Issuer issuer = allResponse.getData();
