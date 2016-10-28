@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
+import static nl.stil4m.mollie.TestUtil.assertWithin;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -141,14 +142,6 @@ public class DynamicClientIntegrationTest {
         assertThat(payment.getStatus(), is("open"));
         assertThat(payment.getMetadata(), is(meta));
 
-    }
-
-
-    public static void assertWithin(Date before, Date target, Date after, Long additionalSpan) {
-        long beforeTime = before.getTime() - (before.getTime() % 1000) - additionalSpan;
-        long afterTime = after.getTime() - (after.getTime() % 1000) + additionalSpan;
-        assertThat(beforeTime <= target.getTime(), is(true));
-        assertThat(target.getTime() <= afterTime, is(true));
     }
 
     @Test

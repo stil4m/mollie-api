@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
+import static nl.stil4m.mollie.TestUtil.assertWithin;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -44,7 +45,7 @@ public class ClientIntegrationTest {
         Date beforeTest = new Date();
         ResponseOrError<CreatedPayment> payment = client.payments().create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
 
-        DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date(), 5000L);
+        assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date(), 5000L);
     }
 
     @Test
@@ -57,7 +58,7 @@ public class ClientIntegrationTest {
         ResponseOrError<CreatedPayment> payment = client.payments().create(new CreateIdealPayment(1.00, "Some description", "http://example.com", Optional.empty(), null, new IdealPaymentOptions(issuer.getId())));
 
         assertThat(payment.getSuccess(), is(true));
-        DynamicClientIntegrationTest.assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date(), 5000L);
+        assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date(), 5000L);
     }
 
     @Test
