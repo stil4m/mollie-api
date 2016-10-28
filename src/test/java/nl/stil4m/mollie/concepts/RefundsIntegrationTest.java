@@ -1,5 +1,8 @@
-package nl.stil4m.mollie;
+package nl.stil4m.mollie.concepts;
 
+import nl.stil4m.mollie.Client;
+import nl.stil4m.mollie.ClientBuilder;
+import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.CreatedPayment;
 import nl.stil4m.mollie.domain.Page;
@@ -19,7 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class ClientIntegrationTest {
+public class RefundsIntegrationTest {
 
     private Client client;
 
