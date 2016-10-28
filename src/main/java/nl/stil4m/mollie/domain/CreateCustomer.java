@@ -2,8 +2,6 @@ package nl.stil4m.mollie.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
