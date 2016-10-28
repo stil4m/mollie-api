@@ -2,7 +2,8 @@ package nl.stil4m.mollie;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
 public class TestUtil {
 
@@ -14,7 +15,7 @@ public class TestUtil {
         long beforeTime = before.getTime() - (before.getTime() % 1000) - additionalSpan;
         long afterTime = after.getTime() - (after.getTime() % 1000) + additionalSpan;
         
-        assertTrue(target+" expected to be after "+new Date(beforeTime),beforeTime <= target.getTime());
-        assertTrue(target+" expected to be before "+new Date(afterTime),target.getTime() <= afterTime);
+        assertThat(new Date(beforeTime), lessThanOrEqualTo(target));
+        assertThat(target, lessThanOrEqualTo(new Date(afterTime)));
     }
 }
