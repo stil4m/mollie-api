@@ -3,6 +3,7 @@ package nl.stil4m.mollie.concepts;
 import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -14,8 +15,6 @@ import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.collect.Sets;
 
 import nl.stil4m.mollie.ClientBuilder;
 import nl.stil4m.mollie.ResponseOrError;
@@ -47,7 +46,7 @@ public class IssuersIntegrationTest {
         assertThat(all.getLinks().getNext().isPresent(), is(false));
 
         Set<String> identifiers = all.getData().stream().map(Issuer::getId).collect(Collectors.toSet());
-        assertThat(identifiers.containsAll(Sets.newHashSet("ideal_TESTNL99")), is(true));
+        assertThat(identifiers,hasItems("ideal_TESTNL99"));
     }
 
     @Test
