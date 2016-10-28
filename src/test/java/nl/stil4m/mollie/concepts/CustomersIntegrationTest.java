@@ -4,6 +4,14 @@ import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static nl.stil4m.mollie.TestUtil.strictClientWithApiKey;
+import nl.stil4m.mollie.ResponseOrError;
+import nl.stil4m.mollie.domain.CreateCustomer;
+import nl.stil4m.mollie.domain.Customer;
+import nl.stil4m.mollie.domain.Page;
+import nl.stil4m.mollie.domain.UpdateCustomer;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -11,16 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import nl.stil4m.mollie.ClientBuilder;
-import nl.stil4m.mollie.ResponseOrError;
-import nl.stil4m.mollie.domain.CreateCustomer;
-import nl.stil4m.mollie.domain.Customer;
-import nl.stil4m.mollie.domain.Page;
-import nl.stil4m.mollie.domain.UpdateCustomer;
 
 public class CustomersIntegrationTest {
 
@@ -30,8 +28,7 @@ public class CustomersIntegrationTest {
     @Before
     public void before() throws InterruptedException {
         Thread.sleep(TEST_TIMEOUT);
-        customers = new ClientBuilder().withApiKey(VALID_API_KEY).build().customers();
-
+        customers = strictClientWithApiKey(VALID_API_KEY).customers();
         defaultMetadata = new HashMap<>();
         defaultMetadata.put("foo", "bar");
     }
