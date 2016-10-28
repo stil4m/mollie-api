@@ -1,9 +1,8 @@
 package nl.stil4m.mollie;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
 import java.util.Date;
+
+import static org.junit.Assert.assertTrue;
 
 public class TestUtil {
 
@@ -14,7 +13,8 @@ public class TestUtil {
     public static void assertWithin(Date before, Date target, Date after, Long additionalSpan) {
         long beforeTime = before.getTime() - (before.getTime() % 1000) - additionalSpan;
         long afterTime = after.getTime() - (after.getTime() % 1000) + additionalSpan;
-        assertThat(beforeTime <= target.getTime(), is(true));
-        assertThat(target.getTime() <= afterTime, is(true));
+        
+        assertTrue(target+" expected to be after "+new Date(beforeTime),beforeTime <= target.getTime());
+        assertTrue(target+" expected to be before "+new Date(afterTime),target.getTime() <= afterTime);
     }
 }
