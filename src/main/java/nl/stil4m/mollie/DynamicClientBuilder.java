@@ -30,8 +30,8 @@ public class DynamicClientBuilder {
     }
 
     public DynamicClient build() {
-        final HttpClient client = this.client.orElseGet(() -> HttpClientBuilder.create().build());
-        final String endpoint = this.endpoint.orElseGet(() -> "https://api.mollie.com/v1");
+        final HttpClient client = this.client.orElseGet(HttpClientBuilder.create()::build);
+        final String endpoint = this.endpoint.orElse("https://api.mollie.com/v1");
         final ObjectMapper objectMapper = this.objectMapper.orElseGet(ObjectMapper::new);
         objectMapper.registerModule(new Jdk8Module());
         return new DynamicClient(endpoint, new RequestExecutor(client, objectMapper));

@@ -9,7 +9,6 @@ import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.UpdateCustomer;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
