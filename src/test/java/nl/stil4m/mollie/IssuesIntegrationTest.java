@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static java.util.Collections.EMPTY_MAP;
 import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
+import static nl.stil4m.mollie.TestUtil.strictClientWithApiKey;
 
 public class IssuesIntegrationTest {
 
@@ -21,10 +22,7 @@ public class IssuesIntegrationTest {
     @Before
     public void before() throws InterruptedException {
         Thread.sleep(TEST_TIMEOUT);
-        ObjectMapper mapper = new ObjectMapper();
-        client = new ClientBuilder()
-                .withApiKey(TestUtil.VALID_API_KEY)
-                .withMapper(mapper).build();
+        client = strictClientWithApiKey(TestUtil.VALID_API_KEY);
     }
 
     //Issue #13
