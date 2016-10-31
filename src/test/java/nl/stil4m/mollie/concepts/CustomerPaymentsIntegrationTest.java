@@ -2,6 +2,7 @@ package nl.stil4m.mollie.concepts;
 
 import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
+import static nl.stil4m.mollie.TestUtil.strictClientWithApiKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -16,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import nl.stil4m.mollie.Client;
-import nl.stil4m.mollie.ClientBuilder;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreateCustomer;
 import nl.stil4m.mollie.domain.CreatePayment;
@@ -29,19 +29,18 @@ import nl.stil4m.mollie.domain.customerpayments.FirstRecurringPayment;
 public class CustomerPaymentsIntegrationTest {
 
     private CustomerPayments customerPayments;
-    private Customer customer;
 
     @Before
     public void before() throws InterruptedException, IOException {
         Thread.sleep(TEST_TIMEOUT);
-        Client client = new ClientBuilder().withApiKey(VALID_API_KEY).build();
+        Client client = strictClientWithApiKey(VALID_API_KEY);
 
         Map<String, Object> defaultMetadata = new HashMap<>();
         defaultMetadata.put("foo", "bar");
 
         String uuid = UUID.randomUUID().toString();
         String name = "Test Customer " + uuid;
-        customer = client.customers().create(new CreateCustomer(name, "test@foobar.com", Optional.empty(), defaultMetadata)).getData();
+        Customer customer = client.customers().create(new CreateCustomer(name, "test@foobar.com", Optional.empty(), defaultMetadata)).getData();
         
         customerPayments = client.customerPayments(customer.getId());
     }

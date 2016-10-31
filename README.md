@@ -71,13 +71,17 @@ DynamicClient client = new DynamicClientBuilder()
 
 #### Configuration
 
-Both clients make use of the Jackson `ObjectMapper` and the Apache HTTP `HttpClient`. These can be respectivly configured using `withMapper` and `withClient`.
+Both clients make use of the Jackson `ObjectMapper` and the Apache HTTP `HttpClient`. These can be respectively configured using `withMapper` and `withClient`.
 
-> Note that the library uses `jackson-datatype-jdk8`. To make sure that the `ObjectMapper` can serialize `java.util.Optional` the library registers the module in the `ObjectMapper`.
+> Note 1: The library uses `jackson-datatype-jdk8`. To make sure that the `ObjectMapper` can serialise `java.util.Optional` the library registers the module in the `ObjectMapper`.
+
+> Note 2: The `ObjectMapper` has the `FAIL_ON_UNKNOWN_PROPERTIES` property disabled by default to make the deserialisation more forgiving ([#25](https://github.com/stil4m/mollie-api/issues/25)). If you inject your own `ObjectMapper`, please consider disabling this property: When Mollie adds a property and you do not disable this, and they do this now and then, deserialisation will fail with an exception. 
+
+
 
 ### API Calls
 
-The API is seperated into different concepts:
+The API is separated into different concepts:
 
 * Methods: Used to read the available payment methods.
 * Issuers: Used to read the available issuers per payment method.
