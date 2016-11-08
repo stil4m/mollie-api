@@ -15,12 +15,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import nl.stil4m.mollie.Client;
 import nl.stil4m.mollie.ResponseOrError;
+import nl.stil4m.mollie.TestUtil;
 import nl.stil4m.mollie.domain.CreateCustomer;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.Customer;
@@ -93,13 +96,35 @@ public class CustomerPaymentsIntegrationTest {
     @Test
     @Ignore
     public void testCreateRecurringPayment() throws IOException, URISyntaxException {
-    	//FIXME only runnable if a the paymentUrl of FirstRecurringPayment is followed and completed as "success" for the same customer
-    	CreatePayment createPayment = new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null);
-    	assertThat(customerPayments.create(new FirstRecurringPayment(createPayment)).getSuccess(), is(true));
-        CustomerPayment payment = new RecurringPayment(createPayment);
+    	CreatePayment firstPayment = new TestCreatePayment(1.00, "Some description", "http://example.com");
+    	ResponseOrError<Payment> firstResult = customerPayments.create(new FirstRecurringPayment(firstPayment));
+    	assertThat(firstResult.getSuccess(), is(true));
+    	/**
+    	 * FIXME: #32 Recurring payment integration test
+    	 * RecurringPayment can only be created when firstResult.getData().getLinks().getPaymentUrl()
+    	 * is followed and completed with Success ("Wel betaald")
+    	 * 
+    	 * After that a customer has a valid Mandate (perhaps create mandate using API?)
+    	 */
+    	CreatePayment recurringPayment = new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null);
+        CustomerPayment payment = new RecurringPayment(recurringPayment);
         
         ResponseOrError<Payment> result = customerPayments.create(payment);
         
         assertThat(result.getSuccess(), is(true));
+    }
+    
+    private class TestCreatePayment extends CreatePayment {
+    	
+    	private final String issuer = TestUtil.TEST_ISSUER;
+    	
+    	private TestCreatePayment(Double amount, String description, String redirectUrl) {
+			super(Optional.of("ideal"), amount, description, redirectUrl, Optional.empty(), null);
+		}
+
+		@Nullable
+        public String getIssuer() {
+            return issuer;
+        }
     }
 }
