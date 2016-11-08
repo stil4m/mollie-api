@@ -2,6 +2,7 @@ package nl.stil4m.mollie.concepts;
 
 import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
+import static nl.stil4m.mollie.TestUtil.TEST_ISSUER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
@@ -46,18 +47,18 @@ public class IssuersIntegrationTest {
         assertThat(all.getLinks().getNext().isPresent(), is(false));
 
         Set<String> identifiers = all.getData().stream().map(Issuer::getId).collect(Collectors.toSet());
-        assertThat(identifiers,hasItems("ideal_TESTNL99"));
+        assertThat(identifiers,hasItems(TEST_ISSUER));
     }
 
     @Test
     public void testGetIssuer() throws IOException, URISyntaxException, InterruptedException {
-        ResponseOrError<Issuer> allResponse = issuers.get("ideal_TESTNL99");
+        ResponseOrError<Issuer> allResponse = issuers.get(TEST_ISSUER);
         
         assertThat(allResponse.getSuccess(), is(true));
 
         Issuer issuer = allResponse.getData();
         assertThat(issuer.getResource(), is("issuer"));
-        assertThat(issuer.getId(), is("ideal_TESTNL99"));
+        assertThat(issuer.getId(), is(TEST_ISSUER));
         assertThat(issuer.getName(), is("TBM Bank"));
         assertThat(issuer.getMethod(), is("ideal"));
     }
