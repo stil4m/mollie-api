@@ -9,15 +9,19 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import nl.stil4m.mollie.RequestExecutor;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Refund;
 
 public class Refunds extends AbstractConcept<Refund> {
-
+    private static final TypeReference<Page<Refund>> PAGE_TYPE = new TypeReference<Page<Refund>>() {};
+    private static final TypeReference<Refund> SINGLE_TYPE = new TypeReference<Refund>() {};
+    
     public Refunds(String apiKey, String endpoint, RequestExecutor requestExecutor, String paymentId) {
-        super(apiKey,requestExecutor,endpoint,"payments",paymentId,"refunds");
+        super(apiKey,requestExecutor,SINGLE_TYPE,PAGE_TYPE,endpoint,"payments",paymentId,"refunds");
     }
 
     public ResponseOrError<Page<Refund>> all(Optional<Integer> count, Optional<Integer> offset) throws IOException, URISyntaxException {

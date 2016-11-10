@@ -20,19 +20,21 @@ import nl.stil4m.mollie.RequestExecutor;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Page;
 
-public class AbstractConcept<T extends Object> {
+public abstract class AbstractConcept<T extends Object> {
     private static final Collector<CharSequence, ?, String> URL_JOINER = Collectors.joining("/");
     private static final TypeReference<Void> VOID_TYPE_REFERENCE = new TypeReference<Void>(){};
-    private final TypeReference<Page<T>> pageTypeReference = new TypeReference<Page<T>>() {};
-    private final TypeReference<T> singleTypeReference = new TypeReference<T>() {};
+    private final TypeReference<Page<T>> pageTypeReference;
+    private final TypeReference<T> singleTypeReference;
     private final String apiKey;
     private final String endpoint;
     private final RequestExecutor requestExecutor;
 
-    protected AbstractConcept(String apiKey, RequestExecutor requestExecutor, String... endPoint) {
+    protected AbstractConcept(String apiKey, RequestExecutor requestExecutor,TypeReference<T> singleTypeReference,TypeReference<Page<T>> pageTypeReference, String... endPoint) {
         this.apiKey = apiKey;
         this.endpoint = joinUrl(endPoint);
         this.requestExecutor = requestExecutor;
+        this.singleTypeReference = singleTypeReference;
+        this.pageTypeReference = pageTypeReference;
     }
     
     private static String joinUrl(String... elements) {

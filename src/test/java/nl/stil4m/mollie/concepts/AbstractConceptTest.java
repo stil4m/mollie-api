@@ -47,7 +47,7 @@ public class AbstractConceptTest {
     private class ConceptStub extends AbstractConcept<Boolean> {
 
         protected ConceptStub(String... url) {
-            super(null, null,url);
+            super(null, null,null,null,url);
         }
     }
 }
