@@ -77,8 +77,8 @@ public class PaymentsIntegrationTest {
         try {
             payments.get("");
             fail();
-        } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is("Payment id may not be an empty string"));
+        } catch (NullPointerException e) {
+            assertThat(e.getMessage(), is("URL cannot contain null or blank elements: []"));
         }
     }
 
@@ -87,8 +87,8 @@ public class PaymentsIntegrationTest {
         try {
             payments.get(null);
             fail();
-        } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is("Payment id may not be null"));
+        } catch (NullPointerException e) {
+            assertThat(e.getMessage(), is("URL cannot contain null or blank elements: [null]"));
         }
     }
 
