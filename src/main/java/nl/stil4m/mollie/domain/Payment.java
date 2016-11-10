@@ -2,6 +2,7 @@ package nl.stil4m.mollie.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Date;
 import java.util.Map;
 
 public class Payment {
@@ -12,7 +13,7 @@ public class Payment {
     private final String mode;
     private final String customerId;
     private final String recurringType;
-    private final String createdDatetime;
+    private final Date createdDatetime;
     private final String status;
     private final String paidDatetime;
     private final String cancelledDatetime;
@@ -34,7 +35,7 @@ public class Payment {
                    @JsonProperty("mode") String mode,
                    @JsonProperty("customerId") String customerId,
                    @JsonProperty("recurringType") String recurringType,
-                   @JsonProperty("createdDatetime") String createdDatetime,
+                   @JsonProperty("createdDatetime") Date createdDatetime,
                    @JsonProperty("status") String status,
                    @JsonProperty("paidDatetime") String paidDatetime,
                    @JsonProperty("cancelledDatetime") String cancelledDatetime,
@@ -96,7 +97,7 @@ public class Payment {
         return recurringType;
     }
 
-    public String getCreatedDatetime() {
+    public Date getCreatedDatetime() {
         return createdDatetime;
     }
 

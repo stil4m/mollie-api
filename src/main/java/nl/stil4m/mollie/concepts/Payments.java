@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import nl.stil4m.mollie.RequestExecutor;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreatePayment;
-import nl.stil4m.mollie.domain.CreatedPayment;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Payment;
 
@@ -33,10 +32,10 @@ public class Payments {
         this.requestExecutor = requestExecutor;
     }
 
-    public ResponseOrError<CreatedPayment> create(CreatePayment createPayment) throws IOException {
+    public ResponseOrError<Payment> create(CreatePayment createPayment) throws IOException {
         HttpPost httpPost = new HttpPost(endpoint + "/payments");
         httpPost.setEntity(new StringEntity(requestExecutor.serialize(createPayment), ContentType.APPLICATION_JSON));
-        return requestExecutor.execute(apiKey, httpPost, new TypeReference<CreatedPayment>() {
+        return requestExecutor.execute(apiKey, httpPost, new TypeReference<Payment>() {
         });
     }
 
