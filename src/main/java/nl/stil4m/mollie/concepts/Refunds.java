@@ -1,70 +1,48 @@
 package nl.stil4m.mollie.concepts;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import nl.stil4m.mollie.RequestExecutor;
-import nl.stil4m.mollie.ResponseOrError;
-import nl.stil4m.mollie.domain.Page;
-import nl.stil4m.mollie.domain.Refund;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Optional;
+
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Optional;
+import nl.stil4m.mollie.RequestExecutor;
+import nl.stil4m.mollie.ResponseOrError;
+import nl.stil4m.mollie.domain.Page;
+import nl.stil4m.mollie.domain.Refund;
 
-import static nl.stil4m.mollie.Util.validatePaymentId;
+public class Refunds extends AbstractConcept<Refund> {
 
-public class Refunds {
-
-
-    private final String apiKey;
-    private final String endpoint;
-    private final RequestExecutor requestExecutor;
-
-    public Refunds(String apiKey, String endpoint, RequestExecutor requestExecutor) {
-        this.apiKey = apiKey;
-        this.endpoint = endpoint;
-        this.requestExecutor = requestExecutor;
+    public Refunds(String apiKey, String endpoint, RequestExecutor requestExecutor, String paymentId) {
+        super(apiKey,requestExecutor,endpoint,"payments",paymentId,"refunds");
     }
 
-    public ResponseOrError<Page<Refund>> all(String paymentId, Optional<Integer> count, Optional<Integer> offset) throws IOException, URISyntaxException {
-        validatePaymentId(paymentId);
-        URIBuilder builder = new URIBuilder(endpoint + "/payments/" + paymentId + "/refunds")
+    public ResponseOrError<Page<Refund>> all(Optional<Integer> count, Optional<Integer> offset) throws IOException, URISyntaxException {
+        URIBuilder builder = new URIBuilder(url())
                 .setParameter("count", String.valueOf(count.orElse(10)))
                 .setParameter("offset", String.valueOf(offset.orElse(0)));
 
         HttpGet httpGet = new HttpGet(builder.build());
-        return requestExecutor.execute(apiKey, httpGet, new TypeReference<Page<Refund>>() {
-        });
+        return requestPage(httpGet);
     }
 
-
-    public ResponseOrError<Refund> get(String paymentId, String id) throws IOException {
-        validatePaymentId(id);
-        validatePaymentId(paymentId);
-        HttpGet httpGet = new HttpGet(endpoint + "/payments/" + paymentId + "/refunds/" + id);
-        return requestExecutor.execute(apiKey, httpGet, new TypeReference<Refund>() {
-        });
+    public ResponseOrError<Refund> get(String id) throws IOException {
+        HttpGet httpGet = new HttpGet(url(id));
+        return requestSingle(httpGet);
     }
 
-    public ResponseOrError<Void> cancel(String paymentId, String id) throws IOException {
-        validatePaymentId(id);
-        validatePaymentId(paymentId);
-        HttpDelete httpDelete = new HttpDelete(endpoint + "/payments/" + paymentId + "/refunds/" + id);
-        return requestExecutor.execute(apiKey, httpDelete, new TypeReference<Void>() {
-        });
+    public ResponseOrError<Void> cancel(String id) throws IOException {
+        HttpDelete httpDelete = new HttpDelete(url(id));
+        return requestVoid(httpDelete);
     }
 
-    public ResponseOrError<Refund> create(String paymentId, Optional<Double> amount) throws IOException, URISyntaxException {
-        validatePaymentId(paymentId);
-        URIBuilder builder = new URIBuilder(endpoint + "/payments/" + paymentId + "/refunds");
-        if (amount.isPresent()) {
-            builder.setParameter("amount", String.valueOf(amount.get()));
-        }
+    public ResponseOrError<Refund> create(Optional<Double> amount) throws IOException, URISyntaxException {
+        URIBuilder builder = new URIBuilder(url());
+        amount.ifPresent(a-> builder.setParameter("amount", String.valueOf(a)));
         HttpPost httpPost = new HttpPost(builder.build());
-        return requestExecutor.execute(apiKey, httpPost, new TypeReference<Refund>() {
-        });
+        return requestSingle(httpPost);
     }
 }

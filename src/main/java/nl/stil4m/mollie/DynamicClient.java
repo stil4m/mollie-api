@@ -34,8 +34,8 @@ public class DynamicClient {
         return new Issuers(apiKey, endpoint, requestExecutor);
     }
 
-    public Refunds refunds(String apiKey) {
-        return new Refunds(apiKey, endpoint, requestExecutor);
+    public Refunds refunds(String apiKey, String paymentId) {
+        return new Refunds(apiKey, endpoint, requestExecutor, paymentId);
     }
 
     public Customers customers(String apiKey) {
