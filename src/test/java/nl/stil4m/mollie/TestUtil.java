@@ -14,6 +14,8 @@ public class TestUtil {
     public static final String VALID_API_KEY = "test_35Rjpa5ETePvpeQVU2JQEwzuNyq8BA";
 
     public static final Long TEST_TIMEOUT = 2000L;
+    
+    public static final String TEST_ISSUER = "ideal_TESTNL99";
 
     public static void assertWithin(Date before, Date target, Date after, Long additionalSpan) {
         long beforeTime = before.getTime() - (before.getTime() % 1000) - additionalSpan;
@@ -23,9 +25,9 @@ public class TestUtil {
         assertThat(target, lessThanOrEqualTo(new Date(afterTime)));
     }
 
-    public static ObjectMapper strictObjectMapper() {
+    public static ObjectMapper objectMapper(boolean strict) {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, strict);
         objectMapper.registerModule(new Jdk8Module());
         return objectMapper;
     }
@@ -33,13 +35,13 @@ public class TestUtil {
     public static Client strictClientWithApiKey(String apiKey) {
         return new ClientBuilder()
                 .withApiKey(apiKey)
-                .withMapper(strictObjectMapper())
+                .withMapper(objectMapper(true))
                 .build();
     }
 
     public static DynamicClient strictDynamicClientWithApiKey() {
         return new DynamicClientBuilder()
-                .withMapper(strictObjectMapper())
+                .withMapper(objectMapper(true))
                 .build();
     }
 }

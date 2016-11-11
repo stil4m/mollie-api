@@ -3,6 +3,7 @@ package nl.stil4m.mollie.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class Payment {
 
@@ -27,6 +28,7 @@ public class Payment {
     private final Map<String, Object> metadata;
     private final String locale;
     private final String expiryPeriod;
+    private final Optional<String> mandateId;
 
     public Payment(@JsonProperty("resource") String resource,
                    @JsonProperty("id") String id,
@@ -48,7 +50,8 @@ public class Payment {
                    @JsonProperty("links") Links links,
                    @JsonProperty("metadata") Map<String, Object> metadata,
                    @JsonProperty("locale") String locale,
-                   @JsonProperty("expiryPeriod") String expiryPeriod) {
+                   @JsonProperty("expiryPeriod") String expiryPeriod,
+                   @JsonProperty("mandateId") Optional<String> mandateId) {
         this.resource = resource;
         this.id = id;
         this.profileId = profileId;
@@ -70,6 +73,7 @@ public class Payment {
         this.metadata = metadata;
         this.locale = locale;
         this.expiryPeriod = expiryPeriod;
+        this.mandateId = mandateId;
     }
 
     public String getResource() {
@@ -154,5 +158,9 @@ public class Payment {
 
     public String getExpiryPeriod() {
         return expiryPeriod;
+    }
+
+    public Optional<String> getMandateId() {
+        return mandateId;
     }
 }
