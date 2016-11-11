@@ -3,6 +3,7 @@ package nl.stil4m.mollie;
 import nl.stil4m.mollie.concepts.CustomerPayments;
 import nl.stil4m.mollie.concepts.Customers;
 import nl.stil4m.mollie.concepts.Issuers;
+import nl.stil4m.mollie.concepts.Mandates;
 import nl.stil4m.mollie.concepts.Methods;
 import nl.stil4m.mollie.concepts.Payments;
 import nl.stil4m.mollie.concepts.Refunds;
@@ -45,5 +46,9 @@ public class Client {
 
     public CustomerPayments customerPayments(String customerId) {
         return dynamicClient.customerPayments(apiKey, customerId);
+    }
+    
+    public Mandates mandates(String customerId) {
+        return dynamicClient.mandates(apiKey, customerId);
     }
 }
