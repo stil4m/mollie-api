@@ -52,9 +52,9 @@ public class RefundsIntegrationTest {
 
     @Test
     public void testListRefundsForExistingPayment() throws IOException, URISyntaxException, InterruptedException {
-        Payment Payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null)).getData();
+        Payment payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null)).getData();
         
-        ResponseOrError<Page<Refund>> all = refunds.all(Payment.getId(), Optional.empty(), Optional.empty());
+        ResponseOrError<Page<Refund>> all = refunds.all(payment.getId(), Optional.empty(), Optional.empty());
 
         assertThat(all.getSuccess(), is(true));
         Page<Refund> data = all.getData();
