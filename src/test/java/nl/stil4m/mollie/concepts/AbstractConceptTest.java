@@ -18,6 +18,11 @@ public class AbstractConceptTest {
     }
     
     @Test(expected=NullPointerException.class)
+    public void testConstructorNullArrayUrl() {
+        new ConceptStub((String[])null);
+    }
+    
+    @Test(expected=NullPointerException.class)
     public void testConstructorEmptyUrl() {
         new ConceptStub("");
     }
@@ -25,6 +30,11 @@ public class AbstractConceptTest {
     @Test(expected=NullPointerException.class)
     public void testConstructorBlankUrl() {
         new ConceptStub(" ");
+    }
+    
+    @Test(expected=NullPointerException.class)
+    public void testConstructorEmptyArray() {
+        new ConceptStub(new String[]{});
     }
     
     @Test

@@ -1,9 +1,9 @@
 package nl.stil4m.mollie.concepts;
 
+import static java.util.Objects.requireNonNull;
 import java.io.IOException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,17 +31,21 @@ public abstract class AbstractConcept<T extends Object> {
 
     protected AbstractConcept(String apiKey, RequestExecutor requestExecutor,TypeReference<T> singleTypeReference,TypeReference<Page<T>> pageTypeReference, String... endPoint) {
         this.apiKey = apiKey;
-        this.endpoint = joinUrl(endPoint);
+        this.endpoint = requireNonNull(joinUrl(endPoint),"endPoint cannot be null or empty");
         this.requestExecutor = requestExecutor;
         this.singleTypeReference = singleTypeReference;
         this.pageTypeReference = pageTypeReference;
     }
     
     private static String joinUrl(String... elements) {
-        return Stream.of(elements)
-                .map(s->s!=null && !s.trim().isEmpty()?s.trim():null)
-                .map(s->Objects.requireNonNull(s,"URL cannot contain null or blank elements: "+Arrays.asList(elements)))
-                .collect(URL_JOINER);
+        return trimToNull(Stream.of(elements)
+                .map(AbstractConcept::trimToNull)
+                .map(s->requireNonNull(s,"URL cannot contain null or blank elements: "+Arrays.asList(elements)))
+                .collect(URL_JOINER));
+    }
+    
+    private static String trimToNull(String value) {
+        return value!=null && !value.trim().isEmpty()?value.trim():null;
     }
     
     protected String url(String... elements) {
