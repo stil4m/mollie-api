@@ -37,7 +37,7 @@ public class PaymentSerializationTest {
 	@Test
     public void testDeserializeRecurringPaymentResponse() throws IOException {
 		// FIXME #32 response on recurring payments contains more info; test fails if strict is true
-		ObjectMapper mapper = objectMapper(false);
+		ObjectMapper mapper = objectMapper(true);
 		InputStream resourceAsStream = getClass().getResourceAsStream("/response_create_recurring_payment.json");
 		
 		Payment payment = mapper.readValue(resourceAsStream, Payment.class);
