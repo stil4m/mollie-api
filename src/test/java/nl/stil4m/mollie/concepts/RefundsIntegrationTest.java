@@ -19,7 +19,7 @@ import nl.stil4m.mollie.Client;
 import nl.stil4m.mollie.ClientBuilder;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreatePayment;
-import nl.stil4m.mollie.domain.CreatedPayment;
+import nl.stil4m.mollie.domain.Payment;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Refund;
 
@@ -38,7 +38,7 @@ public class RefundsIntegrationTest {
 
     @Test
     public void testGetRefunds() throws IOException, URISyntaxException, InterruptedException {
-        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
+        ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
         ResponseOrError<Page<Refund>> all = refunds.all(id, Optional.empty(), Optional.empty());
@@ -52,9 +52,9 @@ public class RefundsIntegrationTest {
 
     @Test
     public void testListRefundsForExistingPayment() throws IOException, URISyntaxException, InterruptedException {
-        CreatedPayment createdPayment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null)).getData();
+        Payment payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null)).getData();
         
-        ResponseOrError<Page<Refund>> all = refunds.all(createdPayment.getId(), Optional.empty(), Optional.empty());
+        ResponseOrError<Page<Refund>> all = refunds.all(payment.getId(), Optional.empty(), Optional.empty());
 
         assertThat(all.getSuccess(), is(true));
         Page<Refund> data = all.getData();
@@ -67,7 +67,7 @@ public class RefundsIntegrationTest {
         Map<String, String> errorData = new HashMap<>();
         errorData.put("type", "request");
         errorData.put("message", "The refund id is invalid");
-        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
+        ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         assertThat(payment.getSuccess(), is(true));
         String id = payment.getData().getId();
 
@@ -82,7 +82,7 @@ public class RefundsIntegrationTest {
         Map<String, String> errorData = new HashMap<>();
         errorData.put("type", "request");
         errorData.put("message", "The refund id is invalid");
-        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
+        ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
         ResponseOrError<Refund> get = refunds.get(id, "foo_bar");
@@ -96,7 +96,7 @@ public class RefundsIntegrationTest {
         Map<String, String> errorData = new HashMap<>();
         errorData.put("type", "request");
         errorData.put("message", "The payment is already refunded or has not been paid for yet");
-        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
+        ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
         ResponseOrError<Refund> create = refunds.create(id, Optional.of(1.00));

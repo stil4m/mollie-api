@@ -23,7 +23,6 @@ import nl.stil4m.mollie.Client;
 import nl.stil4m.mollie.ClientBuilder;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreatePayment;
-import nl.stil4m.mollie.domain.CreatedPayment;
 import nl.stil4m.mollie.domain.Issuer;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Payment;
@@ -50,7 +49,7 @@ public class PaymentsIntegrationTest {
         assertThat(all.getSuccess(), is(true));
         Issuer issuer = all.getData().getData().get(0);
 
-        ResponseOrError<CreatedPayment> payment = payments.create(new CreateIdealPayment(1.00, "Some description", "http://example.com", Optional.empty(), null, new IdealPaymentOptions(issuer.getId())));
+        ResponseOrError<Payment> payment = payments.create(new CreateIdealPayment(1.00, "Some description", "http://example.com", Optional.empty(), null, new IdealPaymentOptions(issuer.getId())));
 
         assertThat(payment.getSuccess(), is(true));
         assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date(), 5000L);
@@ -58,7 +57,7 @@ public class PaymentsIntegrationTest {
 
     @Test
     public void testGetPayment() throws IOException, InterruptedException {
-        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
+        ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
 
         ResponseOrError<Payment> paymentStatus = payments.get(id);
@@ -102,9 +101,9 @@ public class PaymentsIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
+        ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
 
-        CreatedPayment createdPayment = payment.getData();
+        Payment createdPayment = payment.getData();
         assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date(), 5000L);
 
         assertThat(createdPayment.getMethod(), is(nullValue()));
@@ -127,9 +126,9 @@ public class PaymentsIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.of("ideal"), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
+        ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.of("ideal"), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
 
-        CreatedPayment createdPayment = payment.getData();
+        Payment createdPayment = payment.getData();
         assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date(), 5000L);
 
         assertThat(createdPayment.getMethod(), is("ideal"));
@@ -152,7 +151,7 @@ public class PaymentsIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> createResponse = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
+        ResponseOrError<Payment> createResponse = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
         ResponseOrError<Payment> paymentResponse = payments.get(createResponse.getData().getId());
         Payment payment = paymentResponse.getData();
 
@@ -176,7 +175,7 @@ public class PaymentsIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> createResponse = payments.create(new CreatePayment(Optional.of("creditcard"), 2.00, "Some credit card description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
+        ResponseOrError<Payment> createResponse = payments.create(new CreatePayment(Optional.of("creditcard"), 2.00, "Some credit card description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
         ResponseOrError<Payment> paymentResponse = payments.get(createResponse.getData().getId());
         Payment payment = paymentResponse.getData();
 
