@@ -102,7 +102,7 @@ public class PaymentsIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), meta));
+        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
 
         CreatedPayment createdPayment = payment.getData();
         assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date(), 5000L);
@@ -127,7 +127,7 @@ public class PaymentsIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.of("ideal"), 1.00, "Some description", "http://example.com", Optional.empty(), meta));
+        ResponseOrError<CreatedPayment> payment = payments.create(new CreatePayment(Optional.of("ideal"), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
 
         CreatedPayment createdPayment = payment.getData();
         assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date(), 5000L);
@@ -140,7 +140,7 @@ public class PaymentsIntegrationTest {
         assertThat(createdPayment.getLinks(), is(notNullValue()));
         assertThat(createdPayment.getLinks().getPaymentUrl().matches("https://www.mollie.com/paymentscreen/ideal/select-issuer/[A-Za-z0-9]+"), is(true));
         assertThat(createdPayment.getLinks().getRedirectUrl(), is("http://example.com"));
-        assertThat(createdPayment.getLinks().getWebhookUrl(), is(is("https://stil4m.github.io")));
+        assertThat(createdPayment.getLinks().getWebhookUrl(), is("https://stil4m.github.io"));
         assertThat(createdPayment.getMode(), is("test"));
         assertThat(createdPayment.getStatus(), is("open"));
         assertThat(createdPayment.getMetadata(), is(meta));
@@ -152,7 +152,7 @@ public class PaymentsIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> createResponse = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), meta));
+        ResponseOrError<CreatedPayment> createResponse = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
         ResponseOrError<Payment> paymentResponse = payments.get(createResponse.getData().getId());
         Payment payment = paymentResponse.getData();
 
@@ -164,7 +164,7 @@ public class PaymentsIntegrationTest {
         assertThat(payment.getLinks(), is(notNullValue()));
         assertThat(payment.getLinks().getPaymentUrl().matches("https://www.mollie.com/payscreen/select-method/[A-Za-z0-9]+"), is(true));
         assertThat(payment.getLinks().getRedirectUrl(), is("http://example.com"));
-        assertThat(payment.getLinks().getWebhookUrl(), is(is("https://stil4m.github.io")));
+        assertThat(payment.getLinks().getWebhookUrl(), is("https://stil4m.github.io"));
         assertThat(payment.getMode(), is("test"));
         assertThat(payment.getStatus(), is("open"));
         assertThat(payment.getMetadata(), is(meta));
@@ -176,7 +176,7 @@ public class PaymentsIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<CreatedPayment> createResponse = payments.create(new CreatePayment(Optional.of("creditcard"), 2.00, "Some credit card description", "http://example.com", Optional.empty(), meta));
+        ResponseOrError<CreatedPayment> createResponse = payments.create(new CreatePayment(Optional.of("creditcard"), 2.00, "Some credit card description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
         ResponseOrError<Payment> paymentResponse = payments.get(createResponse.getData().getId());
         Payment payment = paymentResponse.getData();
 
@@ -188,7 +188,7 @@ public class PaymentsIntegrationTest {
         assertThat(payment.getLinks(), is(notNullValue()));
         assertThat(payment.getLinks().getPaymentUrl().matches("https://www.mollie.com/paymentscreen/creditcard/testmode/[A-Za-z0-9]+"), is(true));
         assertThat(payment.getLinks().getRedirectUrl(), is("http://example.com"));
-        assertThat(payment.getLinks().getWebhookUrl(), is(is("https://stil4m.github.io")));
+        assertThat(payment.getLinks().getWebhookUrl(), is("https://stil4m.github.io"));
         assertThat(payment.getMode(), is("test"));
         assertThat(payment.getStatus(), is("open"));
         assertThat(payment.getMetadata(), is(meta));
