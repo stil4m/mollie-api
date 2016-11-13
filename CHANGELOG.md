@@ -1,5 +1,15 @@
 #Changelog
 
+# 2.3.0 - 2016-11-13
+
+* Merge CreatedPayment with payment #36.
+* Integration tests for recurring payments #32)
+* More forgiving ObjectMapper by default. It is less likely that the library breaks when Mollie releases a 'breaking' change. #25
+* Code improvements (test/code location).
+
+Thanks to @tubbynl for his contributions!
+
+
 # 2.2.0 - 2016-10-27
 
 * Add concept of customer and customer payments to support recurring payments (#19)
