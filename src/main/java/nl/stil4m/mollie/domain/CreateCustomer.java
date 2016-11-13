@@ -10,7 +10,7 @@ public class CreateCustomer {
     private final String name;
     private final String email;
     private final Optional<String> locale;
-    private final Map<String,Object> metadata;
+    private final Map<String, Object> metadata;
 
     public CreateCustomer(@JsonProperty("name") String name,
                           @JsonProperty("email") String email,

@@ -1,12 +1,11 @@
 package nl.stil4m.mollie.concepts;
 
-import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
-import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
-import static nl.stil4m.mollie.TestUtil.TEST_ISSUER;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import nl.stil4m.mollie.ClientBuilder;
+import nl.stil4m.mollie.ResponseOrError;
+import nl.stil4m.mollie.domain.Issuer;
+import nl.stil4m.mollie.domain.Page;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -14,13 +13,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import nl.stil4m.mollie.ClientBuilder;
-import nl.stil4m.mollie.ResponseOrError;
-import nl.stil4m.mollie.domain.Issuer;
-import nl.stil4m.mollie.domain.Page;
+import static nl.stil4m.mollie.TestUtil.TEST_ISSUER;
+import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
+import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class IssuersIntegrationTest {
 
@@ -35,7 +34,7 @@ public class IssuersIntegrationTest {
     @Test
     public void testGetIssuers() throws IOException, URISyntaxException, InterruptedException {
         ResponseOrError<Page<Issuer>> allResponse = issuers.all(Optional.empty(), Optional.empty());
-        
+
         assertThat(allResponse.getSuccess(), is(true));
 
         Page<Issuer> all = allResponse.getData();
@@ -47,13 +46,13 @@ public class IssuersIntegrationTest {
         assertThat(all.getLinks().getNext().isPresent(), is(false));
 
         Set<String> identifiers = all.getData().stream().map(Issuer::getId).collect(Collectors.toSet());
-        assertThat(identifiers,hasItems(TEST_ISSUER));
+        assertThat(identifiers, hasItems(TEST_ISSUER));
     }
 
     @Test
     public void testGetIssuer() throws IOException, URISyntaxException, InterruptedException {
         ResponseOrError<Issuer> allResponse = issuers.get(TEST_ISSUER);
-        
+
         assertThat(allResponse.getSuccess(), is(true));
 
         Issuer issuer = allResponse.getData();

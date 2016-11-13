@@ -1,13 +1,11 @@
 package nl.stil4m.mollie.concepts;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import nl.stil4m.mollie.RequestExecutor;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Payment;
-
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;

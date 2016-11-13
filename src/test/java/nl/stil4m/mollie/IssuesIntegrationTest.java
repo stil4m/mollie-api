@@ -1,6 +1,5 @@
 package nl.stil4m.mollie;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.CreateIdealPayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.IdealPaymentOptions;

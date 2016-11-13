@@ -1,24 +1,5 @@
 package nl.stil4m.mollie.concepts;
 
-import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
-import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
-import static nl.stil4m.mollie.TestUtil.assertWithin;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import nl.stil4m.mollie.Client;
 import nl.stil4m.mollie.ClientBuilder;
 import nl.stil4m.mollie.ResponseOrError;
@@ -28,9 +9,27 @@ import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Payment;
 import nl.stil4m.mollie.domain.subpayments.ideal.CreateIdealPayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.IdealPaymentOptions;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
+import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
+import static nl.stil4m.mollie.TestUtil.assertWithin;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.fail;
 
 public class PaymentsIntegrationTest {
-    
+
     private Payments payments;
     private Issuers issuers;
 
@@ -61,7 +60,7 @@ public class PaymentsIntegrationTest {
         String id = payment.getData().getId();
 
         ResponseOrError<Payment> paymentStatus = payments.get(id);
-        
+
         assertThat(paymentStatus.getData().getStatus(), is("open"));
     }
 
@@ -92,7 +91,6 @@ public class PaymentsIntegrationTest {
             assertThat(e.getMessage(), is("Payment id may not be null"));
         }
     }
-    
 
 
     @Test

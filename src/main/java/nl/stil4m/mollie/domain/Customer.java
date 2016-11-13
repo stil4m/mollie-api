@@ -15,7 +15,7 @@ public class Customer {
     private final String name;
     private final String email;
     private final Optional<String> locale;
-    private final Map<String,Object> metadata;
+    private final Map<String, Object> metadata;
     private final List<String> recentlyUsedMethods;
     private final Date createdDatetime;
 
@@ -31,7 +31,7 @@ public class Customer {
         this.resource = resource;
         this.id = id;
         this.mode = mode;
-        this.name= name;
+        this.name = name;
         this.email = email;
         this.locale = locale;
         this.metadata = metadata;

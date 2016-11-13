@@ -1,5 +1,5 @@
 {
-  "recurringType" : "first",
+  "recurringType": "first",
   "amount": 1.0,
   "description": "Description",
   "redirectUrl": "redirectUrl",

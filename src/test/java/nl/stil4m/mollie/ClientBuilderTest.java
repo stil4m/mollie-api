@@ -1,24 +1,24 @@
 package nl.stil4m.mollie;
 
 
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
 
-public class ClientBuilderTest {
-    
-    ClientBuilder builder = new ClientBuilder();
-    
+import static org.junit.Assert.assertNotNull;
 
-    @Test(expected=IllegalArgumentException.class)
+public class ClientBuilderTest {
+
+    ClientBuilder builder = new ClientBuilder();
+
+
+    @Test(expected = IllegalArgumentException.class)
     public void testBuildWithoutApiKey() {
         builder.build();
     }
-    
+
     @Test
     public void testBuildWithApiKey() {
         Client client = builder.withApiKey("test").build();
-        
+
         assertNotNull(client);
     }
 }

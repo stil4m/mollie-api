@@ -1,28 +1,28 @@
 {
-	"resource":"payment",
-	"id":"tr_r57mm8EHEd",
-	"mode":"test",
-	"createdDatetime":"2016-11-08T13:19:21.0Z",
-	"status":"pending",
-	"expiryPeriod":"P1YT",
-	"amount":"1.00",
-	"description":"Some description",
-	"method":"directdebit",
-	"metadata":null,
-	"details":{
-		"transferReference":"SD95-0000-0484-6271",
-		"creditorIdentifier":"NL08ZZZ502057730000",
-		"consumerName":"T. TEST",
-		"consumerAccount":"NL17RABO0213698412",
-		"consumerBic":"TESTNL99",
-		"signatureDate":"2016-11-07T23:00:00.0Z"
-	},
-	"profileId":"pfl_2V9ugWCwSz",
-	"customerId":"cst_Kdp3uq2MeF",
-	"mandateId":"mdt_hbDDRcDcdw",
-	"recurringType":"recurring",
-	"links":{
-		"paymentUrl":null,
-		"redirectUrl":null
-	}
+  "resource": "payment",
+  "id": "tr_r57mm8EHEd",
+  "mode": "test",
+  "createdDatetime": "2016-11-08T13:19:21.0Z",
+  "status": "pending",
+  "expiryPeriod": "P1YT",
+  "amount": "1.00",
+  "description": "Some description",
+  "method": "directdebit",
+  "metadata": null,
+  "details": {
+    "transferReference": "SD95-0000-0484-6271",
+    "creditorIdentifier": "NL08ZZZ502057730000",
+    "consumerName": "T. TEST",
+    "consumerAccount": "NL17RABO0213698412",
+    "consumerBic": "TESTNL99",
+    "signatureDate": "2016-11-07T23:00:00.0Z"
+  },
+  "profileId": "pfl_2V9ugWCwSz",
+  "customerId": "cst_Kdp3uq2MeF",
+  "mandateId": "mdt_hbDDRcDcdw",
+  "recurringType": "recurring",
+  "links": {
+    "paymentUrl": null,
+    "redirectUrl": null
+  }
 }

@@ -1,11 +1,5 @@
 package nl.stil4m.mollie.concepts;
 
-import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
-import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static nl.stil4m.mollie.TestUtil.strictClientWithApiKey;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreateCustomer;
 import nl.stil4m.mollie.domain.Customer;
@@ -20,6 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
+import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
+import static nl.stil4m.mollie.TestUtil.strictClientWithApiKey;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class CustomersIntegrationTest {
 
@@ -39,8 +40,8 @@ public class CustomersIntegrationTest {
     public void testGetCustomers() throws IOException, URISyntaxException {
         ResponseOrError<Page<Customer>> all = customers.all(Optional.empty(), Optional.empty());
         assertThat(all.getSuccess(), is(true));
-        
-        for(Customer customer:all.getData().getData()) {
+
+        for (Customer customer : all.getData().getData()) {
             assertThat(customer.getId(), notNullValue());
         }
     }
@@ -49,14 +50,14 @@ public class CustomersIntegrationTest {
     public void testCreateCustomer() throws IOException, URISyntaxException {
         String uuid = UUID.randomUUID().toString();
         String name = "Test Customer " + uuid;
-        String email = uuid+"@foobar.nl";
+        String email = uuid + "@foobar.nl";
         Optional<String> locale = Optional.of("gb_EN");
-        Map<String,Object> metadata = new HashMap<>(defaultMetadata);
+        Map<String, Object> metadata = new HashMap<>(defaultMetadata);
         metadata.put("uuid", uuid);
 
-        CreateCustomer createCustomer = new CreateCustomer(name,email,locale,metadata);
+        CreateCustomer createCustomer = new CreateCustomer(name, email, locale, metadata);
         ResponseOrError<Customer> created = customers.create(createCustomer);
-        
+
         assertThat(created.getSuccess(), is(true));
         assertThat(created.getData().getName(), is(name));
         assertThat(created.getData().getEmail(), is(email));
@@ -68,16 +69,16 @@ public class CustomersIntegrationTest {
     public void testGetCustomer() throws IOException, URISyntaxException {
         String uuid = UUID.randomUUID().toString();
         String name = "Test Customer " + uuid;
-        String email = uuid+"@foobar.nl";
+        String email = uuid + "@foobar.nl";
         Optional<String> locale = Optional.of("nl_NL");
-        Map<String,Object> metadata = new HashMap<>(defaultMetadata);
+        Map<String, Object> metadata = new HashMap<>(defaultMetadata);
         metadata.put("uuid", uuid);
-        CreateCustomer createCustomer = new CreateCustomer(name,email,locale,metadata);
+        CreateCustomer createCustomer = new CreateCustomer(name, email, locale, metadata);
         ResponseOrError<Customer> createdCustomer = customers.create(createCustomer);
         String newCustomerId = createdCustomer.getData().getId();
-        
+
         ResponseOrError<Customer> fetched = customers.get(newCustomerId);
-        
+
         assertThat(fetched.getSuccess(), is(true));
         assertThat(fetched.getData().getName(), is(name));
         assertThat(fetched.getData().getEmail(), is(email));

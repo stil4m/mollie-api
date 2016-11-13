@@ -1,15 +1,15 @@
 package nl.stil4m.mollie;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
+
 import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
 import static nl.stil4m.mollie.TestUtil.strictDynamicClientWithApiKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.IOException;
 
 public class DynamicClientIntegrationTest {
 

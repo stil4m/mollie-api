@@ -21,7 +21,7 @@ public class Issuers {
     };
     private static final TypeReference<Issuer> ISSUER_TYPE = new TypeReference<Issuer>() {
     };
-    
+
     private final String apiKey;
     private final String endpoint;
     private final RequestExecutor requestExecutor;
