@@ -19,6 +19,7 @@ import nl.stil4m.mollie.Client;
 import nl.stil4m.mollie.ClientBuilder;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreatePayment;
+import nl.stil4m.mollie.domain.CreateRefund;
 import nl.stil4m.mollie.domain.Payment;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Refund;
@@ -72,7 +73,7 @@ public class RefundsIntegrationTest {
         assertThat(payment.getSuccess(), is(true));
         Refunds refunds = client.refunds(payment.getData().getId());
         
-        ResponseOrError<Void> cancel = refunds.cancel("foo_bar");
+        ResponseOrError<Void> cancel = refunds.delete("foo_bar");
         
         assertThat(cancel.getSuccess(), is(false));
         assertThat(cancel.getError().get("error"), is(errorData));
@@ -99,8 +100,9 @@ public class RefundsIntegrationTest {
         errorData.put("message", "The payment is already refunded or has not been paid for yet");
         ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         Refunds refunds = client.refunds(payment.getData().getId());
-
-        ResponseOrError<Refund> create = refunds.create(Optional.of(1.00));
+        
+        CreateRefund createRefund = new CreateRefund(1.00);
+        ResponseOrError<Refund> create = refunds.create(createRefund);
         
         assertThat(create.getSuccess(), is(false));
         assertThat(create.getError().get("error"), is(errorData));

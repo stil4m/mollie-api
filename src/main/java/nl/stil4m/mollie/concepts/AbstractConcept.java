@@ -20,9 +20,10 @@ import nl.stil4m.mollie.RequestExecutor;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Page;
 
-public abstract class AbstractConcept<T extends Object> {
+public abstract class AbstractConcept<T extends Object> implements Concept<T> {
     private static final Collector<CharSequence, ?, String> URL_JOINER = Collectors.joining("/");
     private static final TypeReference<Void> VOID_TYPE_REFERENCE = new TypeReference<Void>(){};
+    
     private final TypeReference<Page<T>> pageTypeReference;
     private final TypeReference<T> singleTypeReference;
     private final String apiKey;
@@ -48,26 +49,31 @@ public abstract class AbstractConcept<T extends Object> {
         return value!=null && !value.trim().isEmpty()?value.trim():null;
     }
     
-    protected String url(String... elements) {
+    @Override
+    public String url(String... elements) {
         if(elements==null || elements.length==0) {
             return this.endpoint;
         }
         return joinUrl(this.endpoint,joinUrl(elements));
     }
     
-    protected ResponseOrError<Page<T>> requestPage(HttpUriRequest httpRequest) throws IOException {
+    @Override
+    public ResponseOrError<Page<T>> requestPage(HttpUriRequest httpRequest) throws IOException {
         return requestExecutor.execute(apiKey, httpRequest, pageTypeReference);
     }
     
-    protected ResponseOrError<T> requestSingle(HttpUriRequest httpRequest) throws IOException {
+    @Override
+    public ResponseOrError<T> requestSingle(HttpUriRequest httpRequest) throws IOException {
         return requestExecutor.execute(apiKey, httpRequest, singleTypeReference);
     }
     
-    protected ResponseOrError<Void> requestVoid(HttpUriRequest httpRequest) throws IOException {
+    @Override
+    public ResponseOrError<Void> requestVoid(HttpUriRequest httpRequest) throws IOException {
         return requestExecutor.execute(apiKey, httpRequest, VOID_TYPE_REFERENCE);
     }
     
-    protected HttpEntity buildHttpEntity(Object value) throws UnsupportedCharsetException, JsonProcessingException {
+    @Override
+    public HttpEntity buildHttpEntity(Object value) throws UnsupportedCharsetException, JsonProcessingException {
         return new StringEntity(requestExecutor.serialize(value), ContentType.APPLICATION_JSON);
     }
 }
