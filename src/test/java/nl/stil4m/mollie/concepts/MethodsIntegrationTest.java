@@ -1,6 +1,5 @@
 package nl.stil4m.mollie.concepts;
 
-import nl.stil4m.mollie.ClientBuilder;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Method;
 import nl.stil4m.mollie.domain.Page;
@@ -16,6 +15,7 @@ import java.util.stream.Collectors;
 
 import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
+import static nl.stil4m.mollie.TestUtil.strictClientWithApiKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasKey;
@@ -29,7 +29,7 @@ public class MethodsIntegrationTest {
     @Before
     public void before() throws InterruptedException {
         Thread.sleep(TEST_TIMEOUT);
-        methods = new ClientBuilder().withApiKey(VALID_API_KEY).build().methods();
+        methods = strictClientWithApiKey(VALID_API_KEY).methods();
     }
 
     @Test
