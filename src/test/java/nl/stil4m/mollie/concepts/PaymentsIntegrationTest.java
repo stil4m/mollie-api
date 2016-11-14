@@ -1,7 +1,6 @@
 package nl.stil4m.mollie.concepts;
 
 import nl.stil4m.mollie.Client;
-import nl.stil4m.mollie.ClientBuilder;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.Issuer;
@@ -22,6 +21,7 @@ import java.util.Optional;
 import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
 import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
 import static nl.stil4m.mollie.TestUtil.assertWithin;
+import static nl.stil4m.mollie.TestUtil.strictClientWithApiKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -36,7 +36,7 @@ public class PaymentsIntegrationTest {
     @Before
     public void before() throws InterruptedException {
         Thread.sleep(TEST_TIMEOUT);
-        Client client = new ClientBuilder().withApiKey(VALID_API_KEY).build();
+        Client client = strictClientWithApiKey(VALID_API_KEY);
         payments = client.payments();
         issuers = client.issuers();
     }

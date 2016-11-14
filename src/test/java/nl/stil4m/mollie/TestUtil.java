@@ -25,9 +25,9 @@ public class TestUtil {
         assertThat(target, lessThanOrEqualTo(new Date(afterTime)));
     }
 
-    public static ObjectMapper objectMapper(boolean strict) {
+    public static ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, strict);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
         objectMapper.registerModule(new Jdk8Module());
         return objectMapper;
     }
@@ -35,13 +35,13 @@ public class TestUtil {
     public static Client strictClientWithApiKey(String apiKey) {
         return new ClientBuilder()
                 .withApiKey(apiKey)
-                .withMapper(objectMapper(true))
+                .withMapper(objectMapper())
                 .build();
     }
 
     public static DynamicClient strictDynamicClientWithApiKey() {
         return new DynamicClientBuilder()
-                .withMapper(objectMapper(true))
+                .withMapper(objectMapper())
                 .build();
     }
 }

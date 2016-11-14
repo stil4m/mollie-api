@@ -20,7 +20,7 @@ public class PaymentSerializationTest {
 
     @Test
     public void testSerializeFirstRecurringPayment() throws IOException {
-        ObjectMapper mapper = objectMapper(true);
+        ObjectMapper mapper = objectMapper();
         Map<String, Object> metaData = new HashMap<>();
 
         CustomerPayment customerPayment = new FirstRecurringPayment(new CreateIdealPayment(1.0, "Description", "redirectUrl", Optional.empty(), metaData, new IdealPaymentOptions("MyIssuer")));
@@ -34,8 +34,7 @@ public class PaymentSerializationTest {
 
     @Test
     public void testDeserializeRecurringPaymentResponse() throws IOException {
-        // FIXME #32 response on recurring payments contains more info; test fails if strict is true
-        ObjectMapper mapper = objectMapper(true);
+        ObjectMapper mapper = objectMapper();
         InputStream resourceAsStream = getClass().getResourceAsStream("/response_create_recurring_payment.json");
 
         Payment payment = mapper.readValue(resourceAsStream, Payment.class);
