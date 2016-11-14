@@ -1,13 +1,12 @@
 package nl.stil4m.mollie.concepts;
 
-import java.io.IOException;
-
+import nl.stil4m.mollie.ResponseOrError;
 import org.apache.http.client.methods.HttpPost;
 
-import nl.stil4m.mollie.ResponseOrError;
+import java.io.IOException;
 
-public interface Update<R extends Object,O extends Object> extends Concept<R> {
-    
+public interface Update<R extends Object, O extends Object> extends Concept<R> {
+
     default ResponseOrError<R> update(String id, O update) throws IOException {
         HttpPost httpPost = new HttpPost(url(id));
         httpPost.setEntity(buildHttpEntity(update));

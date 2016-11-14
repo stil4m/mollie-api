@@ -68,7 +68,8 @@ public class PaymentsIntegrationTest {
     public void testGetPaymentWithRefunds() throws IOException, InterruptedException {
         ResponseOrError<Payment> getResponse = payments.get("tr_3AdTKpQGii");
 
-        getResponse.get(payment -> assertThat(payment.getLinks().getRefunds().isPresent(), is(true)), errorData -> {});
+        getResponse.get(payment -> assertThat(payment.getLinks().getRefunds().isPresent(), is(true)), errorData -> {
+        });
 
     }
 

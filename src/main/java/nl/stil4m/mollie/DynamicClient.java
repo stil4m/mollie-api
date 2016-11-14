@@ -46,7 +46,7 @@ public class DynamicClient {
     public CustomerPayments customerPayments(String apiKey, String customerId) {
         return new CustomerPayments(apiKey, endpoint, requestExecutor, customerId);
     }
-    
+
     public Mandates mandates(String apiKey, String customerId) {
         return new Mandates(apiKey, endpoint, requestExecutor, customerId);
     }

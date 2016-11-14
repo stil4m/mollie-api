@@ -37,7 +37,7 @@ public class Client {
     }
 
     public Refunds refunds(String paymentId) {
-        return dynamicClient.refunds(apiKey,paymentId);
+        return dynamicClient.refunds(apiKey, paymentId);
     }
 
     public Customers customers() {
@@ -47,7 +47,7 @@ public class Client {
     public CustomerPayments customerPayments(String customerId) {
         return dynamicClient.customerPayments(apiKey, customerId);
     }
-    
+
     public Mandates mandates(String customerId) {
         return dynamicClient.mandates(apiKey, customerId);
     }

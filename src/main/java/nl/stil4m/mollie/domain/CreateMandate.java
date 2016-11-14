@@ -1,10 +1,9 @@
 package nl.stil4m.mollie.domain;
 
-import java.util.Date;
-import java.util.Optional;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Date;
+import java.util.Optional;
 
 public class CreateMandate {
     private final String method;
@@ -13,19 +12,19 @@ public class CreateMandate {
     private final Optional<String> consumerBic;
     private final Optional<Date> signatureDate;
     private final Optional<String> mandateReference;
-    
-    public CreateMandate(@Nonnull String method, 
-            @Nonnull String consumerName, 
-            @Nonnull String consumerAccount) {
-        this(method,consumerName,consumerAccount,null,null,null);
+
+    public CreateMandate(@Nonnull String method,
+                         @Nonnull String consumerName,
+                         @Nonnull String consumerAccount) {
+        this(method, consumerName, consumerAccount, null, null, null);
     }
-    
-    public CreateMandate(@Nonnull String method, 
-            @Nonnull String consumerName, 
-            @Nonnull String consumerAccount, 
-            @Nullable String consumerBic, 
-            @Nullable Date signatureDate, 
-            @Nullable String mandateReference) {
+
+    public CreateMandate(@Nonnull String method,
+                         @Nonnull String consumerName,
+                         @Nonnull String consumerAccount,
+                         @Nullable String consumerBic,
+                         @Nullable Date signatureDate,
+                         @Nullable String mandateReference) {
         super();
         this.method = method;
         this.consumerName = consumerName;

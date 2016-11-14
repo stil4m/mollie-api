@@ -1,10 +1,15 @@
 package nl.stil4m.mollie.concepts;
 
-import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
-import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import nl.stil4m.mollie.Client;
+import nl.stil4m.mollie.ClientBuilder;
+import nl.stil4m.mollie.ResponseOrError;
+import nl.stil4m.mollie.domain.CreatePayment;
+import nl.stil4m.mollie.domain.CreateRefund;
+import nl.stil4m.mollie.domain.Page;
+import nl.stil4m.mollie.domain.Payment;
+import nl.stil4m.mollie.domain.Refund;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -12,17 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import nl.stil4m.mollie.Client;
-import nl.stil4m.mollie.ClientBuilder;
-import nl.stil4m.mollie.ResponseOrError;
-import nl.stil4m.mollie.domain.CreatePayment;
-import nl.stil4m.mollie.domain.CreateRefund;
-import nl.stil4m.mollie.domain.Payment;
-import nl.stil4m.mollie.domain.Page;
-import nl.stil4m.mollie.domain.Refund;
+import static nl.stil4m.mollie.TestUtil.TEST_TIMEOUT;
+import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class RefundsIntegrationTest {
 
@@ -41,9 +40,9 @@ public class RefundsIntegrationTest {
         ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
         Refunds refunds = client.refunds(id);
-        
+
         ResponseOrError<Page<Refund>> all = refunds.all(Optional.empty(), Optional.empty());
-        
+
         assertThat(all.getSuccess(), is(true));
         Page<Refund> refundPage = all.getData();
         assertThat(refundPage.getCount(), is(0));
@@ -55,7 +54,7 @@ public class RefundsIntegrationTest {
     public void testListRefundsForExistingPayment() throws IOException, URISyntaxException, InterruptedException {
         Payment payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null)).getData();
         Refunds refunds = client.refunds(payment.getId());
-        
+
         ResponseOrError<Page<Refund>> all = refunds.all(Optional.empty(), Optional.empty());
 
         assertThat(all.getSuccess(), is(true));
@@ -72,9 +71,9 @@ public class RefundsIntegrationTest {
         ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         assertThat(payment.getSuccess(), is(true));
         Refunds refunds = client.refunds(payment.getData().getId());
-        
+
         ResponseOrError<Void> cancel = refunds.delete("foo_bar");
-        
+
         assertThat(cancel.getSuccess(), is(false));
         assertThat(cancel.getError().get("error"), is(errorData));
     }
@@ -88,7 +87,7 @@ public class RefundsIntegrationTest {
         Refunds refunds = client.refunds(payment.getData().getId());
 
         ResponseOrError<Refund> get = refunds.get("foo_bar");
-        
+
         assertThat(get.getSuccess(), is(false));
         assertThat(get.getError().get("error"), is(errorData));
     }
@@ -100,10 +99,10 @@ public class RefundsIntegrationTest {
         errorData.put("message", "The payment is already refunded or has not been paid for yet");
         ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         Refunds refunds = client.refunds(payment.getData().getId());
-        
+
         CreateRefund createRefund = new CreateRefund(1.00);
         ResponseOrError<Refund> create = refunds.create(createRefund);
-        
+
         assertThat(create.getSuccess(), is(false));
         assertThat(create.getError().get("error"), is(errorData));
     }

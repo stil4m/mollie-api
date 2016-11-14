@@ -1,10 +1,9 @@
 package nl.stil4m.mollie.concepts;
 
-import java.io.IOException;
-
+import nl.stil4m.mollie.ResponseOrError;
 import org.apache.http.client.methods.HttpDelete;
 
-import nl.stil4m.mollie.ResponseOrError;
+import java.io.IOException;
 
 public interface Delete<T extends Object> extends Concept<T> {
 

@@ -1,8 +1,7 @@
 package nl.stil4m.mollie.domain;
 
-import java.util.Optional;
-
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class CreateRefund {
     private final Optional<Double> amount;

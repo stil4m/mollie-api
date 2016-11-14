@@ -1,20 +1,19 @@
 package nl.stil4m.mollie.concepts;
 
+import nl.stil4m.mollie.ResponseOrError;
+import nl.stil4m.mollie.domain.Page;
+import nl.stil4m.mollie.domain.Payment;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-
-import nl.stil4m.mollie.ResponseOrError;
-import nl.stil4m.mollie.domain.Page;
-import nl.stil4m.mollie.domain.Payment;
-
 public interface ListAll<T extends Object> extends Concept<T> {
-    
+
     default ResponseOrError<Page<T>> all(Optional<Integer> count, Optional<Integer> offset) throws IOException, URISyntaxException {
-        return list(count,offset);
+        return list(count, offset);
     }
 
     default ResponseOrError<Page<T>> list(Optional<Integer> count, Optional<Integer> offset) throws IOException, URISyntaxException {
@@ -25,7 +24,7 @@ public interface ListAll<T extends Object> extends Concept<T> {
         HttpGet httpGet = new HttpGet(builder.build());
         return requestPage(httpGet);
     }
-    
+
     default ResponseOrError<Page<T>> next(Page<Payment> page) throws IOException {
         if (!page.getLinks().getNext().isPresent()) {
             throw new IllegalArgumentException("Page does not have next");
