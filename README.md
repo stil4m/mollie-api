@@ -18,7 +18,7 @@ com.fasterxml.jackson.core:jackson-annotations:2.8.X
 com.fasterxml.jackson.core:jackson-databind:2.8.X
 ```
 
-## Maven
+## Maven or Gradle
 
 This library is available on my [personal maven repository](https://github.com/stil4m/maven-repository), which is hosted on GitHub.
 
@@ -41,6 +41,21 @@ To use this with library with Maven, add the following snippets to your `pom.xml
 </depencency>
 
 ...
+```
+To use this with library with Gradle, add the following snippets to your `build.gradle` file:
+```
+...
+repositories {
+    ...
+    maven {
+        url "https://github.com/stil4m/maven-repository/raw/master/releases/"
+    }
+}
+...
+dependencies {
+    ...
+    runtime 'nl.stil4m:mollie-api:2.3.0'
+}
 ```
 
 ## Build the JAR
