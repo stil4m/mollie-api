@@ -78,8 +78,8 @@ public class PaymentsIntegrationTest {
         try {
             payments.get("");
             fail();
-        } catch (NullPointerException e) {
-            assertThat(e.getMessage(), is("URL cannot contain null or blank elements: []"));
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is("URL cannot contain null or blank elements"));
         }
     }
 
@@ -88,8 +88,8 @@ public class PaymentsIntegrationTest {
         try {
             payments.get(null);
             fail();
-        } catch (NullPointerException e) {
-            assertThat(e.getMessage(), is("URL cannot contain null or blank elements: [null]"));
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is("URL cannot contain null or blank elements"));
         }
     }
 

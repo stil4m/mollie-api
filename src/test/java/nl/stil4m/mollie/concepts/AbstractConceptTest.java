@@ -12,27 +12,22 @@ public class AbstractConceptTest {
         assertEquals("https://api.mollie.com/v1/api", new ConceptStub("https://api.mollie.com/v1", "api").url());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testConstructorNullUrl() {
-        new ConceptStub((String) null);
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorOmitUrl() {
+        new ConceptStub();
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testConstructorNullArrayUrl() {
-        new ConceptStub((String[]) null);
-    }
-
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructorEmptyUrl() {
         new ConceptStub("");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructorBlankUrl() {
         new ConceptStub(" ");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructorEmptyArray() {
         new ConceptStub(new String[]{});
     }
@@ -44,12 +39,12 @@ public class AbstractConceptTest {
         assertEquals("https://api.mollie.com/v1/api/customers/someId", sut.url("someId"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testUrlBlankElement() {
         new ConceptStub("https://api.mollie.com/v1").url(" ");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testUrlNullElement() {
         new ConceptStub("https://api.mollie.com/v1").url((String) null);
     }
