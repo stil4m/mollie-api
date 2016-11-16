@@ -12,12 +12,10 @@ import org.apache.http.entity.StringEntity;
 
 import java.io.IOException;
 import java.nio.charset.UnsupportedCharsetException;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class AbstractConcept<T> implements Concept<T> {
-    private static final Collector<CharSequence, ?, String> URL_JOINER = Collectors.joining("/");
     private static final TypeReference<Void> VOID_TYPE_REFERENCE = new TypeReference<Void>() {
     };
 
@@ -38,7 +36,7 @@ public abstract class AbstractConcept<T> implements Concept<T> {
     private static String joinUrl(String... elements) {
         return checkAndTrimToNull(Stream.of(elements)
                 .map(AbstractConcept::checkAndTrimToNull)
-                .collect(URL_JOINER));
+                .collect(Collectors.joining("/")));
     }
 
     private static String checkAndTrimToNull(String value) {

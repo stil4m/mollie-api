@@ -12,11 +12,11 @@ import java.nio.charset.UnsupportedCharsetException;
 public interface Concept<T> {
     String url(String... elements);
 
-    ResponseOrError<Page<T>> requestPage(HttpUriRequest get) throws IOException;
+    ResponseOrError<Page<T>> requestPage(HttpUriRequest request) throws IOException;
 
-    ResponseOrError<T> requestSingle(HttpUriRequest get) throws IOException;
+    ResponseOrError<T> requestSingle(HttpUriRequest request) throws IOException;
 
-    ResponseOrError<Void> requestVoid(HttpUriRequest get) throws IOException;
+    ResponseOrError<Void> requestVoid(HttpUriRequest request) throws IOException;
 
     HttpEntity buildHttpEntity(Object value) throws UnsupportedCharsetException, JsonProcessingException;
 }
