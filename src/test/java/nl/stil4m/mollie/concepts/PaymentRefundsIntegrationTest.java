@@ -36,7 +36,7 @@ public class PaymentRefundsIntegrationTest {
     }
 
     @Test
-    public void testGetRefunds() throws IOException, URISyntaxException, InterruptedException {
+    public void testGetPaymentRefunds() throws IOException, URISyntaxException, InterruptedException {
         ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
         PaymentRefunds refunds = client.paymentRefunds(id);
