@@ -5,7 +5,7 @@ import org.apache.http.client.methods.HttpPost;
 
 import java.io.IOException;
 
-public interface Create<R extends Object, O extends Object> extends Concept<R> {
+public interface Create<R, O> extends Concept<R> {
 
     default ResponseOrError<R> create(O create) throws IOException {
         HttpPost httpPost = new HttpPost(url());

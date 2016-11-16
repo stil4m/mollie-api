@@ -5,7 +5,7 @@ import org.apache.http.client.methods.HttpGet;
 
 import java.io.IOException;
 
-public interface GetById<T extends Object> extends Concept<T> {
+public interface GetById<T> extends Concept<T> {
 
     default ResponseOrError<T> get(String id) throws IOException {
         HttpGet httpGet = new HttpGet(url(id));

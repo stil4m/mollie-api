@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
-public interface ListAll<T extends Object> extends Concept<T> {
+public interface ListAll<T> extends Concept<T> {
 
     default ResponseOrError<Page<T>> all(Optional<Integer> count, Optional<Integer> offset) throws IOException, URISyntaxException {
         return list(count, offset);

@@ -5,7 +5,7 @@ import org.apache.http.client.methods.HttpDelete;
 
 import java.io.IOException;
 
-public interface Delete<T extends Object> extends Concept<T> {
+public interface Delete<T> extends Concept<T> {
 
     default ResponseOrError<Void> delete(String id) throws IOException {
         HttpDelete httpDelete = new HttpDelete(url(id));

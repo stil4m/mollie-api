@@ -5,7 +5,7 @@ import org.apache.http.client.methods.HttpPost;
 
 import java.io.IOException;
 
-public interface Update<R extends Object, O extends Object> extends Concept<R> {
+public interface Update<R, O> extends Concept<R> {
 
     default ResponseOrError<R> update(String id, O update) throws IOException {
         HttpPost httpPost = new HttpPost(url(id));

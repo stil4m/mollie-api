@@ -16,7 +16,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class AbstractConcept<T extends Object> implements Concept<T> {
+public abstract class AbstractConcept<T> implements Concept<T> {
     private static final Collector<CharSequence, ?, String> URL_JOINER = Collectors.joining("/");
     private static final TypeReference<Void> VOID_TYPE_REFERENCE = new TypeReference<Void>() {
     };

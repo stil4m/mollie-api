@@ -9,7 +9,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import java.io.IOException;
 import java.nio.charset.UnsupportedCharsetException;
 
-public interface Concept<T extends Object> {
+public interface Concept<T> {
     String url(String... elements);
 
     ResponseOrError<Page<T>> requestPage(HttpUriRequest get) throws IOException;
