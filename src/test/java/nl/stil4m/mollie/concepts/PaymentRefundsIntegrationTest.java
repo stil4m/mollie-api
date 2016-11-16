@@ -23,7 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class RefundsIntegrationTest {
+public class PaymentRefundsIntegrationTest {
 
     private Client client;
     private Payments payments;
@@ -39,7 +39,7 @@ public class RefundsIntegrationTest {
     public void testGetRefunds() throws IOException, URISyntaxException, InterruptedException {
         ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         String id = payment.getData().getId();
-        Refunds refunds = client.refunds(id);
+        PaymentRefunds refunds = client.paymentRefunds(id);
 
         ResponseOrError<Page<Refund>> all = refunds.all(Optional.empty(), Optional.empty());
 
@@ -53,7 +53,7 @@ public class RefundsIntegrationTest {
     @Test
     public void testListRefundsForExistingPayment() throws IOException, URISyntaxException, InterruptedException {
         Payment payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null)).getData();
-        Refunds refunds = client.refunds(payment.getId());
+        PaymentRefunds refunds = client.paymentRefunds(payment.getId());
 
         ResponseOrError<Page<Refund>> all = refunds.all(Optional.empty(), Optional.empty());
 
@@ -70,7 +70,7 @@ public class RefundsIntegrationTest {
         errorData.put("message", "The refund id is invalid");
         ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
         assertThat(payment.getSuccess(), is(true));
-        Refunds refunds = client.refunds(payment.getData().getId());
+        PaymentRefunds refunds = client.paymentRefunds(payment.getData().getId());
 
         ResponseOrError<Void> cancel = refunds.delete("foo_bar");
 
@@ -84,7 +84,7 @@ public class RefundsIntegrationTest {
         errorData.put("type", "request");
         errorData.put("message", "The refund id is invalid");
         ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
-        Refunds refunds = client.refunds(payment.getData().getId());
+        PaymentRefunds refunds = client.paymentRefunds(payment.getData().getId());
 
         ResponseOrError<Refund> get = refunds.get("foo_bar");
 
@@ -98,7 +98,7 @@ public class RefundsIntegrationTest {
         errorData.put("type", "request");
         errorData.put("message", "The payment is already refunded or has not been paid for yet");
         ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.empty(), null));
-        Refunds refunds = client.refunds(payment.getData().getId());
+        PaymentRefunds refunds = client.paymentRefunds(payment.getData().getId());
 
         CreateRefund createRefund = new CreateRefund(1.00);
         ResponseOrError<Refund> create = refunds.create(createRefund);

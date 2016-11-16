@@ -6,7 +6,7 @@ import nl.stil4m.mollie.concepts.Issuers;
 import nl.stil4m.mollie.concepts.CustomerMandates;
 import nl.stil4m.mollie.concepts.Methods;
 import nl.stil4m.mollie.concepts.Payments;
-import nl.stil4m.mollie.concepts.Refunds;
+import nl.stil4m.mollie.concepts.PaymentRefunds;
 import nl.stil4m.mollie.concepts.Status;
 
 public class DynamicClient {
@@ -35,8 +35,8 @@ public class DynamicClient {
         return new Issuers(apiKey, endpoint, requestExecutor);
     }
 
-    public Refunds refunds(String apiKey, String paymentId) {
-        return new Refunds(apiKey, endpoint, requestExecutor, paymentId);
+    public PaymentRefunds paymentRefunds(String apiKey, String paymentId) {
+        return new PaymentRefunds(apiKey, endpoint, requestExecutor, paymentId);
     }
 
     public Customers customers(String apiKey) {
