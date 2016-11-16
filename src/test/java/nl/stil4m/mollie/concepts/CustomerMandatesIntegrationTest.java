@@ -23,9 +23,9 @@ import static nl.stil4m.mollie.TestUtil.strictClientWithApiKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class MandatesIntegrationTest {
+public class CustomerMandatesIntegrationTest {
 
-    private Mandates mandates;
+    private CustomerMandates mandates;
 
     @Before
     public void before() throws InterruptedException, IOException {
@@ -40,7 +40,7 @@ public class MandatesIntegrationTest {
         String name = "Test Customer " + uuid;
         Customer customer = client.customers().create(new CreateCustomer(name, uuid + "@foobar.com", Optional.empty(), defaultMetadata)).getData();
 
-        mandates = client.mandates(customer.getId());
+        mandates = client.customerMandates(customer.getId());
     }
 
     @Test

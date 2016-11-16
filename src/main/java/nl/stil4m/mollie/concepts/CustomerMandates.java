@@ -6,13 +6,13 @@ import nl.stil4m.mollie.domain.CreateMandate;
 import nl.stil4m.mollie.domain.Mandate;
 import nl.stil4m.mollie.domain.Page;
 
-public class Mandates extends AbstractConcept<Mandate> implements ListAll<Mandate>, GetById<Mandate>, Create<Mandate, CreateMandate>, Delete<Mandate> {
+public class CustomerMandates extends AbstractConcept<Mandate> implements ListAll<Mandate>, GetById<Mandate>, Create<Mandate, CreateMandate>, Delete<Mandate> {
     private static final TypeReference<Page<Mandate>> PAGE_TYPE = new TypeReference<Page<Mandate>>() {
     };
     private static final TypeReference<Mandate> SINGLE_TYPE = new TypeReference<Mandate>() {
     };
 
-    public Mandates(String apiKey, String endpoint, RequestExecutor requestExecutor, String customerId) {
+    public CustomerMandates(String apiKey, String endpoint, RequestExecutor requestExecutor, String customerId) {
         super(apiKey, requestExecutor, SINGLE_TYPE, PAGE_TYPE, endpoint, "customers", customerId, "mandates");
     }
 }
