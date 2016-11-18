@@ -37,7 +37,7 @@ To use this with library with Maven, add the following snippets to your `pom.xml
 <depencency>
     <groupId>nl.stil4m</groupId>
     <artifactId>mollie-api</artifactId>
-    <version>2.3.0</version>
+    <version>2.4.0</version>
 </depencency>
 
 ...
@@ -54,7 +54,7 @@ repositories {
 ...
 dependencies {
     ...
-    runtime 'nl.stil4m:mollie-api:2.3.0'
+    runtime 'nl.stil4m:mollie-api:2.4.0'
 }
 ```
 

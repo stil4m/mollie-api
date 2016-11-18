@@ -1,5 +1,12 @@
 #Changelog
 
+# 2.4.0 - 2016-11-18
+
+* Add the notion of shared concepts that make the code more extendable (#40).
+* Add API calls for mandates.
+
+Thanks to @tubbynl for his contributions!
+
 # 2.3.0 - 2016-11-13
 
 * Merge CreatedPayment with payment #36.
