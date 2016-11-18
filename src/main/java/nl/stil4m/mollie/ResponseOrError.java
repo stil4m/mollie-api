@@ -10,19 +10,19 @@ public class ResponseOrError<V> {
     private final Map error;
     private final Boolean success;
 
+    private ResponseOrError(int status, V data, Map error, Boolean success) {
+        this.status = status;
+        this.data = data;
+        this.error = error;
+        this.success = success;
+    }
+
     public static <V, T> ResponseOrError withError(int status, Map error) {
         return new ResponseOrError<>(status, null, error, false);
     }
 
     public static <V, T> ResponseOrError withData(int status, V data) {
         return new ResponseOrError<>(status, data, null, true);
-    }
-
-    private ResponseOrError(int status, V data, Map error, Boolean success) {
-        this.status = status;
-        this.data = data;
-        this.error = error;
-        this.success = success;
     }
 
     public void get(Consumer<V> onSuccess, Consumer<Map> onError) {

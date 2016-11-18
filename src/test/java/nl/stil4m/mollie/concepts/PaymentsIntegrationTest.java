@@ -68,7 +68,8 @@ public class PaymentsIntegrationTest {
     public void testGetPaymentWithRefunds() throws IOException, InterruptedException {
         ResponseOrError<Payment> getResponse = payments.get("tr_3AdTKpQGii");
 
-        getResponse.get(payment -> assertThat(payment.getLinks().getRefunds().isPresent(), is(true)), errorData -> {});
+        getResponse.get(payment -> assertThat(payment.getLinks().getRefunds().isPresent(), is(true)), errorData -> {
+        });
 
     }
 
@@ -78,7 +79,7 @@ public class PaymentsIntegrationTest {
             payments.get("");
             fail();
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is("Payment id may not be an empty string"));
+            assertThat(e.getMessage(), is("URL cannot contain null or blank elements"));
         }
     }
 
@@ -88,7 +89,7 @@ public class PaymentsIntegrationTest {
             payments.get(null);
             fail();
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is("Payment id may not be null"));
+            assertThat(e.getMessage(), is("URL cannot contain null or blank elements"));
         }
     }
 
