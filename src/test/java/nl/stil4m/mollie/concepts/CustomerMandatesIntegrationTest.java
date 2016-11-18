@@ -22,6 +22,7 @@ import static nl.stil4m.mollie.TestUtil.VALID_API_KEY;
 import static nl.stil4m.mollie.TestUtil.strictClientWithApiKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class CustomerMandatesIntegrationTest {
 
@@ -60,11 +61,10 @@ public class CustomerMandatesIntegrationTest {
 
         ResponseOrError<Mandate> result = mandates.create(createMandate);
 
-        // Mandates need to be enabled with your Mollie account (identifier with API key) in order to test this
-        assertThat(result.getSuccess(), is(false));
-        //assertThat(result.getData().getId(),notNullValue());
-        //assertThat(result.getData().getMethod(),is(method));
-        //assertThat(result.getData().getDetails().get("consumerName"),is(name));
-        //assertThat(result.getData().getDetails().get("consumerAccount"),is(account));
+        assertThat(result.getSuccess(), is(true));
+        assertThat(result.getData().getId(),notNullValue());
+        assertThat(result.getData().getMethod(),is(method));
+        assertThat(result.getData().getDetails().get("consumerName"),is(name));
+        assertThat(result.getData().getDetails().get("consumerAccount"),is(account));
     }
 }
