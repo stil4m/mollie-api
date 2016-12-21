@@ -73,7 +73,7 @@ You can use the API with a static defined Mollie API key `Client` or a dynamic k
 
 ```
 Client client = new ClientBuilder()
-					.withApiKey(""XXX")
+					.withApiKey("XXX")
 					.build();
 ```
 
