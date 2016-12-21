@@ -34,11 +34,11 @@ To use this with library with Maven, add the following snippets to your `pom.xml
 
 ...
 
-<depencency>
+<dependency>
     <groupId>nl.stil4m</groupId>
     <artifactId>mollie-api</artifactId>
     <version>2.4.0</version>
-</depencency>
+</dependency>
 
 ...
 ```
