@@ -51,7 +51,7 @@ public class CustomersIntegrationTest {
         String uuid = UUID.randomUUID().toString();
         String name = "Test Customer " + uuid;
         String email = uuid + "@foobar.nl";
-        Optional<String> locale = Optional.of("gb_EN");
+        Optional<String> locale = Optional.of("en_US");
         Map<String, Object> metadata = new HashMap<>(defaultMetadata);
         metadata.put("uuid", uuid);
 
