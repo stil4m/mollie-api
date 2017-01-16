@@ -23,6 +23,7 @@ import static nl.stil4m.mollie.TestUtil.strictClientWithApiKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 
 public class CustomerMandatesIntegrationTest {
 
@@ -66,5 +67,7 @@ public class CustomerMandatesIntegrationTest {
         assertThat(result.getData().getMethod(),is(method));
         assertThat(result.getData().getDetails().get("consumerName"),is(name));
         assertThat(result.getData().getDetails().get("consumerAccount"),is(account));
+        assertThat(result.getData().getCreatedDatetime(), is(notNullValue()));
+        assertThat(result.getData().getSignatureDate(), is(notNullValue()));
     }
 }

@@ -37,7 +37,7 @@ To use this with library with Maven, add the following snippets to your `pom.xml
 <dependency>
     <groupId>nl.stil4m</groupId>
     <artifactId>mollie-api</artifactId>
-    <version>2.4.0</version>
+    <version>2.5.0</version>
 </dependency>
 
 ...
@@ -65,7 +65,7 @@ To build the `JAR` you can run `mvn install`.
 
 ## Usage
 
-### Setup 
+### Setup
 
 You can use the API with a static defined Mollie API key `Client` or a dynamic key `DynamicClient`.
 
@@ -90,7 +90,7 @@ Both clients make use of the Jackson `ObjectMapper` and the Apache HTTP `HttpCli
 
 > Note 1: The library uses `jackson-datatype-jdk8`. To make sure that the `ObjectMapper` can serialise `java.util.Optional` the library registers the module in the `ObjectMapper`.
 
-> Note 2: The `ObjectMapper` has the `FAIL_ON_UNKNOWN_PROPERTIES` property disabled by default to make the deserialisation more forgiving ([#25](https://github.com/stil4m/mollie-api/issues/25)). If you inject your own `ObjectMapper`, please consider disabling this property: When Mollie adds a property and you do not disable this, and they do this now and then, deserialisation will fail with an exception. 
+> Note 2: The `ObjectMapper` has the `FAIL_ON_UNKNOWN_PROPERTIES` property disabled by default to make the deserialisation more forgiving ([#25](https://github.com/stil4m/mollie-api/issues/25)). If you inject your own `ObjectMapper`, please consider disabling this property: When Mollie adds a property and you do not disable this, and they do this now and then, deserialisation will fail with an exception.
 
 
 
@@ -103,7 +103,7 @@ The API is separated into different concepts:
 * Payments: Used to create read and delete payments
 * Refunds: Used to create read and delete refunds on payments
 * Status: Used to verify the validity of the used API key
- 
+
 All concepts can be retrieved from the client using the following format `client.<concept>()`.
 
 For example you can create a payment as follows:
@@ -112,7 +112,7 @@ For example you can create a payment as follows:
 Client client = new ClientBuilder()
 					.withApiKey(""XXX")
 					.build();
-					
+
 client.payments().create(new CreatePayment(...));
 ```
 

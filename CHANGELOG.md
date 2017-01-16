@@ -1,5 +1,9 @@
 #Changelog
 
+# 2.5.0 - 2017-01-16
+
+* Add `signatureDate` to `Mandate` model.
+
 # 2.4.0 - 2016-11-18
 
 * Add the notion of shared concepts that make the code more extendable (#40).
