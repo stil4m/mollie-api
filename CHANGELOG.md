@@ -1,5 +1,9 @@
 #Changelog
 
+# 2.6.0 - 2017-01-26
+
+* Add `countryCode` to `Payment` model ([#45](https://github.com/stil4m/mollie-api/issues/45)).
+
 # 2.5.0 - 2017-01-16
 
 * Add `signatureDate` to `Mandate` model.
