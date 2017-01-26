@@ -28,6 +28,7 @@ public class Payment {
     private final Links links;
     private final Map<String, Object> metadata;
     private final String locale;
+    private final String countryCode;
     private final String expiryPeriod;
     private final Optional<String> mandateId;
 
@@ -51,6 +52,7 @@ public class Payment {
                    @JsonProperty("links") Links links,
                    @JsonProperty("metadata") Map<String, Object> metadata,
                    @JsonProperty("locale") String locale,
+                   @JsonProperty("countryCode") String countryCode,
                    @JsonProperty("expiryPeriod") String expiryPeriod,
                    @JsonProperty("mandateId") Optional<String> mandateId) {
         this.resource = resource;
@@ -73,6 +75,7 @@ public class Payment {
         this.links = links;
         this.metadata = metadata;
         this.locale = locale;
+        this.countryCode = countryCode;
         this.expiryPeriod = expiryPeriod;
         this.mandateId = mandateId;
     }
@@ -155,6 +158,10 @@ public class Payment {
 
     public String getLocale() {
         return locale;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
     }
 
     public String getExpiryPeriod() {
