@@ -1,8 +1,11 @@
 package nl.stil4m.mollie.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/* Ignore the resource property since this is always "method" */
+@JsonIgnoreProperties({"resource"})
 public class Method {
 
     private final String id;
