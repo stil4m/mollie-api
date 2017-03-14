@@ -1,5 +1,9 @@
 #Changelog
 
+# 2.6.1 - 2017-03-14
+
+* Ignore `resource` property for `Method` ([#46](https://github.com/stil4m/mollie-api/issues/46)).
+
 # 2.6.0 - 2017-01-26
 
 * Add `countryCode` to `Payment` model ([#45](https://github.com/stil4m/mollie-api/issues/45)).
