@@ -1,11 +1,13 @@
 package nl.stil4m.mollie.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
+@JsonIgnoreProperties(value = { "issuer" })
 public class Payment {
 
     private final String resource;

@@ -1,5 +1,9 @@
 #Changelog
 
+# 2.6.2 - 2017-03-30
+
+* Ignore `issuer` property for `Payment`
+
 # 2.6.1 - 2017-03-14
 
 * Ignore `resource` property for `Method` ([#46](https://github.com/stil4m/mollie-api/issues/46)).
