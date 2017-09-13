@@ -35,7 +35,7 @@ public class DynamicClient {
     public Issuers issuers(String apiKey) {
         return new Issuers(apiKey, endpoint, requestExecutor);
     }
-    
+
     public Refunds refunds(String apiKey) {
         return new Refunds(apiKey, endpoint, requestExecutor);
     }

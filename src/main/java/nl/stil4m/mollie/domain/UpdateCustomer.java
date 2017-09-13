@@ -6,10 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 import java.util.Optional;
 
-
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT, content = JsonInclude.Include.NON_EMPTY)
 public class UpdateCustomer {
-
 
     private final Optional<String> name;
     private final Optional<String> email;

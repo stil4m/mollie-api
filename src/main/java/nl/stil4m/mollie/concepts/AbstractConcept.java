@@ -2,9 +2,11 @@ package nl.stil4m.mollie.concepts;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+
 import nl.stil4m.mollie.RequestExecutor;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Page;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ContentType;
@@ -35,15 +37,15 @@ public abstract class AbstractConcept<T> implements Concept<T> {
 
     private static String joinUrl(String... elements) {
         return checkAndTrimToNull(Stream.of(elements)
-                .map(AbstractConcept::checkAndTrimToNull)
-                .collect(Collectors.joining("/")));
+                                        .map(AbstractConcept::checkAndTrimToNull)
+                                        .collect(Collectors.joining("/")));
     }
 
     private static String checkAndTrimToNull(String value) {
-    	String result = value != null && !value.trim().isEmpty() ? value.trim() : null;
-    	if(result==null) {
-    		throw new IllegalArgumentException("URL cannot contain null or blank elements");
-    	}
+        String result = value != null && !value.trim().isEmpty() ? value.trim() : null;
+        if (result == null) {
+            throw new IllegalArgumentException("URL cannot contain null or blank elements");
+        }
         return result;
     }
 

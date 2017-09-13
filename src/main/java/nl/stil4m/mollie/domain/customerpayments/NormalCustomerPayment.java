@@ -5,7 +5,6 @@ import nl.stil4m.mollie.domain.CustomerPayment;
 
 public class NormalCustomerPayment extends CustomerPayment {
 
-
     public NormalCustomerPayment(CreatePayment createPayment) {
         super(createPayment, null);
     }

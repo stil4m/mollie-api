@@ -1,6 +1,5 @@
 package nl.stil4m.mollie;
 
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -8,7 +7,6 @@ import static org.junit.Assert.assertNotNull;
 public class ClientBuilderTest {
 
     ClientBuilder builder = new ClientBuilder();
-
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuildWithoutApiKey() {

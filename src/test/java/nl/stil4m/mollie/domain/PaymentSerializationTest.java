@@ -1,9 +1,11 @@
 package nl.stil4m.mollie.domain;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import nl.stil4m.mollie.domain.customerpayments.FirstRecurringPayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.CreateIdealPayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.IdealPaymentOptions;
+
 import org.junit.Test;
 
 import java.io.IOException;
@@ -23,7 +25,8 @@ public class PaymentSerializationTest {
         ObjectMapper mapper = objectMapper();
         Map<String, Object> metaData = new HashMap<>();
 
-        CustomerPayment customerPayment = new FirstRecurringPayment(new CreateIdealPayment(1.0, "Description", "redirectUrl", Optional.empty(), metaData, new IdealPaymentOptions("MyIssuer")));
+        CustomerPayment customerPayment = new FirstRecurringPayment(new CreateIdealPayment(1.0, "Description", "redirectUrl", Optional
+                .empty(), metaData, new IdealPaymentOptions("MyIssuer")));
 
         String serialized = mapper.writeValueAsString(customerPayment);
         Map mapRepresentation = mapper.readValue(serialized, Map.class);

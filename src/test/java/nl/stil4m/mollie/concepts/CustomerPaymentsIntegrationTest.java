@@ -12,11 +12,13 @@ import nl.stil4m.mollie.domain.Payment;
 import nl.stil4m.mollie.domain.customerpayments.FirstRecurringPayment;
 import nl.stil4m.mollie.domain.customerpayments.NormalCustomerPayment;
 import nl.stil4m.mollie.domain.customerpayments.RecurringPayment;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.annotation.Nullable;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;

@@ -3,6 +3,7 @@ package nl.stil4m.mollie;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.CreateIdealPayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.IdealPaymentOptions;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +19,6 @@ public class IssuesIntegrationTest {
 
     private Client client;
 
-
     @Before
     public void before() throws InterruptedException {
         Thread.sleep(TEST_TIMEOUT);
@@ -28,7 +28,8 @@ public class IssuesIntegrationTest {
     //Issue #13
     @Test
     public void validateInvalidApiKey() throws IOException {
-        CreatePayment createPayment = new CreateIdealPayment(36.0, "Test", "http://example.com", Optional.empty(), Collections.emptyMap(), new IdealPaymentOptions("ideal_TESTNL99"));
+        CreatePayment createPayment = new CreateIdealPayment(36.0, "Test", "http://example.com", Optional.empty(), Collections
+                .emptyMap(), new IdealPaymentOptions("ideal_TESTNL99"));
         client.payments().create(createPayment);
         //Should not give a deserialization error.
     }

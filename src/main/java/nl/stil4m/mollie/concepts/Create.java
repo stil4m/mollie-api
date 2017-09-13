@@ -1,6 +1,7 @@
 package nl.stil4m.mollie.concepts;
 
 import nl.stil4m.mollie.ResponseOrError;
+
 import org.apache.http.client.methods.HttpPost;
 
 import java.io.IOException;

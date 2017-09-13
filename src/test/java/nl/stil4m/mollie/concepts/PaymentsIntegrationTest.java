@@ -8,6 +8,7 @@ import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Payment;
 import nl.stil4m.mollie.domain.subpayments.ideal.CreateIdealPayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.IdealPaymentOptions;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,7 +49,8 @@ public class PaymentsIntegrationTest {
         assertThat(all.getSuccess(), is(true));
         Issuer issuer = all.getData().getData().get(0);
 
-        ResponseOrError<Payment> payment = payments.create(new CreateIdealPayment(1.00, "Some description", "http://example.com", Optional.empty(), null, new IdealPaymentOptions(issuer.getId())));
+        ResponseOrError<Payment> payment = payments
+                .create(new CreateIdealPayment(1.00, "Some description", "http://example.com", Optional.empty(), null, new IdealPaymentOptions(issuer.getId())));
 
         assertThat(payment.getSuccess(), is(true));
         assertWithin(beforeTest, payment.getData().getCreatedDatetime(), new Date(), 5000L);
@@ -93,14 +95,14 @@ public class PaymentsIntegrationTest {
         }
     }
 
-
     @Test
     public void testCreatePayment() throws IOException {
         Date beforeTest = new Date();
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
+        ResponseOrError<Payment> payment = payments
+                .create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
 
         Payment createdPayment = payment.getData();
         assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date(), 5000L);
@@ -125,7 +127,8 @@ public class PaymentsIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<Payment> payment = payments.create(new CreatePayment(Optional.of("ideal"), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
+        ResponseOrError<Payment> payment = payments
+                .create(new CreatePayment(Optional.of("ideal"), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
 
         Payment createdPayment = payment.getData();
         assertWithin(beforeTest, createdPayment.getCreatedDatetime(), new Date(), 5000L);
@@ -144,13 +147,13 @@ public class PaymentsIntegrationTest {
         assertThat(createdPayment.getMetadata(), is(meta));
     }
 
-
     @Test
     public void testCreateAndGetPayment() throws IOException {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<Payment> createResponse = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
+        ResponseOrError<Payment> createResponse = payments
+                .create(new CreatePayment(Optional.empty(), 1.00, "Some description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
         ResponseOrError<Payment> paymentResponse = payments.get(createResponse.getData().getId());
         Payment payment = paymentResponse.getData();
 
@@ -174,7 +177,8 @@ public class PaymentsIntegrationTest {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
 
-        ResponseOrError<Payment> createResponse = payments.create(new CreatePayment(Optional.of("creditcard"), 2.00, "Some credit card description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
+        ResponseOrError<Payment> createResponse = payments
+                .create(new CreatePayment(Optional.of("creditcard"), 2.00, "Some credit card description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
         ResponseOrError<Payment> paymentResponse = payments.get(createResponse.getData().getId());
         Payment payment = paymentResponse.getData();
 

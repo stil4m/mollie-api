@@ -1,8 +1,10 @@
 package nl.stil4m.mollie.concepts;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Page;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 

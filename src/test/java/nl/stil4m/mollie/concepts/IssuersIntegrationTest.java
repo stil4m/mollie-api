@@ -3,6 +3,7 @@ package nl.stil4m.mollie.concepts;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Issuer;
 import nl.stil4m.mollie.domain.Page;
+
 import org.junit.Before;
 import org.junit.Test;
 

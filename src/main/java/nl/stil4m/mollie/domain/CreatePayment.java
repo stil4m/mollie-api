@@ -2,6 +2,7 @@ package nl.stil4m.mollie.domain;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import java.util.Map;
 import java.util.Optional;
 

@@ -1,6 +1,7 @@
 package nl.stil4m.mollie.concepts;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+
 import nl.stil4m.mollie.RequestExecutor;
 import nl.stil4m.mollie.domain.CreatePayment;
 import nl.stil4m.mollie.domain.Page;

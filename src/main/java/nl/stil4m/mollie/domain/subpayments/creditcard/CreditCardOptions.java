@@ -2,7 +2,6 @@ package nl.stil4m.mollie.domain.subpayments.creditcard;
 
 public class CreditCardOptions {
 
-
     private final String billingAddress;
     private final String billingCity;
     private final String billingRegion;

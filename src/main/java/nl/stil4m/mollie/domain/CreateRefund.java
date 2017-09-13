@@ -1,6 +1,7 @@
 package nl.stil4m.mollie.domain;
 
 import javax.annotation.Nullable;
+
 import java.util.Optional;
 
 public class CreateRefund {

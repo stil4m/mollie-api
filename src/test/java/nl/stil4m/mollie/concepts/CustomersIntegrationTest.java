@@ -5,6 +5,7 @@ import nl.stil4m.mollie.domain.CreateCustomer;
 import nl.stil4m.mollie.domain.Customer;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.UpdateCustomer;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +35,6 @@ public class CustomersIntegrationTest {
         defaultMetadata = new HashMap<>();
         defaultMetadata.put("foo", "bar");
     }
-
 
     @Test
     public void testGetCustomers() throws IOException, URISyntaxException {
@@ -123,6 +123,5 @@ public class CustomersIntegrationTest {
         assertThat(update.getData().getName(), is(newName));
         assertThat(update.getData().getEmail(), is("test@foobar.nl"));
     }
-
 
 }

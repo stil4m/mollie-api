@@ -3,6 +3,7 @@ package nl.stil4m.mollie.concepts;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Payment;
+
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 

@@ -4,6 +4,7 @@ import nl.stil4m.mollie.Client;
 import nl.stil4m.mollie.ResponseOrError;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Refund;
+
 import org.junit.Before;
 import org.junit.Test;
 

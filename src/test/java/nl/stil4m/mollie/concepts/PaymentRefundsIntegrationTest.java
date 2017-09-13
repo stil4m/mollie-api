@@ -7,6 +7,7 @@ import nl.stil4m.mollie.domain.CreateRefund;
 import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Payment;
 import nl.stil4m.mollie.domain.Refund;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,7 +62,6 @@ public class PaymentRefundsIntegrationTest {
         Page<Refund> data = all.getData();
         assertThat(data.getData().size(), is(0));
     }
-
 
     @Test
     public void testCancelNonExistingRefund() throws IOException {

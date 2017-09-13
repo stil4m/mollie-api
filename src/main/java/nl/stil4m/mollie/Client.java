@@ -15,7 +15,6 @@ public class Client {
     private final DynamicClient dynamicClient;
     private final String apiKey;
 
-
     public Client(DynamicClient dynamicClient, String apiKey) {
         this.dynamicClient = dynamicClient;
         this.apiKey = apiKey;
@@ -36,9 +35,9 @@ public class Client {
     public Issuers issuers() {
         return dynamicClient.issuers(apiKey);
     }
-    
+
     public Refunds refunds() {
-    	return dynamicClient.refunds(apiKey);
+        return dynamicClient.refunds(apiKey);
     }
 
     public PaymentRefunds paymentRefunds(String paymentId) {

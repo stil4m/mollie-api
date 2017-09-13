@@ -2,7 +2,9 @@ package nl.stil4m.mollie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+
 import nl.stil4m.mollie.mocks.DummyMethod;
+
 import org.junit.Test;
 import org.mockito.internal.util.reflection.Whitebox;
 

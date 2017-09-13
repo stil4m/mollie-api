@@ -1,6 +1,7 @@
 package nl.stil4m.mollie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.http.client.HttpClient;
 
 public class ClientBuilder {

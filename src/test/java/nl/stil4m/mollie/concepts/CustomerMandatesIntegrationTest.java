@@ -7,6 +7,7 @@ import nl.stil4m.mollie.domain.CreateMandate;
 import nl.stil4m.mollie.domain.Customer;
 import nl.stil4m.mollie.domain.Mandate;
 import nl.stil4m.mollie.domain.Page;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,10 +64,10 @@ public class CustomerMandatesIntegrationTest {
         ResponseOrError<Mandate> result = mandates.create(createMandate);
 
         assertThat(result.getSuccess(), is(true));
-        assertThat(result.getData().getId(),notNullValue());
-        assertThat(result.getData().getMethod(),is(method));
-        assertThat(result.getData().getDetails().get("consumerName"),is(name));
-        assertThat(result.getData().getDetails().get("consumerAccount"),is(account));
+        assertThat(result.getData().getId(), notNullValue());
+        assertThat(result.getData().getMethod(), is(method));
+        assertThat(result.getData().getDetails().get("consumerName"), is(name));
+        assertThat(result.getData().getDetails().get("consumerAccount"), is(account));
         assertThat(result.getData().getCreatedDatetime(), is(notNullValue()));
         assertThat(result.getData().getSignatureDate(), is(notNullValue()));
     }

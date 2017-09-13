@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /* Ignore the resource property since this is always "method" */
-@JsonIgnoreProperties({"resource"})
+@JsonIgnoreProperties({ "resource" })
 public class Method {
 
     private final String id;
