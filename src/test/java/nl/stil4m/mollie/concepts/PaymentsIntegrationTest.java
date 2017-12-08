@@ -258,7 +258,7 @@ public class PaymentsIntegrationTest {
     }
 
     @Test
-    public void testDeletePayment() throws IOException, URISyntaxException, InterruptedException {
+    public void testDeleteBanktranferPayment() throws IOException, URISyntaxException, InterruptedException {
         String id = payments.create(new CreatePayment(Optional.of("banktransfer"), 1.00, "Some payment to delete", "http://example.com", Optional.empty(), null)).getData().getId();
 
         ResponseOrError<Payment> response = payments.delete(id);
@@ -269,13 +269,22 @@ public class PaymentsIntegrationTest {
     }
 
     @Test
-    public void testDeleteUncancellablePayment() throws IOException, URISyntaxException, InterruptedException {
+    public void testDeleteIdealPayment() throws IOException, URISyntaxException, InterruptedException {
         String id = payments.create(new CreatePayment(Optional.of("ideal"), 1.00, "Some payment to delete", "http://example.com", Optional.empty(), null)).getData().getId();
 
         ResponseOrError<Payment> response = payments.delete(id);
 
         assertThat(response.getSuccess(),is(false));
         assertThat(response.getStatus(),is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
-        assertThat(response.getError().get("message"),is("The payment cannot be cancelled"));
+    }
+
+    @Test
+    public void testDeleteUncancellablePayment() throws IOException, URISyntaxException, InterruptedException {
+        String id = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some payment to delete", "http://example.com", Optional.empty(), null)).getData().getId();
+
+        ResponseOrError<Payment> response = payments.delete(id);
+
+        assertThat(response.getSuccess(),is(false));
+        assertThat(response.getStatus(),is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
     }
 }
