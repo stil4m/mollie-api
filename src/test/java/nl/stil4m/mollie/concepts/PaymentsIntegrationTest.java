@@ -253,8 +253,19 @@ public class PaymentsIntegrationTest {
     }
 
     @Test
+    public void testDeletePayment() throws IOException, URISyntaxException, InterruptedException {
+        String id = payments.create(new CreatePayment(Optional.of("banktransfer"), 1.00, "Some payment to delete", "http://example.com", Optional.empty(), null)).getData().getId();
+
+        ResponseOrError<Payment> response = payments.delete(id);
+
+        assertThat(response.getSuccess(),is(true));
+        assertThat(response.getData(),is(notNullValue()));
+        assertThat(response.getData().getCancelledDatetime(),is(notNullValue()));
+    }
+
+    @Test
     public void testDeleteUncancellablePayment() throws IOException, URISyntaxException, InterruptedException {
-        String id = payments.create(new CreatePayment(Optional.empty(), 1.00, "Some payment to delete", "http://example.com", Optional.empty(), null)).getData().getId();
+        String id = payments.create(new CreatePayment(Optional.of("ideal"), 1.00, "Some payment to delete", "http://example.com", Optional.empty(), null)).getData().getId();
 
         ResponseOrError<Payment> response = payments.delete(id);
 
