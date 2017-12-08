@@ -8,6 +8,7 @@ import nl.stil4m.mollie.domain.Page;
 import nl.stil4m.mollie.domain.Payment;
 import nl.stil4m.mollie.domain.subpayments.ideal.CreateIdealPayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.IdealPaymentOptions;
+import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -254,5 +255,27 @@ public class PaymentsIntegrationTest {
 
         assertThat(previousPage.getOffset(), is(20));
         assertThat(previousPage.getCount(), is(20));
+    }
+
+    @Test
+    public void testDeletePayment() throws IOException, URISyntaxException, InterruptedException {
+        String id = payments.create(new CreatePayment(Optional.of("banktransfer"), 1.00, "Some payment to delete", "http://example.com", Optional.empty(), null)).getData().getId();
+
+        ResponseOrError<Payment> response = payments.delete(id);
+
+        assertThat(response.getSuccess(),is(true));
+        assertThat(response.getData(),is(notNullValue()));
+        assertThat(response.getData().getCancelledDatetime(),is(notNullValue()));
+    }
+
+    @Test
+    public void testDeleteUncancellablePayment() throws IOException, URISyntaxException, InterruptedException {
+        String id = payments.create(new CreatePayment(Optional.of("ideal"), 1.00, "Some payment to delete", "http://example.com", Optional.empty(), null)).getData().getId();
+
+        ResponseOrError<Payment> response = payments.delete(id);
+
+        assertThat(response.getSuccess(),is(false));
+        assertThat(response.getStatus(),is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
+        assertThat(response.getError().get("message"),is("The payment cannot be cancelled"));
     }
 }
