@@ -10,6 +10,7 @@ import nl.stil4m.mollie.domain.subpayments.ideal.CreateIdealPayment;
 import nl.stil4m.mollie.domain.subpayments.ideal.IdealPaymentOptions;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -26,6 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.fail;
 
 public class PaymentsIntegrationTest {
@@ -136,7 +138,7 @@ public class PaymentsIntegrationTest {
         assertThat(createdPayment.getId(), is(notNullValue()));
         assertThat(createdPayment.getDetails(), is(nullValue()));
         assertThat(createdPayment.getLinks(), is(notNullValue()));
-        assertThat(createdPayment.getLinks().getPaymentUrl().matches("https://www.mollie.com/paymentscreen/ideal/select-issuer/[A-Za-z0-9]+"), is(true));
+        assertThat(createdPayment.getLinks().getPaymentUrl(),startsWith("https://www.mollie.com/paymentscreen/issuer/select/ideal/"));
         assertThat(createdPayment.getLinks().getRedirectUrl(), is("http://example.com"));
         assertThat(createdPayment.getLinks().getWebhookUrl(), is("https://stil4m.github.io"));
         assertThat(createdPayment.getMode(), is("test"));
