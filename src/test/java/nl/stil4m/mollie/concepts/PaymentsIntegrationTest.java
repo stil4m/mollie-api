@@ -170,6 +170,7 @@ public class PaymentsIntegrationTest {
     }
 
     @Test
+    @Ignore
     public void testCreateAndGetCreditCardPayment() throws IOException {
         Map<String, Object> meta = new HashMap<>();
         meta.put("foo", "bar");
