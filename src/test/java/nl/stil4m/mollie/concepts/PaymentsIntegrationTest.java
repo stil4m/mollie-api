@@ -175,6 +175,8 @@ public class PaymentsIntegrationTest {
         meta.put("foo", "bar");
 
         ResponseOrError<Payment> createResponse = payments.create(new CreatePayment(Optional.of("creditcard"), 2.00, "Some credit card description", "http://example.com", Optional.of("https://stil4m.github.io"), meta));
+        assertThat(createResponse,is(notNullValue()));
+        assertThat(createResponse.getSuccess(),is(true));
         ResponseOrError<Payment> paymentResponse = payments.get(createResponse.getData().getId());
         Payment payment = paymentResponse.getData();
 
