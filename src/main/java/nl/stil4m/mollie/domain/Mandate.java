@@ -16,6 +16,7 @@ public class Mandate {
     private final Optional<String> mandateReference;
     private final Date createdDatetime;
     private final Date signatureDate;
+    private final Links links;
 
     public Mandate(@JsonProperty("resource") String resource,
                    @JsonProperty("id") String id,
@@ -25,7 +26,8 @@ public class Mandate {
                    @JsonProperty("details") Map<String, Object> details,
                    @JsonProperty("mandateReference") Optional<String> mandateReference,
                    @JsonProperty("createdDatetime") Date createdDatetime,
-                   @JsonProperty("signatureDate") Date signatureDate) {
+                   @JsonProperty("signatureDate") Date signatureDate,
+                   @JsonProperty("links") Links links) {
         this.resource = resource;
         this.id = id;
         this.status = status;
@@ -35,6 +37,7 @@ public class Mandate {
         this.mandateReference = mandateReference;
         this.createdDatetime = createdDatetime;
         this.signatureDate = signatureDate;
+        this.links = links;
     }
 
     public String getResource() {
@@ -72,4 +75,6 @@ public class Mandate {
     public Date getSignatureDate() {
         return signatureDate;
     }
+
+    public Links getLinks() { return links; }
 }

@@ -11,16 +11,19 @@ public class Links {
     private final String redirectUrl;
     private final String webhookUrl;
     private final Optional<String> refunds;
+    private final Optional<String> verificationUrl;
 
     @JsonCreator
     public Links(@JsonProperty("paymentUrl") String paymentUrl,
                  @JsonProperty("redirectUrl") String redirectUrl,
                  @JsonProperty("webhookUrl") String webhookUrl,
-                 @JsonProperty("refunds") String refunds) {
+                 @JsonProperty("refunds") Optional<String> refunds,
+                 @JsonProperty("verificationUrl") Optional<String> verificationUrl) {
         this.paymentUrl = paymentUrl;
         this.redirectUrl = redirectUrl;
         this.webhookUrl = webhookUrl;
-        this.refunds = Optional.ofNullable(refunds);
+        this.refunds = refunds;
+        this.verificationUrl = verificationUrl;
     }
 
     public String getPaymentUrl() {
@@ -37,5 +40,9 @@ public class Links {
 
     public Optional<String> getRefunds() {
         return refunds;
+    }
+
+    public Optional<String> getVerificationUrl() {
+        return verificationUrl;
     }
 }

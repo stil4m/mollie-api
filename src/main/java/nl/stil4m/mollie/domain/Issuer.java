@@ -2,7 +2,9 @@ package nl.stil4m.mollie.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(value={ "image" })
 public class Issuer {
 
     private final String resource;
