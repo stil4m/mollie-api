@@ -1,5 +1,10 @@
 #Changelog
 
+# 2.7.0 - 2017-12-09
+
+* #50 add support for cancel payment
+* #48 Unrecognized field "canBeCancelled"
+
 # 2.6.2 - 2017-03-30
 
 * Ignore `issuer` property for `Payment`
